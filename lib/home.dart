@@ -1,86 +1,126 @@
+import 'package:backdrop/backdrop.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:todoList/ui/listOfActivities.dart';
+import 'package:todoList/ui/settings.dart';
 
 import 'hexcolor.dart';
 import 'package:todoList/ui/activities.dart';
+import 'package:todoList/ui/addBackdrop.dart';
 
 class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Home(),
+    );
+  }
+}
+
+class Home extends StatelessWidget {
   final colorBottom = HexColor('FCEDC5');
   final colorActivity = HexColor('FF0000');
+  final colorBody = HexColor('EEFCFA');
   final colorTop = HexColor('A1E7F7');
   static var date = DateTime.now();
   var dateFormat = DateFormat('EEEE / dd.MM.yyyy').format(date);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        backgroundColor: HexColor('EEFCFA'),
-        appBar: AppBar(
-          toolbarHeight: 120,
-          title: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image(
-                  image: AssetImage('assets/marianek.webp'),
-                  fit: BoxFit.contain,
-                  height: 70,
-                  width: 70,
+    return Scaffold(
+      backgroundColor: colorBody,
+      appBar: AppBar(
+        toolbarHeight: 120,
+        title: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image(
+                image: AssetImage('assets/marianek.webp'),
+                fit: BoxFit.contain,
+                height: 70,
+                width: 70,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                '${dateFormat.toString()}',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.black,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  '${dateFormat.toString()}',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          backgroundColor: colorTop,
-          centerTitle: true,
-          actions: <Widget>[
-            IconButton(
-              alignment: Alignment(0, -0.9),
-              icon: const Icon(Icons.settings),
-              color: Colors.black,
-              onPressed: () => debugPrint('StisknutoTlacitko'),
             ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Activity(),
-        ),
-        bottomNavigationBar: new BottomAppBar(
-          color: colorBottom,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              IconButton(
-                icon: Icon(Icons.home),
-                onPressed: () => debugPrint('Home'),
-              ),
-              IconButton(
-                icon: Icon(Icons.account_circle),
-                onPressed: () => debugPrint('Account'),
-              ),
-            ],
+        backgroundColor: colorTop,
+        centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            alignment: Alignment(0, -0.9),
+            icon: const Icon(Icons.settings),
+            color: Colors.black,
+            onPressed: () {
+              Navigator.push(
+                context,
+                PageTransition(
+                  alignment: Alignment.bottomCenter,
+                  duration: Duration(milliseconds: 300),
+                  reverseDuration: Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  type: PageTransitionType.rightToLeft,
+                  child: Settings(),
+                  childCurrent: this,
+                ),
+              );
+            },
           ),
-        ),
-        floatingActionButton: Align(
-          child: FloatingActionButton(
-            child: Icon(
-              Icons.add,
-              size: 30,
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Activity(),
+      ),
+      bottomNavigationBar: new BottomAppBar(
+        color: colorBottom,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            IconButton(
+              icon: Icon(Icons.home),
+              onPressed: () => debugPrint('Home'),
             ),
-            onPressed: () => debugPrint('Floating action button was pressed'),
-          ),
-          alignment: Alignment(1, 1.1),
+            IconButton(
+              icon: Icon(Icons.account_circle),
+              onPressed: () => debugPrint('Account'),
+            ),
+            IconButton(
+              icon: Icon(Icons.calendar_today_rounded),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ListOfActivities()));
+              },
+            ),
+          ],
         ),
+      ),
+      floatingActionButton: Align(
+        child: FloatingActionButton(
+          child: Icon(
+            Icons.add,
+            size: 30,
+          ),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                // ZATIM PRILIS NEFUNGUJE
+                builder: (context) => AddAct(),
+              ),
+            );
+          },
+        ),
+        alignment: Alignment(1, 1.1),
       ),
     );
   }
