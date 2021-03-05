@@ -32,6 +32,8 @@ dependencies:
   backdrop: ^0.5.3
   page_transition: ^1.1.7+6
   syncfusion_flutter_calendar: ^18.4.46
+  #fl_chart: ^0.20.1
+
 
 dev_dependencies:
   flutter_test:
@@ -44,6 +46,17 @@ dev_dependencies:
 flutter:
   assets:
     - assets/
+  fonts:
+    - family: OpenSans
+      fonts: 
+      - asset: fonts/OpenSans-Regular.ttf
+      - asset: fonts/OpenSans-Bold.ttf
+        style: normal
+    - family: Roboto
+      fonts:
+      - asset: fonts/Roboto-Regular.ttf
+      - asset: fonts/Roboto-Bold.ttf
+        style: normal
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

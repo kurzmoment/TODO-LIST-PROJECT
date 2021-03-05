@@ -3,6 +3,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:todoList/ui/listOfActivities.dart';
+import 'package:todoList/ui/profilePage.dart';
 import 'package:todoList/ui/settings.dart';
 
 import 'hexcolor.dart';
@@ -13,6 +14,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(fontFamily: 'Roboto'),
       home: Home(),
     );
   }
@@ -93,7 +95,10 @@ class Home extends StatelessWidget {
             ),
             IconButton(
               icon: Icon(Icons.account_circle),
-              onPressed: () => debugPrint('Account'),
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => AccPage()));
+              },
             ),
             IconButton(
               icon: Icon(Icons.calendar_today_rounded),

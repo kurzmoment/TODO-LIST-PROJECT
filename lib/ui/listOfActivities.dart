@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:todoList/home.dart';
+import 'package:todoList/ui/addBackdrop.dart';
+import 'package:todoList/ui/profilePage.dart';
 
 import '../hexcolor.dart';
 import 'activities.dart';
@@ -52,7 +54,10 @@ class _ListOfActivitiesState extends State<ListOfActivities> {
             ),
             IconButton(
               icon: Icon(Icons.account_circle),
-              onPressed: () => debugPrint('Account'),
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => AccPage()));
+              },
             ),
             IconButton(
               icon: Icon(Icons.calendar_today_rounded),
@@ -62,6 +67,23 @@ class _ListOfActivitiesState extends State<ListOfActivities> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: Align(
+        child: FloatingActionButton(
+          child: Icon(
+            Icons.add,
+            size: 30,
+          ),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                // ZATIM PRILIS NEFUNGUJE
+                builder: (context) => AddAct(),
+              ),
+            );
+          },
+        ),
+        alignment: Alignment(1, 1.1),
       ),
     );
   }
