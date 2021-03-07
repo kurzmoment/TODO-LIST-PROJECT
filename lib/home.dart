@@ -1,10 +1,11 @@
-import 'package:backdrop/backdrop.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:todoList/ui/listOfActivities.dart';
 import 'package:todoList/ui/profilePage.dart';
 import 'package:todoList/ui/settings.dart';
+import 'package:todoList/util/darkTheme.dart';
+import 'package:todoList/util/lightTheme.dart';
 
 import 'hexcolor.dart';
 import 'package:todoList/ui/activities.dart';
@@ -14,7 +15,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(fontFamily: 'Roboto'),
+      //theme: lightThemeData(context),
+      //darkTheme: darkThemeData(context),
       home: Home(),
     );
   }
