@@ -1,12 +1,10 @@
 import 'dart:ui';
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:backdrop_modal_route/backdrop_modal_route.dart';
 import 'package:todoList/ui/backDropAddActvity.dart';
 import 'package:we_slide/we_slide.dart';
 import 'package:todoList/home.dart';
-import 'package:todoList/ui/activities.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddAct extends StatefulWidget {
   @override
@@ -21,6 +19,7 @@ class _AddActState extends State<AddAct> {
     final double _panelMaxSize = MediaQuery.of(context).size.height / 1.2;
     return Scaffold(
       body: WeSlide(
+        controller: WeSlideController(),
         blur: true,
         panelMinSize: _panelMinSize,
         panelMaxSize: _panelMaxSize,
@@ -29,9 +28,11 @@ class _AddActState extends State<AddAct> {
           appBar: AppBar(
             actions: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(Icons.save_rounded),
-              )
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                    icon: Icon(Icons.save),
+                    onPressed: () => debugPrint('saved'),
+                  ))
             ],
           ),
           body: AddActForms(),

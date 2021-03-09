@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "626108444587",
+    "project_id": "timetoplan-7f6df",
+    "storage_bucket": "timetoplan-7f6df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:626108444587:android:c2502c56b7cb9f956a6cee",
+        "android_client_info": {
+          "package_name": "com.example.todoList"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "626108444587-plnffqq5hlnq28461jedvifvjjq8aulu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsJzZM49a7m4WLpzPES1mIybE61hgLvhA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "626108444587-plnffqq5hlnq28461jedvifvjjq8aulu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
