@@ -7,55 +7,14 @@ import 'package:todoList/ui/thisWeekActivity.dart';
 class Activity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return new Row(
       children: [
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 20, top: 8),
-              child: Text('dnes'),
-            ),
-          ],
+        Expanded(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: OneAct(),
+          ),
         ),
-        Divider(
-          thickness: 1,
-          color: Colors.black38,
-          indent: 20,
-          endIndent: 20,
-        ),
-        OneAct(),
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 20, top: 8),
-              child: Text('tento tyden'),
-            ),
-          ],
-        ),
-        Divider(
-          thickness: 1,
-          color: Colors.black38,
-          indent: 20,
-          endIndent: 20,
-        ),
-        ThisWeekAct(),
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 20, top: 8),
-              child: Text('tento mesic'),
-            ),
-          ],
-        ),
-        Divider(
-          thickness: 1,
-          color: Colors.black38,
-          indent: 20,
-          endIndent: 20,
-        ),
-        ThisMonthAct(),
-        ThisMonthAct(),
-        ThisMonthAct(),
       ],
     );
   }

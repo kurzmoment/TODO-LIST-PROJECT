@@ -1,9 +1,11 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:todoList/ui/listOfActivities.dart';
 import 'package:todoList/ui/profilePage.dart';
 import 'package:todoList/ui/settings.dart';
+import 'package:todoList/ui/test.dart';
 import 'package:todoList/util/darkTheme.dart';
 import 'package:todoList/util/lightTheme.dart';
 
@@ -108,6 +110,10 @@ class Home extends StatelessWidget {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => ListOfActivities()));
               },
+            ),
+            IconButton(
+              icon: Icon(FontAwesomeIcons.twitter, color: Colors.red),
+              onPressed: () {},
             ),
           ],
         ),
