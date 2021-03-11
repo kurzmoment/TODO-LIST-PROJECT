@@ -43,6 +43,7 @@ dependencies:
   firebase_analytics: ^5.0.2
   firebase_auth: ^0.14.0+5
   font_awesome_flutter: ^8.12.0
+  syncfusion_flutter_datepicker: ^18.4.47-beta
   #fl_chart: ^0.20.1
 
 

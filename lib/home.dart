@@ -111,10 +111,6 @@ class Home extends StatelessWidget {
                     builder: (context) => ListOfActivities()));
               },
             ),
-            IconButton(
-              icon: Icon(FontAwesomeIcons.twitter, color: Colors.red),
-              onPressed: () {},
-            ),
           ],
         ),
       ),

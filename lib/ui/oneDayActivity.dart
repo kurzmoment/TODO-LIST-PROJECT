@@ -17,6 +17,12 @@ class _OneActState extends State<OneAct> {
     'home': FontAwesomeIcons.home,
     'apple': Icons.ac_unit,
     'audiotrack': Icons.audiotrack,
+    'shopping': FontAwesomeIcons.shoppingCart,
+    'gym': FontAwesomeIcons.dumbbell,
+    'business': FontAwesomeIcons.briefcase,
+    'eat': FontAwesomeIcons.utensils,
+    'code': FontAwesomeIcons.code,
+    'repair': FontAwesomeIcons.tools,
   };
   var firebaseDB = Firestore.instance.collection('test').snapshots();
   static var date = DateTime.now();
@@ -48,18 +54,18 @@ class _OneActState extends State<OneAct> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            margin: EdgeInsets.all(8),
+                            margin:
+                                EdgeInsets.only(left: 10, top: 8, right: 15),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25),
-                              color: Colors.green,
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.all(4),
+                              padding: const EdgeInsets.all(1),
                               child: Icon(
                                 iconMapping[snapshot.data.documents[index]
                                     ['ikona']],
-                                color: Colors.amber,
-                                size: 25,
+                                size: 30,
+                                color: Colors.blue,
                               ),
                             ),
                           ),

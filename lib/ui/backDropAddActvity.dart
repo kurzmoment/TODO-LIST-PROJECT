@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:date_time_picker_widget/date_time_picker_widget.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 
 class AddActForms extends StatefulWidget {
@@ -10,16 +14,33 @@ class AddActForms extends StatefulWidget {
 }
 
 class _AddActFormsState extends State<AddActForms> {
+  TextEditingController nameInputController;
+  TextEditingController iconInputController;
+  TextEditingController colorInputController;
+  TextEditingController dateInputController;
+  TextEditingController timeInputController;
+
+  void initState() {
+    super.initState();
+    nameInputController = new TextEditingController();
+    iconInputController = new TextEditingController();
+    colorInputController = new TextEditingController();
+    dateInputController = new TextEditingController();
+    timeInputController = new TextEditingController();
+  }
+
+  String initalValue = 'icon';
   var _d1;
   var _t1;
   DateTime dt = new DateTime.now();
   Color screenPickerColor = Colors.black;
   final Map<String, IconData> iconsCollection = {
-    'favorite': Icons.favorite,
-    'home': Icons.home,
-    'android': Icons.android,
-    'album': Icons.album,
-    'ac_unit': Icons.ac_unit,
+    'shopping': FontAwesomeIcons.shoppingCart,
+    'gym': FontAwesomeIcons.dumbbell,
+    'business': FontAwesomeIcons.briefcase,
+    'eat': FontAwesomeIcons.utensils,
+    'code': FontAwesomeIcons.code,
+    'repair': FontAwesomeIcons.tools,
   };
   @override
   Widget build(BuildContext context) {
@@ -31,19 +52,33 @@ class _AddActFormsState extends State<AddActForms> {
             decoration: InputDecoration(
               helperText: 'Enter a name of a activity',
             ),
+            controller: nameInputController,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 30),
+          child: TextField(
+            decoration: InputDecoration(
+              helperText: 'Enter a name date',
+            ),
+            controller: dateInputController,
           ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
           child: IconPicker(
-            initialValue: 'favorite',
+            initialValue: initalValue,
             icon: Icon(Icons.apps),
             labelText: "Icon",
-            title: "Select an icon for your activity",
-            cancelBtn: 'CANCEL',
-            enableSearch: true,
-            searchHint: 'Search icons',
-            iconCollection: iconsCollection, // muze a nemusi byt
+            title: "Select an icon",
+            cancelBtn: 'Cancel',
+            enableSearch: false,
+            iconCollection: iconsCollection,
+            onChanged: (String name) {
+              for (name in iconsCollection.keys) {
+                iconInputController.text = name;
+              }
+            },
           ),
         ),
         Padding(
@@ -65,7 +100,11 @@ class _AddActFormsState extends State<AddActForms> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-          child: DateTimePicker(
+          child:
+              //SfDateRangePicker(
+              //   controller: dateInputController,
+              // ),
+              DateTimePicker(
             initialSelectedDate: dt.add(Duration(days: 1)),
             startDate: dt,
             endDate: dt.add(Duration(days: 60)),
@@ -87,6 +126,41 @@ class _AddActFormsState extends State<AddActForms> {
               });
             },
           ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FlatButton(
+              child: Text(
+                'Save',
+                style: TextStyle(fontSize: 25),
+              ),
+              onPressed: () {
+                if (nameInputController.text.isNotEmpty) {
+                  Firestore.instance.collection('test').add({
+                    'name': nameInputController.text,
+                    'ikona': iconInputController.text,
+                    'title': dateInputController.text,
+                    'timestamp': dt,
+                  }).then((response) {
+                    print(response.documentID);
+                    Navigator.pop(context);
+                    nameInputController.clear();
+                  }).catchError((error) => print(error));
+                }
+              },
+            ),
+            FlatButton(
+              child: Text(
+                'Cancel',
+                style: TextStyle(fontSize: 25),
+              ),
+              onPressed: () {
+                nameInputController.clear();
+                Navigator.pop(context);
+              },
+            ),
+          ],
         ),
       ],
     );
