@@ -4,8 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:date_time_picker_widget/date_time_picker_widget.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
 
 class AddActForms extends StatefulWidget {
@@ -22,6 +20,7 @@ class _AddActFormsState extends State<AddActForms> {
 
   void initState() {
     super.initState();
+    iconInputController = new TextEditingController();
     nameInputController = new TextEditingController();
     iconInputController = new TextEditingController();
     colorInputController = new TextEditingController();
@@ -41,6 +40,7 @@ class _AddActFormsState extends State<AddActForms> {
     'eat': FontAwesomeIcons.utensils,
     'code': FontAwesomeIcons.code,
     'repair': FontAwesomeIcons.tools,
+    'default': FontAwesomeIcons.question
   };
   @override
   Widget build(BuildContext context) {
@@ -67,18 +67,33 @@ class _AddActFormsState extends State<AddActForms> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
           child: IconPicker(
-            initialValue: initalValue,
+            initialValue: null,
             icon: Icon(Icons.apps),
             labelText: "Icon",
             title: "Select an icon",
             cancelBtn: 'Cancel',
             enableSearch: false,
             iconCollection: iconsCollection,
-            onChanged: (String name) {
-              for (name in iconsCollection.keys) {
-                iconInputController.text = name;
-              }
-            },
+            controller: iconInputController,
+            // onChanged: (String name) {
+            //   for (name in iconsCollection.keys) {
+            //     if (name == 'shopping') {
+            //       iconInputController.text = name;
+            //     } else if (name == 'gym') {
+            //       iconInputController.text = name;
+            //     } else if (name == 'business') {
+            //       iconInputController.text = name;
+            //     } else if (name == 'eat') {
+            //       iconInputController.text = name;
+            //     } else if (name == 'code') {
+            //       iconInputController.text = name;
+            //     } else if (name == 'repair') {
+            //       iconInputController.text = name;
+            //     } else {
+            //       iconInputController.text = 'default';
+            //     }
+            //   }
+            // },
           ),
         ),
         Padding(
