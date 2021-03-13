@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:todoList/ui/addActivity.dart';
 
 import 'package:todoList/ui/thisMonthActivity.dart';
 import 'oneDayActivity.dart';
@@ -12,7 +14,7 @@ class Activity extends StatelessWidget {
         Expanded(
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
-            child: OneAct(),
+            child: AddActivity(),
           ),
         ),
       ],

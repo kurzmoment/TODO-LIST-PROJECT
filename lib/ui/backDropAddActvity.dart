@@ -33,6 +33,7 @@ class _AddActFormsState extends State<AddActForms> {
   var _t1;
   DateTime dt = new DateTime.now();
   Color screenPickerColor = Colors.black;
+
   final Map<String, IconData> iconsCollection = {
     'shopping': FontAwesomeIcons.shoppingCart,
     'gym': FontAwesomeIcons.dumbbell,
@@ -75,51 +76,153 @@ class _AddActFormsState extends State<AddActForms> {
             enableSearch: false,
             iconCollection: iconsCollection,
             controller: iconInputController,
-            // onChanged: (String name) {
-            //   for (name in iconsCollection.keys) {
-            //     if (name == 'shopping') {
-            //       iconInputController.text = name;
-            //     } else if (name == 'gym') {
-            //       iconInputController.text = name;
-            //     } else if (name == 'business') {
-            //       iconInputController.text = name;
-            //     } else if (name == 'eat') {
-            //       iconInputController.text = name;
-            //     } else if (name == 'code') {
-            //       iconInputController.text = name;
-            //     } else if (name == 'repair') {
-            //       iconInputController.text = name;
-            //     } else {
-            //       iconInputController.text = 'default';
-            //     }
-            //   }
-            // },
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-          child: ColorPicker(
-            color: screenPickerColor,
-            onColorChanged: (Color color) => {
-              setState(() => screenPickerColor = color),
-            },
-            heading: Text(
-              'Select color for your activity',
-              style: Theme.of(context).textTheme.headline5,
-            ),
-            subheading: Text(
-              'Select shade of that colour',
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: Colors.red,
+                  ),
+                  width: 35,
+                  height: 35,
+                  child: TextButton(
+                    onPressed: () {
+                      colorInputController.text = 'red';
+                    },
+                    child: Text(''),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: Colors.black,
+                  ),
+                  width: 35,
+                  height: 35,
+                  child: TextButton(
+                    onPressed: () {
+                      colorInputController.text = 'black';
+                    },
+                    child: Text(''),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: Colors.blue,
+                  ),
+                  width: 35,
+                  height: 35,
+                  child: TextButton(
+                    onPressed: () {
+                      colorInputController.text = 'blue';
+                    },
+                    child: Text(''),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: Colors.green,
+                  ),
+                  width: 35,
+                  height: 35,
+                  child: TextButton(
+                    onPressed: () {
+                      colorInputController.text = 'green';
+                    },
+                    child: Text(''),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: Colors.pink,
+                  ),
+                  width: 35,
+                  height: 35,
+                  child: TextButton(
+                    onPressed: () {
+                      colorInputController.text = 'pink';
+                    },
+                    child: Text(''),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: Colors.yellow,
+                  ),
+                  width: 35,
+                  height: 35,
+                  child: TextButton(
+                    onPressed: () {
+                      colorInputController.text = 'yellow';
+                    },
+                    child: Text(''),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: Colors.purple,
+                  ),
+                  width: 35,
+                  height: 35,
+                  child: TextButton(
+                    onPressed: () {
+                      colorInputController.text = 'purple';
+                    },
+                    child: Text(''),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
+        //ColorPicker(
+        //     showColorName: true,
+        //     color: screenPickerColor,
+        //     onColorChanged: (Color color) => {
+        //       setState(() => screenPickerColor = color),
+        //     },
+        //     heading: Text(
+        //       'Select color for your activity',
+        //       style: Theme.of(context).textTheme.headline5,
+        //     ),
+        //     subheading: Text(
+        //       'Select shade of that colour',
+        //       style: Theme.of(context).textTheme.subtitle1,
+        //     ),
+        //   ),
+        // ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-          child:
-              //SfDateRangePicker(
-              //   controller: dateInputController,
-              // ),
-              DateTimePicker(
+          child: DateTimePicker(
             initialSelectedDate: dt.add(Duration(days: 1)),
             startDate: dt,
             endDate: dt.add(Duration(days: 60)),
@@ -156,6 +259,7 @@ class _AddActFormsState extends State<AddActForms> {
                     'name': nameInputController.text,
                     'ikona': iconInputController.text,
                     'title': dateInputController.text,
+                    'barva': colorInputController.text,
                     'timestamp': dt,
                   }).then((response) {
                     print(response.documentID);
