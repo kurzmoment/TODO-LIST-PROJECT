@@ -19,10 +19,15 @@ class AddActivity extends StatelessWidget {
   };
   Map<String, Color> colorsMapping = {
     'red': Colors.red,
-    'blue': Colors.blue,
     'black': Colors.black,
+    'blue': Colors.blue,
     'green': Colors.green,
-    'pink': Colors.pink
+    'pink': Colors.pink,
+    'yellow': Colors.yellow,
+    'lightBlue': Colors.lightBlue,
+    'lightGreen': Colors.lightGreen,
+    'purple': Colors.purple,
+    'amberAccent': Colors.amberAccent
   };
   final firebaseDB = Firestore.instance.collection('test').snapshots();
   static var date = DateTime.now();

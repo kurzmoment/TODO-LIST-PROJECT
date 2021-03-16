@@ -93,138 +93,23 @@ class _AddActFormsState extends State<AddActForms> {
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
-                colorSwitch(Colors.red, getColor('red', colorInputController)),
+                colorSwitch(Colors.red, 'red', colorInputController),
+                colorSwitch(Colors.black, 'black', colorInputController),
+                colorSwitch(Colors.blue, 'blue', colorInputController),
+                colorSwitch(Colors.green, 'green', colorInputController),
+                colorSwitch(Colors.pink, 'pink', colorInputController),
+                colorSwitch(Colors.yellow, 'yellow', colorInputController),
                 colorSwitch(
-                    Colors.black, getColor('black', colorInputController)),
+                    Colors.lightBlue, 'lightBlue', colorInputController),
                 colorSwitch(
-                    Colors.blue, getColor('blue', colorInputController)),
+                    Colors.lightGreen, 'lightGreen', colorInputController),
+                colorSwitch(Colors.purple, 'purple', colorInputController),
                 colorSwitch(
-                    Colors.green, getColor('green', colorInputController)),
-                colorSwitch(
-                    Colors.pink, getColor('pink', colorInputController)),
-                colorSwitch(
-                    Colors.yellow, getColor('yellow', colorInputController)),
-                colorSwitch(Colors.lightBlue,
-                    getColor('lightBlue', colorInputController)),
-                colorSwitch(Colors.lightGreen,
-                    getColor('lightGreen', colorInputController)),
-                colorSwitch(
-                    Colors.purple, getColor('purple', colorInputController)),
-                colorSwitch(Colors.amberAccent,
-                    getColor('amberAccent', colorInputController)),
+                    Colors.amberAccent, 'amberAccent', colorInputController),
               ],
             ),
           ),
         ),
-        // Padding(
-        //   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
-        //   child: Row(
-        //     children: [
-        //       Padding(
-        //         padding: const EdgeInsets.all(6.0),
-        //         child: Container(
-        //           decoration: BoxDecoration(
-        //             borderRadius: BorderRadius.circular(25),
-        //             color: Colors.red,
-        //           ),
-        //           width: 35,
-        //           height: 35,
-        //           child: TextButton(
-        //             onPressed: () {
-        //               colorInputController.text = 'red';
-        //             },
-        //             child: Text(''),
-        //           ),
-        //         ),
-        //       ),
-        //       Padding(
-        //         padding: const EdgeInsets.all(6.0),
-        //         child: Container(
-        //           decoration: BoxDecoration(
-        //             borderRadius: BorderRadius.circular(25),
-        //             color: Colors.black,
-        //           ),
-        //           width: 35,
-        //           height: 35,
-        //           child: TextButton(
-        //             onPressed: () {
-        //               colorInputController.text = 'black';
-        //             },
-        //             child: Text(''),
-        //           ),
-        //         ),
-        //       ),
-        //       Padding(
-        //         padding: const EdgeInsets.all(6.0),
-        //         child: Container(
-        //           decoration: BoxDecoration(
-        //             borderRadius: BorderRadius.circular(25),
-        //             color: Colors.blue,
-        //           ),
-        //           width: 35,
-        //           height: 35,
-        //           child: TextButton(
-        //             onPressed: () {
-        //               colorInputController.text = 'blue';
-        //             },
-        //             child: Text(''),
-        //           ),
-        //         ),
-        //       ),
-        //       Padding(
-        //         padding: const EdgeInsets.all(6.0),
-        //         child: Container(
-        //           decoration: BoxDecoration(
-        //             borderRadius: BorderRadius.circular(25),
-        //             color: Colors.green,
-        //           ),
-        //           width: 35,
-        //           height: 35,
-        //           child: TextButton(
-        //             onPressed: () {
-        //               colorInputController.text = 'green';
-        //             },
-        //             child: Text(''),
-        //           ),
-        //         ),
-        //       ),
-        //       Padding(
-        //         padding: const EdgeInsets.all(6.0),
-        //         child: Container(
-        //           decoration: BoxDecoration(
-        //             borderRadius: BorderRadius.circular(25),
-        //             color: Colors.pink,
-        //           ),
-        //           width: 35,
-        //           height: 35,
-        //           child: TextButton(
-        //             onPressed: () {
-        //               colorInputController.text = 'pink';
-        //             },
-        //             child: Text(''),
-        //           ),
-        //         ),
-        //       ),
-        //       Padding(
-        //         padding: const EdgeInsets.all(6.0),
-        //         child: Container(
-        //           decoration: BoxDecoration(
-        //             borderRadius: BorderRadius.circular(25),
-        //             color: Colors.yellow,
-        //           ),
-        //           width: 35,
-        //           height: 35,
-        //           child: TextButton(
-        //             onPressed: () {
-        //               colorInputController.text = 'yellow';
-        //             },
-        //             child: Text(''),
-        //           ),
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
         // Padding(
         //   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
         //   child: DateTimePicker(
@@ -297,7 +182,8 @@ class _AddActFormsState extends State<AddActForms> {
   }
 }
 
-Widget colorSwitch(Color color, getColor) {
+Widget colorSwitch(
+    Color color, String colorController, TextEditingController controller) {
   return Padding(
     padding: const EdgeInsets.all(6.0),
     child: Container(
@@ -309,15 +195,10 @@ Widget colorSwitch(Color color, getColor) {
       height: 35,
       child: TextButton(
         onPressed: () {
-          getColor();
+          controller.text = colorController;
         },
         child: Text(''),
       ),
     ),
   );
-}
-
-getColor(String color, TextEditingController controller) {
-  controller.text = color;
-  return controller.text;
 }
