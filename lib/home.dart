@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:todoList/ui/listOfActivities.dart';
 import 'package:todoList/ui/profilePage.dart';
 import 'package:todoList/ui/settings.dart';
-import 'package:todoList/ui/test.dart';
 import 'package:todoList/util/darkTheme.dart';
 import 'package:todoList/util/lightTheme.dart';
 
