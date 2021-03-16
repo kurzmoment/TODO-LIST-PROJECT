@@ -9,7 +9,7 @@ class AddActivity extends StatelessWidget {
   final QuerySnapshot snapshot;
   final int index;
   AddActivity({Key key, this.snapshot, this.index}) : super(key: key);
-  Map<String, IconData> iconMapping = {
+  final Map<String, IconData> iconMapping = {
     'shopping': FontAwesomeIcons.shoppingCart,
     'gym': FontAwesomeIcons.dumbbell,
     'business': FontAwesomeIcons.briefcase,
@@ -17,7 +17,7 @@ class AddActivity extends StatelessWidget {
     'code': FontAwesomeIcons.code,
     'repair': FontAwesomeIcons.tools,
   };
-  Map<String, Color> colorsMapping = {
+  final Map<String, Color> colorsMapping = {
     'red': Colors.red,
     'black': Colors.black,
     'blue': Colors.blue,

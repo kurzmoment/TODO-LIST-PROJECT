@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:todoList/home.dart';
 import 'package:todoList/ui/dateAndTimePicker.dart';
 import 'package:date_format/date_format.dart';
 
@@ -161,7 +162,7 @@ class _AddActFormsState extends State<AddActForms> {
               },
               child: Container(
                 child: TextFormField(
-                  style: TextStyle(fontSize: 40),
+                  style: TextStyle(fontSize: 25),
                   textAlign: TextAlign.center,
                   onSaved: (String val) {
                     _setDate = val;
@@ -183,7 +184,7 @@ class _AddActFormsState extends State<AddActForms> {
               },
               child: Container(
                 child: TextFormField(
-                  style: TextStyle(fontSize: 40),
+                  style: TextStyle(fontSize: 25),
                   textAlign: TextAlign.center,
                   onSaved: (String val) {
                     _setTime = val;
@@ -234,6 +235,43 @@ class _AddActFormsState extends State<AddActForms> {
                 style: TextStyle(fontSize: 25),
               ),
               onPressed: () {
+                if (nameInputController.text.isNotEmpty &&
+                    iconInputController.text.isNotEmpty &&
+                    _dateController.text.isNotEmpty &&
+                    _timeController.text.isNotEmpty &&
+                    colorInputController.text.isNotEmpty) {
+                  return showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Do you really want exit?'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: [
+                                Text(
+                                    'You make some changes do you really want to exit?')
+                              ],
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                              child: Text('Yes'),
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (builder) => HomeScreen()));
+                              },
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('No'),
+                            )
+                          ],
+                        );
+                      });
+                }
                 nameInputController.clear();
                 iconInputController.clear();
                 _dateController.clear();
