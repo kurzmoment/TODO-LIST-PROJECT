@@ -29,21 +29,22 @@ class AddActivity extends StatelessWidget {
     'purple': Colors.purple,
     'amberAccent': Colors.amberAccent
   };
-  final firebaseDB = Firestore.instance.collection('test').snapshots();
+  var firebaseDB = Firestore.instance.collection('test').snapshots();
   static var date = DateTime.now();
   final dateFormat = DateFormat('EEEE / dd.MM.yyyy').format(date);
 
   @override
   Widget build(BuildContext context) {
-    //var snapshotData = snapshot.documents[index].data;
-    //var docId = snapshot.documents[index].documentID;
+    var snapshotData = snapshot.documents[index].data;
+    var docId = snapshot.documents[index].documentID;
+
     return StreamBuilder(
       stream: firebaseDB,
       builder: (context, snapshot) {
         if (!snapshot.hasData) return CircularProgressIndicator();
         return ListView.builder(
           itemCount: snapshot.data.documents.length,
-          itemBuilder: (context, int index) {
+          itemBuilder: (context, int indexx) {
             return Slidable(
               actionPane: SlidableDrawerActionPane(),
               secondaryActions: [
@@ -62,16 +63,17 @@ class AddActivity extends StatelessWidget {
                   ),
                 ),
                 IconSlideAction(
-                  icon: Icons.delete,
-                  color: Colors.red,
-                  caption: 'Delete',
-                  // onTap: () async {
-                  //   await Firestore.instance
-                  //       .collection('test')
-                  //       .document(docId)
-                  //       .delete();
-                  // },
-                ),
+                    icon: Icons.delete,
+                    color: Colors.red,
+                    caption: 'Delete',
+                    onTap: () async {
+                      var collectionReference =
+                          Firestore.instance.collection("test");
+                      await collectionReference
+                          .document(docId)
+                          .delete()
+                          .catchError((error) => print("$error"));
+                    }),
               ],
               child: Card(
                 shadowColor: Colors.black,
