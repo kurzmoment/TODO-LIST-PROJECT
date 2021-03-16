@@ -92,93 +92,14 @@ class AddActivity extends StatelessWidget {
                   //   ),
                   // ),
                   title: Text(
-                    snapshot.data.documents[index]['title'],
+                    snapshot.data.documents[index]['name'],
                     style: TextStyle(fontSize: 20),
                   ),
                   subtitle: Text(
-                    snapshot.data.documents[index]['name'],
-                  ),
+                      '${snapshot.data.documents[index]['date']}, ${snapshot.data.documents[index]['time']}'),
                 ),
               ),
             );
-            // return Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Container(
-            //     margin: EdgeInsets.only(right: 70),
-            //     decoration: BoxDecoration(
-            //       color: Colors.teal.shade50,
-            //       border: Border.all(
-            //         color: colorsMapping[snapshot.data.documents[index]
-            //             ['barva']],
-            //       ),
-            //       borderRadius: BorderRadius.circular(30),
-            //     ),
-            //     height: 50,
-            //     child: Stack(
-            //       children: [
-            //         Row(
-            //           crossAxisAlignment: CrossAxisAlignment.start,
-            //           children: [
-            //             Container(
-            //               margin:
-            //                   EdgeInsets.only(left: 10, top: 8, right: 15),
-            //               decoration: BoxDecoration(
-            //                 borderRadius: BorderRadius.circular(25),
-            //               ),
-            //               child: Padding(
-            //                 padding: const EdgeInsets.all(1),
-            //                 child: Icon(
-            //                   iconMapping[snapshot.data.documents[index]
-            //                       ['ikona']],
-            //                   size: 30,
-            //                   color: colorsMapping[
-            //                       snapshot.data.documents[index]['barva']],
-            //                 ),
-            //               ),
-            //             ),
-            //             Padding(
-            //               padding: const EdgeInsets.symmetric(horizontal: 5),
-            //               child: Column(
-            //                 crossAxisAlignment: CrossAxisAlignment.start,
-            //                 mainAxisAlignment: MainAxisAlignment.center,
-            //                 children: [
-            //                   Text(
-            //                     snapshot.data.documents[index]['title'],
-            //                     style: TextStyle(
-            //                       fontSize: 15,
-            //                       fontWeight: FontWeight.bold,
-            //                     ),
-            //                   ),
-            //                   Text(
-            //                     snapshot.data.documents[index]['name'],
-            //                     style: TextStyle(fontSize: 12),
-            //                   )
-            //                 ],
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //         Column(
-            //           children: [
-            //             Padding(
-            //               padding: const EdgeInsets.only(top: 4, left: 265),
-            //               child: Container(
-            //                 margin: EdgeInsets.all(4),
-            //                 decoration: BoxDecoration(
-            //                     color: Colors.blueGrey,
-            //                     borderRadius: BorderRadius.circular(25)),
-            //                 child: Padding(
-            //                   padding: const EdgeInsets.all(4),
-            //                   child: Icon(Icons.edit),
-            //                 ),
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // );
           },
         );
       },

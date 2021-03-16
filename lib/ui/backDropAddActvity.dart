@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
-import 'package:flex_color_picker/flex_color_picker.dart';
-import 'package:date_time_picker_widget/date_time_picker_widget.dart';
 import 'package:intl/intl.dart';
+import 'package:todoList/ui/dateAndTimePicker.dart';
+import 'package:date_format/date_format.dart';
 
 class AddActForms extends StatefulWidget {
   @override
@@ -12,11 +12,54 @@ class AddActForms extends StatefulWidget {
 }
 
 class _AddActFormsState extends State<AddActForms> {
+  // DATE AND TIME PICK
+  String _setTime, _setDate;
+  String _hour, _minute, _time;
+  String dateTime;
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
+  TextEditingController _dateController = TextEditingController();
+  TextEditingController _timeController = TextEditingController();
+
+  Future<Null> _selectedDate(BuildContext context) async {
+    var selectedDate = DateTime.now();
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        initialDatePickerMode: DatePickerMode.day,
+        firstDate: DateTime(2021),
+        lastDate: DateTime(2101));
+    if (picked != null) {
+      setState(() {
+        selectedDate = picked;
+        _dateController.text = DateFormat('dd/MM/yyyy').format(selectedDate);
+      });
+    }
+  }
+
+  Future<Null> _selectedTime(BuildContext context) async {
+    final TimeOfDay picked = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+    );
+    if (picked != null) {
+      setState(() {
+        selectedTime = picked;
+        _hour = selectedTime.hour.toString();
+        _minute = selectedTime.minute.toString();
+        _time = _hour + ':' + _minute;
+        _timeController.text = _time;
+        _timeController.text = formatDate(
+            DateTime(2021, 03, 16, selectedTime.hour, selectedTime.minute),
+            [hh, ':', nn, ' ', am]).toString();
+      });
+    }
+  }
+
+  // DATE AND TIME PICK
   TextEditingController nameInputController;
   TextEditingController iconInputController;
   TextEditingController colorInputController;
-  TextEditingController dateInputController;
-  TextEditingController timeInputController;
 
   void initState() {
     super.initState();
@@ -24,8 +67,12 @@ class _AddActFormsState extends State<AddActForms> {
     nameInputController = new TextEditingController();
     iconInputController = new TextEditingController();
     colorInputController = new TextEditingController();
-    dateInputController = new TextEditingController();
-    timeInputController = new TextEditingController();
+    _dateController = new TextEditingController();
+    _timeController = new TextEditingController();
+    _dateController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
+    _timeController.text = formatDate(
+        DateTime(2021, 03, 16, selectedTime.hour, selectedTime.minute),
+        [hh, ':', nn, ' ', am]).toString();
   }
 
   String initalValue = 'icon';
@@ -43,14 +90,6 @@ class _AddActFormsState extends State<AddActForms> {
     'repair': FontAwesomeIcons.tools,
     'default': FontAwesomeIcons.question
   };
-  final Map<String, Color> colorsColection = {
-    'red': Colors.red,
-    'black': Colors.black,
-    'blue': Colors.blue,
-    'green': Colors.green,
-    'yellow': Colors.yellow,
-    'pink': Colors.pink,
-  };
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -64,15 +103,15 @@ class _AddActFormsState extends State<AddActForms> {
             controller: nameInputController,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 30),
-          child: TextField(
-            decoration: InputDecoration(
-              helperText: 'Enter a name date',
-            ),
-            controller: dateInputController,
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 30),
+        //   child: TextField(
+        //     decoration: InputDecoration(
+        //       helperText: 'Enter a name date',
+        //     ),
+        //     controller: dateInputController,
+        //   ),
+        // ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
           child: IconPicker(
@@ -110,31 +149,56 @@ class _AddActFormsState extends State<AddActForms> {
             ),
           ),
         ),
-        // Padding(
-        //   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-        //   child: DateTimePicker(
-        //     initialSelectedDate: dt.add(Duration(days: 1)),
-        //     startDate: dt,
-        //     endDate: dt.add(Duration(days: 60)),
-        //     startTime: DateTime(dt.year, dt.month, dt.day, 6),
-        //     endTime: DateTime(dt.year, dt.month, dt.day, 18),
-        //     timeInterval: Duration(minutes: 15),
-        //     is24h: false,
-        //     datePickerTitle: 'Pick your preferred date',
-        //     timePickerTitle: 'Pick your preferred time',
-        //     timeOutOfRangeError: 'Sorry shop is closed now',
-        //     onDateChanged: (date) {
-        //       setState(() {
-        //         _d1 = DateFormat('dd MMM, yyyy').format(date);
-        //       });
-        //     },
-        //     onTimeChanged: (time) {
-        //       setState(() {
-        //         _t1 = DateFormat('hh:mm:ss aa').format(time);
-        //       });
-        //     },
-        //   ),
-        // ),
+        //DateTimePickerOwn(),
+        Column(
+          children: [
+            Text(
+              'Choose date',
+            ),
+            InkWell(
+              onTap: () {
+                _selectedDate(context);
+              },
+              child: Container(
+                child: TextFormField(
+                  style: TextStyle(fontSize: 40),
+                  textAlign: TextAlign.center,
+                  onSaved: (String val) {
+                    _setDate = val;
+                  },
+                  enabled: false,
+                  controller: _dateController,
+                  decoration: InputDecoration(
+                      disabledBorder:
+                          UnderlineInputBorder(borderSide: BorderSide.none)),
+                ),
+              ),
+            ),
+            Text(
+              'Choose time',
+            ),
+            InkWell(
+              onTap: () {
+                _selectedTime(context);
+              },
+              child: Container(
+                child: TextFormField(
+                  style: TextStyle(fontSize: 40),
+                  textAlign: TextAlign.center,
+                  onSaved: (String val) {
+                    _setTime = val;
+                  },
+                  enabled: false,
+                  keyboardType: TextInputType.text,
+                  controller: _timeController,
+                  decoration: InputDecoration(
+                      disabledBorder:
+                          UnderlineInputBorder(borderSide: BorderSide.none)),
+                ),
+              ),
+            )
+          ],
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -148,15 +212,17 @@ class _AddActFormsState extends State<AddActForms> {
                   Firestore.instance.collection('test').add({
                     'name': nameInputController.text,
                     'ikona': iconInputController.text,
-                    'title': dateInputController.text,
+                    'date': _dateController.text,
                     'barva': colorInputController.text,
+                    'time': _timeController.text,
                     'timestamp': dt,
                   }).then((response) {
                     print(response.documentID);
                     Navigator.pop(context);
                     nameInputController.clear();
                     iconInputController.clear();
-                    dateInputController.clear();
+                    _dateController.clear();
+                    _timeController.clear();
                     colorInputController.clear();
                   }).catchError((error) => print(error));
                 }
@@ -170,7 +236,8 @@ class _AddActFormsState extends State<AddActForms> {
               onPressed: () {
                 nameInputController.clear();
                 iconInputController.clear();
-                dateInputController.clear();
+                _dateController.clear();
+                _timeController.clear();
                 colorInputController.clear();
                 Navigator.pop(context);
               },
