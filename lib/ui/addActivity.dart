@@ -19,10 +19,15 @@ class AddActivity extends StatelessWidget {
   };
   Map<String, Color> colorsMapping = {
     'red': Colors.red,
-    'blue': Colors.blue,
     'black': Colors.black,
+    'blue': Colors.blue,
     'green': Colors.green,
-    'pink': Colors.pink
+    'pink': Colors.pink,
+    'yellow': Colors.yellow,
+    'lightBlue': Colors.lightBlue,
+    'lightGreen': Colors.lightGreen,
+    'purple': Colors.purple,
+    'amberAccent': Colors.amberAccent
   };
   var firebaseDB = Firestore.instance.collection('test').snapshots();
   static var date = DateTime.now();
@@ -89,12 +94,11 @@ class AddActivity extends StatelessWidget {
                   //   ),
                   // ),
                   title: Text(
-                    snapshot.data.documents[index]['title'],
+                    snapshot.data.documents[index]['name'],
                     style: TextStyle(fontSize: 20),
                   ),
                   subtitle: Text(
-                    snapshot.data.documents[index]['name'],
-                  ),
+                      '${snapshot.data.documents[index]['date']}, ${snapshot.data.documents[index]['time']}'),
                 ),
               ),
             );
