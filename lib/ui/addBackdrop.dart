@@ -24,16 +24,6 @@ class _AddActState extends State<AddAct> {
         panelMaxSize: _panelMaxSize,
         body: HomeScreen(),
         panel: Scaffold(
-          // appBar: AppBar(
-          //   actions: [
-          //     Padding(
-          //         padding: const EdgeInsets.all(8.0),
-          //         child: IconButton(
-          //           icon: Icon(Icons.save),
-          //           onPressed: () => debugPrint('saved'),
-          //         ))
-          //   ],
-          // ),
           body: AddActForms(),
         ),
         panelHeader: Container(

@@ -4,7 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:todoList/home.dart';
-import 'package:todoList/ui/dateAndTimePicker.dart';
 import 'package:date_format/date_format.dart';
 
 class AddActForms extends StatefulWidget {
@@ -104,15 +103,6 @@ class _AddActFormsState extends State<AddActForms> {
             controller: nameInputController,
           ),
         ),
-        // Padding(
-        //   padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 30),
-        //   child: TextField(
-        //     decoration: InputDecoration(
-        //       helperText: 'Enter a name date',
-        //     ),
-        //     controller: dateInputController,
-        //   ),
-        // ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
           child: IconPicker(
@@ -150,7 +140,6 @@ class _AddActFormsState extends State<AddActForms> {
             ),
           ),
         ),
-        //DateTimePickerOwn(),
         Column(
           children: [
             Text(

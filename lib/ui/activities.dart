@@ -2,10 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:todoList/ui/addActivity.dart';
 
-import 'package:todoList/ui/thisMonthActivity.dart';
-import 'oneDayActivity.dart';
-import 'package:todoList/ui/thisWeekActivity.dart';
-
 class Activity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

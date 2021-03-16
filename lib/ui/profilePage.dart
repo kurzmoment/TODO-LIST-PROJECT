@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todoList/hexcolor.dart';
 import 'package:todoList/home.dart';
 import 'package:todoList/ui/editProfile.dart';
-import 'package:todoList/ui/listOfActivities.dart';
+import 'calendaryWithAct.dart';
 
 class AccPage extends StatefulWidget {
   @override

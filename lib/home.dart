@@ -1,13 +1,12 @@
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:todoList/ui/listOfActivities.dart';
+import 'package:todoList/ui/addBackdrop.dart';
+import 'ui/calendaryWithAct.dart';
 import 'package:todoList/ui/profilePage.dart';
 import 'package:todoList/ui/settings.dart';
-import 'package:provider/provider.dart';
 import 'hexcolor.dart';
 import 'package:todoList/ui/activities.dart';
-import 'package:todoList/ui/addBackdrop.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -21,13 +20,12 @@ class HomeScreen extends StatelessWidget {
 }
 
 class Home extends StatelessWidget {
-  SlideUpController slideUpController = SlideUpController();
   final colorBottom = HexColor('FCEDC5');
   final colorActivity = HexColor('FF0000');
   final colorBody = HexColor('EEFCFA');
   final colorTop = HexColor('A1E7F7');
   static var date = DateTime.now();
-  var dateFormat = DateFormat('EEEE / dd.MM.yyyy').format(date);
+  final dateFormat = DateFormat('EEEE / dd.MM.yyyy').format(date);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,72 +116,12 @@ class Home extends StatelessWidget {
           size: 30,
         ),
         onPressed: () {
-          slideUpController.toggle();
           Navigator.push(
             context,
-            MaterialPageRoute(
-              // ZATIM PRILIS NEFUNGUJE
-              builder: (context) => AddAct(),
-            ),
+            MaterialPageRoute(builder: (context) => AddAct()),
           );
         },
       ),
     );
-  }
-}
-
-class SlideUpWidget extends StatefulWidget {
-  final SlideUpController controller;
-
-  const SlideUpWidget({Key key, this.controller}) : super(key: key);
-
-  @override
-  _SlideUpWidgetState createState() => _SlideUpWidgetState();
-}
-
-class _SlideUpWidgetState extends State<SlideUpWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      decoration: BoxDecoration(
-          color: Colors.red,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-    );
-  }
-}
-
-class SlideUpProvider with ChangeNotifier {
-  bool isShow = false;
-
-  void updateState(bool newState) {
-    isShow = newState;
-    notifyListeners();
-  }
-}
-
-class SlideUpController {
-  SlideUpController._private();
-
-  static final SlideUpController instance = SlideUpController._private();
-
-  factory SlideUpController() => instance;
-
-  BuildContext _providerContext;
-
-  set providerContext(BuildContext context) {
-    if (_providerContext != context) {
-      _providerContext = context;
-    }
-  }
-
-  void toggle() {
-    if (_providerContext != null) {
-      final provider = _providerContext.read<SlideUpProvider>();
-      provider.updateState(!provider.isShow);
-    } else {
-      print('Need init provider context');
-    }
   }
 }

@@ -1,14 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
-class AddActivity extends StatelessWidget {
-  // PROBIHAJICI TESTOVANI
-  final QuerySnapshot snapshot;
-  final index;
-  AddActivity({Key key, this.snapshot, this.index}) : super(key: key);
+class OneAct extends StatefulWidget {
+  @override
+  _OneActState createState() => _OneActState();
+}
+
+class _OneActState extends State<OneAct> {
   final Map<String, IconData> iconMapping = {
     'shopping': FontAwesomeIcons.shoppingCart,
     'gym': FontAwesomeIcons.dumbbell,
@@ -29,15 +30,11 @@ class AddActivity extends StatelessWidget {
     'purple': Colors.purple,
     'amberAccent': Colors.amberAccent
   };
-  final firebaseDB = Firestore.instance.collection('test').snapshots();
+  var firebaseDB = Firestore.instance.collection('test').snapshots();
   static var date = DateTime.now();
-  final dateFormat = DateFormat('EEEE / dd.MM.yyyy').format(date);
-
+  var dateFormat = DateFormat('EEEE / dd.MM.yyyy').format(date);
   @override
   Widget build(BuildContext context) {
-    // var snapshotData = snapshot.documents[index].data;
-    // var docId = snapshot.documents[index].documentID;
-
     return StreamBuilder(
       stream: firebaseDB,
       builder: (context, snapshot) {
@@ -52,7 +49,9 @@ class AddActivity extends StatelessWidget {
                   icon: Icons.share,
                   color: Colors.blue,
                   caption: 'Share',
-                  onTap: () => debugPrint(''),
+                  onTap: () => SnackBar(
+                    content: Text('Shared'),
+                  ),
                 ),
                 IconSlideAction(
                   icon: Icons.edit,
@@ -66,15 +65,8 @@ class AddActivity extends StatelessWidget {
                   icon: Icons.delete,
                   color: Colors.red,
                   caption: 'Delete',
-                  // onTap: () async {
-                  //   var collectionReference =
-                  //       Firestore.instance.collection("test");
-                  //   await collectionReference
-                  //       .document(docId)
-                  //       .delete()
-                  //       .catchError((error) => print("$error"));
-                  // },
-                )
+                  //onTap: () => snapshot.data.documents[index]['barva'],
+                ),
               ],
               child: Card(
                 shadowColor: Colors.black,
@@ -88,17 +80,16 @@ class AddActivity extends StatelessWidget {
                     ),
                   ),
                   title: Text(
-                    snapshot.data.documents[index]['name'],
+                    snapshot.data.documents[index]['title'],
                     style: TextStyle(fontSize: 20),
                   ),
-                  subtitle: Text(
-                      '${snapshot.data.documents[index]['date']}, ${snapshot.data.documents[index]['time']}'),
+                  subtitle: Text(snapshot.data.documents[index]['name']),
                 ),
               ),
             );
-          }, // TOHLE
-        ); // TOHLE
-      }, // TOHLE
+          },
+        );
+      },
     );
   }
 }

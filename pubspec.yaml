@@ -46,7 +46,6 @@ dependencies:
   syncfusion_flutter_datepicker: ^18.4.47-beta
   flutter_slidable: ^0.5.7
   date_format: ^1.0.9
-  provider: any
   #fl_chart: ^0.20.1
 
 
