@@ -113,22 +113,21 @@ class Home extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: Align(
-        child: FloatingActionButton(
-          child: Icon(
-            Icons.add,
-            size: 30,
-          ),
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                // ZATIM PRILIS NEFUNGUJE
-                builder: (context) => AddAct(),
-              ),
-            );
-          },
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(
+          Icons.add,
+          size: 30,
         ),
-        alignment: Alignment(1, 1.1),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              // ZATIM PRILIS NEFUNGUJE
+              builder: (context) => AddAct(),
+            ),
+          );
+        },
       ),
     );
   }
