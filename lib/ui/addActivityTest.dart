@@ -31,8 +31,10 @@ class _OneActState extends State<OneAct> {
     'amberAccent': Colors.amberAccent
   };
   var firebaseDB = Firestore.instance.collection('test').snapshots();
+  CollectionReference act = Firestore.instance.collection('test');
   static var date = DateTime.now();
   var dateFormat = DateFormat('EEEE / dd.MM.yyyy').format(date);
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -65,7 +67,7 @@ class _OneActState extends State<OneAct> {
                   icon: Icons.delete,
                   color: Colors.red,
                   caption: 'Delete',
-                  //onTap: () => snapshot.data.documents[index]['barva'],
+                  onTap: () {},
                 ),
               ],
               child: Card(
