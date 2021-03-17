@@ -1,16 +1,12 @@
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:todoList/ui/listOfActivities.dart';
+import 'package:todoList/ui/addBackdrop.dart';
+import 'ui/calendaryWithAct.dart';
 import 'package:todoList/ui/profilePage.dart';
 import 'package:todoList/ui/settings.dart';
-import 'package:todoList/util/darkTheme.dart';
-import 'package:todoList/util/lightTheme.dart';
-
 import 'hexcolor.dart';
 import 'package:todoList/ui/activities.dart';
-import 'package:todoList/ui/addBackdrop.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -29,7 +25,7 @@ class Home extends StatelessWidget {
   final colorBody = HexColor('EEFCFA');
   final colorTop = HexColor('A1E7F7');
   static var date = DateTime.now();
-  var dateFormat = DateFormat('EEEE / dd.MM.yyyy').format(date);
+  final dateFormat = DateFormat('EEEE / dd.MM.yyyy').format(date);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,10 +118,7 @@ class Home extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-              // ZATIM PRILIS NEFUNGUJE
-              builder: (context) => AddAct(),
-            ),
+            MaterialPageRoute(builder: (context) => AddAct()),
           );
         },
       ),
