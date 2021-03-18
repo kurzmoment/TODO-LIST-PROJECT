@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -17,8 +16,8 @@ class AddAct extends StatefulWidget {
 class _AddActState extends State<AddAct> {
   @override
   Widget build(BuildContext context) {
-    final double _panelMinSize = 80.0;
-    final double _panelMaxSize = MediaQuery.of(context).size.height / 2;
+    final double _panelMinSize = 60.0;
+    final double _panelMaxSize = MediaQuery.of(context).size.height / 1.5;
     return Scaffold(
       body: WeSlide(
         controller: WeSlideController(),
@@ -43,7 +42,7 @@ class _AddActState extends State<AddAct> {
         //transformScale: true,
         //transformScaleEnd: 0.95,
         // BLUR
-        parallax: true,
+        parallax: false,
         bodyBorderRadiusBegin: 20,
         panelBorderRadiusEnd: 20,
         parallaxOffset: 0,

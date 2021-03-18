@@ -106,6 +106,13 @@ class Home extends StatelessWidget {
                     builder: (context) => ListOfActivities()));
               },
             ),
+            IconButton(
+              icon: Icon(Icons.album),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ListOfActivities()));
+              },
+            ),
           ],
         ),
       ),
