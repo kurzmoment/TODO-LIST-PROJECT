@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:todoList/home.dart';
+import 'package:we_slide/we_slide.dart';
 
 class AddActivity extends StatelessWidget {
   // PROBIHAJICI TESTOVANI
@@ -42,19 +46,10 @@ class AddActivity extends StatelessWidget {
       actionPane: SlidableDrawerActionPane(),
       secondaryActions: [
         IconSlideAction(
-          icon: Icons.share,
-          color: Colors.blue,
-          caption: 'Share',
-          onTap: () => debugPrint(''),
-        ),
-        IconSlideAction(
-          icon: Icons.edit,
-          color: Colors.green,
-          caption: 'Edit',
-          onTap: () => SnackBar(
-            content: Text('Edited'),
-          ),
-        ),
+            icon: Icons.edit,
+            color: Colors.green,
+            caption: 'Edit',
+            onTap: () {}),
         IconSlideAction(
           icon: Icons.delete,
           color: Colors.red,

@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todoList/hexcolor.dart';
-import 'package:todoList/ui/registerPage.dart';
+import 'package:todoList/ui/loginpage.dart';
 
-class LoginPage extends StatelessWidget {
+class RegisterPage extends StatelessWidget {
   // Map<String, IconData> iconPack = {
   //   'apple': FontAwesomeIcons.apple,
   //   'google': FontAwesomeIcons.google,
@@ -17,19 +17,19 @@ class LoginPage extends StatelessWidget {
       home: Scaffold(
         backgroundColor: HexColor('#D5F3EF'),
         body: Container(
-          child: Login(),
+          child: Register(),
         ),
       ),
     );
   }
 }
 
-class Login extends StatefulWidget {
+class Register extends StatefulWidget {
   @override
-  _LoginState createState() => _LoginState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -38,11 +38,11 @@ class _LoginState extends State<Login> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              height: 250,
+              height: 150,
               child: Image(
                 image: AssetImage('assets/logo.png'),
-                height: 150,
-                width: 150,
+                height: 120,
+                width: 120,
               ),
             ),
           ),
@@ -52,7 +52,7 @@ class _LoginState extends State<Login> {
           child: Padding(
             padding: const EdgeInsets.only(left: 15, bottom: 20),
             child: Text(
-              'Login',
+              'Register',
               style: TextStyle(fontSize: 40, color: Colors.blueAccent.shade200),
             ),
           ),
@@ -61,32 +61,24 @@ class _LoginState extends State<Login> {
         emailForm(),
         inputText('Password'),
         passwordForm(),
-        Container(
-          alignment: Alignment.centerLeft,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 190, top: 0),
-            child: TextButton(
-              child: Text(
-                'Forgot password?',
-                style: TextStyle(color: Colors.blueAccent.shade200),
-              ),
-              onPressed: () => debugPrint('forgot password?'),
-            ),
+        inputText('Confirm password'),
+        passwordConfirmForm(),
+        Padding(
+          padding: const EdgeInsets.only(top: 25, left: 1),
+          child: Row(
+            children: [
+              loginOptions('google', Colors.black),
+              loginOptions('apple', Colors.black),
+              loginOptions('facebook', Colors.blueAccent.shade700),
+            ],
           ),
-        ),
-        Row(
-          children: [
-            loginOptions('google', Colors.black),
-            loginOptions('apple', Colors.black),
-            loginOptions('facebook', Colors.blueAccent.shade700),
-          ],
         ),
         Container(
           alignment: Alignment(-0.9, 0),
           child: TextButton(
             onPressed: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => RegisterPage())),
-            child: Text('New here? Register.'),
+                .push(MaterialPageRoute(builder: (context) => LoginPage())),
+            child: Text('Allready have accoutn? Click here.'),
           ),
         ),
         Container(
@@ -95,8 +87,8 @@ class _LoginState extends State<Login> {
             padding: const EdgeInsets.all(40),
             child: ElevatedButton(
               style: ButtonStyle(),
-              child: Text('Login'),
-              onPressed: () => debugPrint('login'),
+              child: Text('Register'),
+              onPressed: () => debugPrint('Register'),
             ),
           ),
         )
@@ -148,7 +140,6 @@ Widget passwordForm() {
           child: TextField(
             decoration: InputDecoration(
               border: InputBorder.none,
-              suffixIcon: showPassword(),
             ),
           ),
         ),
@@ -157,13 +148,24 @@ Widget passwordForm() {
   );
 }
 
-Widget showPassword() {
-  return IconButton(
-    icon: FaIcon(
-      FontAwesomeIcons.eye,
-      color: Colors.black38,
+Widget passwordConfirmForm() {
+  return Padding(
+    padding: const EdgeInsets.only(left: 15, right: 100),
+    child: Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(color: Colors.blue.shade100, width: 2),
+          ),
+          child: TextField(
+            decoration: InputDecoration(
+              border: InputBorder.none,
+            ),
+          ),
+        ),
+      ],
     ),
-    onPressed: () => debugPrint('oko stisknuto'),
   );
 }
 
