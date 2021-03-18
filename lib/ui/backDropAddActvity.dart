@@ -117,6 +117,7 @@ class _AddActFormsState extends State<AddActForms> {
             onChanged: (String newValue) {
               setState(() {
                 dropDownValue = newValue;
+                categoryInputController.text = dropDownValue;
               });
             },
             items: <String>['GYM', 'WORK', 'NONE']
