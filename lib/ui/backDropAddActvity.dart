@@ -58,6 +58,7 @@ class _AddActFormsState extends State<AddActForms> {
 
   // DATE AND TIME PICK
   TextEditingController nameInputController;
+  TextEditingController categoryInputController;
   TextEditingController iconInputController;
   TextEditingController colorInputController;
 
@@ -65,6 +66,7 @@ class _AddActFormsState extends State<AddActForms> {
     super.initState();
     iconInputController = new TextEditingController();
     nameInputController = new TextEditingController();
+    categoryInputController = new TextEditingController();
     iconInputController = new TextEditingController();
     colorInputController = new TextEditingController();
     _dateController = new TextEditingController();
@@ -90,6 +92,7 @@ class _AddActFormsState extends State<AddActForms> {
     'repair': FontAwesomeIcons.tools,
     'default': FontAwesomeIcons.question
   };
+  String dropDownValue = 'NONE';
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -101,6 +104,29 @@ class _AddActFormsState extends State<AddActForms> {
               helperText: 'Enter a name of a activity',
             ),
             controller: nameInputController,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+          child: DropdownButton<String>(
+            value: dropDownValue,
+            icon: Icon(Icons.arrow_drop_down_outlined),
+            iconSize: 25,
+            elevation: 15,
+            style: TextStyle(color: Colors.black),
+            onChanged: (String newValue) {
+              setState(() {
+                dropDownValue = newValue;
+                categoryInputController.text = dropDownValue;
+              });
+            },
+            items: <String>['GYM', 'WORK', 'NONE']
+                .map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
           ),
         ),
         Padding(
@@ -201,6 +227,7 @@ class _AddActFormsState extends State<AddActForms> {
                 if (nameInputController.text.isNotEmpty) {
                   Firestore.instance.collection('test').add({
                     'name': nameInputController.text,
+                    'category': categoryInputController.text,
                     'ikona': iconInputController.text,
                     'date': _dateController.text,
                     'barva': colorInputController.text,
@@ -210,6 +237,7 @@ class _AddActFormsState extends State<AddActForms> {
                     print(response.documentID);
                     Navigator.pop(context);
                     nameInputController.clear();
+                    categoryInputController.clear();
                     iconInputController.clear();
                     _dateController.clear();
                     _timeController.clear();
@@ -226,6 +254,7 @@ class _AddActFormsState extends State<AddActForms> {
               onPressed: () {
                 if (nameInputController.text.isNotEmpty &&
                     iconInputController.text.isNotEmpty &&
+                    categoryInputController.text.isNotEmpty &&
                     _dateController.text.isNotEmpty &&
                     _timeController.text.isNotEmpty &&
                     colorInputController.text.isNotEmpty) {
@@ -262,6 +291,7 @@ class _AddActFormsState extends State<AddActForms> {
                       });
                 }
                 nameInputController.clear();
+                categoryInputController.clear();
                 iconInputController.clear();
                 _dateController.clear();
                 _timeController.clear();

@@ -42,7 +42,7 @@ class _AddActState extends State<AddAct> {
         //transformScale: true,
         //transformScaleEnd: 0.95,
         // BLUR
-        parallax: true,
+        parallax: false,
         bodyBorderRadiusBegin: 20,
         panelBorderRadiusEnd: 20,
         parallaxOffset: 0,
