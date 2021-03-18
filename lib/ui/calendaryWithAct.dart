@@ -86,7 +86,7 @@ class ListOfActivities extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddAct()),
+            MaterialPageRoute(builder: (context) => AddActcal()),
           );
         },
       ),
