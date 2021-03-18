@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:todoList/home.dart';
+import 'package:todoList/ui/editActivity.dart';
 import 'package:we_slide/we_slide.dart';
 
 class AddActivity extends StatelessWidget {
@@ -41,7 +42,6 @@ class AddActivity extends StatelessWidget {
   Widget build(BuildContext context) {
     var snapshotData = snapshot.documents[index].data;
     var docID = snapshot.documents[index].documentID;
-
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
       secondaryActions: [
@@ -49,7 +49,9 @@ class AddActivity extends StatelessWidget {
             icon: Icons.edit,
             color: Colors.green,
             caption: 'Edit',
-            onTap: () {}),
+            onTap: () async {
+              await showDialog(context: context, child: EditActSlide());
+            }),
         IconSlideAction(
           icon: Icons.delete,
           color: Colors.red,
