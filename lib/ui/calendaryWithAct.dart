@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:todoList/home.dart';
 import 'package:todoList/ui/addBackdrop.dart';
+import 'package:todoList/ui/categ.dart';
 import 'package:todoList/ui/profilePage.dart';
 
 import '../hexcolor.dart';
@@ -71,6 +72,13 @@ class ListOfActivities extends StatelessWidget {
               icon: Icon(Icons.calendar_today_rounded),
               onPressed: () {
                 // do nothing
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.album),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => Categoryscreen()));
               },
             ),
           ],
