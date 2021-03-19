@@ -1,26 +1,27 @@
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:todoList/ui/addBackdrop.dart';
-import 'package:todoList/ui/categ.dart';
-import 'ui/calendaryWithAct.dart';
+import 'categoryaddBackdrop.dart';
+import 'package:todoList/ui/category.dart';
+import 'package:todoList/ui/categoryaddBackdrop.dart';
+import 'calendaryWithAct.dart';
 import 'package:todoList/ui/profilePage.dart';
 import 'package:todoList/ui/settings.dart';
-import 'hexcolor.dart';
-import 'package:todoList/ui/activities.dart';
+import 'package:todoList/hexcolor.dart';
+import 'category.dart';
 
-class HomeScreen extends StatelessWidget {
+class Categoryscreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       //theme: lightThemeData(context),
       //darkTheme: darkThemeData(context),
-      home: Home(),
+      home: CategoryHome(),
     );
   }
 }
 
-class Home extends StatelessWidget {
+class CategoryHome extends StatelessWidget {
   final colorBottom = HexColor('FCEDC5');
   final colorActivity = HexColor('FF0000');
   final colorBody = HexColor('EEFCFA');
@@ -82,7 +83,7 @@ class Home extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Activity(),
+        child: Category(),
       ),
       bottomNavigationBar: new BottomAppBar(
         color: colorBottom,
@@ -126,7 +127,7 @@ class Home extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddAct()),
+            MaterialPageRoute(builder: (context) => AddCat()),
           );
         },
       ),
