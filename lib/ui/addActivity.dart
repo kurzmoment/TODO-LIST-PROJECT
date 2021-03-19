@@ -7,6 +7,7 @@ import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:todoList/home.dart';
 import 'package:todoList/ui/editActivity.dart';
+import 'package:todoList/ui/editActivitytest.dart';
 import 'package:we_slide/we_slide.dart';
 
 class AddActivity extends StatelessWidget {
@@ -49,9 +50,10 @@ class AddActivity extends StatelessWidget {
             icon: Icons.edit,
             color: Colors.green,
             caption: 'Edit',
-            onTap: () async {
-              await showDialog(context: context, child: EditActSlide());
-            }),
+            onTap: () {}),
+        // onTap: () async {
+        //   await showDialog(context: context, child: EditActSlide());
+        // }),
         IconSlideAction(
           icon: Icons.delete,
           color: Colors.red,

@@ -1,20 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:todoList/home.dart';
-import 'package:todoList/ui/activities.dart';
 import 'package:we_slide/we_slide.dart';
 
-class EditActSlide extends StatefulWidget {
-  @override
-  _EditActSlideState createState() => _EditActSlideState();
-}
+import '../home.dart';
 
-class _EditActSlideState extends State<EditActSlide> {
+class EditActTest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final firestoreDb = Firestore.instance.collection('test').snapshots();
@@ -27,6 +21,7 @@ class _EditActSlideState extends State<EditActSlide> {
         panelMaxSize: _panelMaxSize,
         body: HomeScreen(),
         panel: Scaffold(
+          resizeToAvoidBottomInset: false,
           body: StreamBuilder(
             stream: firestoreDb,
             builder: (context, snapshot) {
@@ -34,7 +29,10 @@ class _EditActSlideState extends State<EditActSlide> {
               return ListView.builder(
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, int index) {
-                  return EditActivity(snapshot: snapshot.data, index: index);
+                  return EditActivityTest(
+                    index: index,
+                    snapshot: snapshot.data,
+                  );
                 },
               );
             },
@@ -43,7 +41,7 @@ class _EditActSlideState extends State<EditActSlide> {
         panelHeader: Container(
           alignment: Alignment.center,
           child: Text(
-            'Add activity',
+            'Edit activity',
             style: TextStyle(fontSize: 20, color: Colors.white),
           ),
           color: Colors.blue,
@@ -51,20 +49,28 @@ class _EditActSlideState extends State<EditActSlide> {
         ),
         blurSigma: 0.75,
         blur: true,
-        // parallax: true,
-        // bodyBorderRadiusBegin: 20,
-        // panelBorderRadiusEnd: 20,
-        // parallaxOffset: 0,
-        // overlayOpacity: 10,
+        parallax: true,
+        bodyBorderRadiusBegin: 20,
+        panelBorderRadiusEnd: 20,
+        parallaxOffset: 0,
+        overlayOpacity: 10,
         hidePanelHeader: false,
       ),
     );
   }
 }
 
-class EditActivity extends StatelessWidget {
+class EditActivityTest extends StatefulWidget {
   final QuerySnapshot snapshot;
   final int index;
+
+  const EditActivityTest({Key key, this.snapshot, this.index})
+      : super(key: key);
+  @override
+  _EditActivityTestState createState() => _EditActivityTestState();
+}
+
+class _EditActivityTestState extends State<EditActivityTest> {
   String _setTime, _setDate;
   String _hour, _minute, _time;
   String dateTime;
@@ -75,8 +81,6 @@ class EditActivity extends StatelessWidget {
   TextEditingController nameInputController;
   TextEditingController iconInputController;
   TextEditingController colorInputController;
-
-  EditActivity({Key key, this.snapshot, this.index}) : super(key: key);
 
   Future<Null> _selectedDate(BuildContext context) async {
     var selectedDate = DateTime.now();
@@ -113,9 +117,22 @@ class EditActivity extends StatelessWidget {
     }
   }
 
+  void initState() {
+    super.initState();
+    //iconInputController = new TextEditingController();
+    //nameInputController = new TextEditingController();
+    //categoryInputController = new TextEditingController();
+    //iconInputController = new TextEditingController();
+    //colorInputController = new TextEditingController();
+    //_dateController = new TextEditingController();
+    //_timeController = new TextEditingController();
+    _dateController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
+    _timeController.text = formatDate(
+        DateTime(2021, 03, 16, selectedTime.hour, selectedTime.minute),
+        [hh, ':', nn, ' ', am]).toString();
+  }
+
   String initalValue = 'icon';
-  var _d1;
-  var _t1;
   DateTime dt = new DateTime.now();
   Color screenPickerColor = Colors.black;
 
@@ -131,8 +148,9 @@ class EditActivity extends StatelessWidget {
   final firebaseDB = Firestore.instance.collection('test').snapshots();
   @override
   Widget build(BuildContext context) {
-    var snapshotData = snapshot.documents[index].data;
-    var docID = snapshot.documents[index].documentID;
+    //final firestoreDb = Firestore.instance.collection('test').snapshots();
+    var snapshotData = widget.snapshot.documents[widget.index].data;
+    var docID = widget.snapshot.documents[widget.index].documentID;
     TextEditingController nameInputController =
         TextEditingController(text: snapshotData['name']);
     TextEditingController iconInputController =
@@ -151,12 +169,8 @@ class EditActivity extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
             child: TextField(
               autofocus: true,
-              onChanged: (text) {
-                nameInputController.text = text;
-                nameInputController.value = TextEditingValue(
-                    text: text,
-                    selection: TextSelection.collapsed(offset: text.length));
-              },
+              autocorrect: true,
+              maxLines: 1,
               decoration: InputDecoration(
                 helperText: 'Enter a name of a activity',
               ),
@@ -263,6 +277,7 @@ class EditActivity extends StatelessWidget {
                       _dateController.text.isNotEmpty &&
                       colorInputController.text.isNotEmpty &&
                       _timeController.text.isNotEmpty) {
+                    debugPrint('EDITNUTO');
                     Firestore.instance
                         .collection('test')
                         .document(docID)
@@ -332,12 +347,10 @@ class EditActivity extends StatelessWidget {
               ),
             ],
           ),
-        ], //
+        ],
       ),
-    ); //
+    );
   }
-
-  void setState(Null Function() param0) {}
 }
 
 Widget colorSwitch(
