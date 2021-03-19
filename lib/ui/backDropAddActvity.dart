@@ -58,6 +58,7 @@ class _AddActFormsState extends State<AddActForms> {
 
   // DATE AND TIME PICK
   TextEditingController nameInputController;
+  TextEditingController notesInputController;
   TextEditingController categoryInputController;
   TextEditingController iconInputController;
   TextEditingController colorInputController;
@@ -66,6 +67,7 @@ class _AddActFormsState extends State<AddActForms> {
     super.initState();
     iconInputController = new TextEditingController();
     nameInputController = new TextEditingController();
+    notesInputController = new TextEditingController();
     categoryInputController = new TextEditingController();
     iconInputController = new TextEditingController();
     colorInputController = new TextEditingController();
@@ -166,6 +168,15 @@ class _AddActFormsState extends State<AddActForms> {
             ),
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+          child: TextField(
+            decoration: InputDecoration(
+              helperText: 'Enter notes',
+            ),
+            controller: notesInputController,
+          ),
+        ),
         Column(
           children: [
             Text(
@@ -233,6 +244,7 @@ class _AddActFormsState extends State<AddActForms> {
                     'barva': colorInputController.text,
                     'time': _timeController.text,
                     'timestamp': dt,
+                    'notes': notesInputController.text,
                   }).then((response) {
                     print(response.documentID);
                     Navigator.pop(context);
@@ -242,6 +254,7 @@ class _AddActFormsState extends State<AddActForms> {
                     _dateController.clear();
                     _timeController.clear();
                     colorInputController.clear();
+                    notesInputController.clear();
                   }).catchError((error) => print(error));
                 }
               },
@@ -257,7 +270,8 @@ class _AddActFormsState extends State<AddActForms> {
                     categoryInputController.text.isNotEmpty &&
                     _dateController.text.isNotEmpty &&
                     _timeController.text.isNotEmpty &&
-                    colorInputController.text.isNotEmpty) {
+                    colorInputController.text.isNotEmpty &&
+                    notesInputController.text.isNotEmpty) {
                   return showDialog(
                       context: context,
                       barrierDismissible: false,
@@ -296,6 +310,7 @@ class _AddActFormsState extends State<AddActForms> {
                 _dateController.clear();
                 _timeController.clear();
                 colorInputController.clear();
+                notesInputController.clear();
                 Navigator.pop(context);
               },
             ),
