@@ -47,13 +47,17 @@ class AddActivity extends StatelessWidget {
       actionPane: SlidableDrawerActionPane(),
       secondaryActions: [
         IconSlideAction(
-            icon: Icons.edit,
-            color: Colors.green,
-            caption: 'Edit',
-            onTap: () {}),
-        // onTap: () async {
-        //   await showDialog(context: context, child: EditActSlide());
-        // }),
+          icon: Icons.edit,
+          color: Colors.green,
+          caption: 'Edit',
+          // onTap: () {}),
+          onTap: () async {
+            await showDialog(
+              context: context,
+              child: EditActSlide(),
+            );
+          },
+        ),
         IconSlideAction(
           icon: Icons.delete,
           color: Colors.red,

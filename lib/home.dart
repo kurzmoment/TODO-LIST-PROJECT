@@ -38,7 +38,7 @@ class Home extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Image(
-                image: AssetImage('assets/logo.png'),
+                image: AssetImage('assets/ku.png'),
                 fit: BoxFit.contain,
                 height: 70,
                 width: 70,

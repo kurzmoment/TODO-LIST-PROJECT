@@ -34,7 +34,10 @@ class _EditActSlideState extends State<EditActSlide> {
               return ListView.builder(
                 itemCount: snapshot.data.documents.length,
                 itemBuilder: (context, int index) {
-                  return EditActivity(snapshot: snapshot.data, index: index);
+                  return EditActivity(
+                    snapshot: snapshot.data,
+                    index: index,
+                  );
                 },
               );
             },
@@ -43,7 +46,7 @@ class _EditActSlideState extends State<EditActSlide> {
         panelHeader: Container(
           alignment: Alignment.center,
           child: Text(
-            'Add activity',
+            'Edit activity',
             style: TextStyle(fontSize: 20, color: Colors.white),
           ),
           color: Colors.blue,
@@ -150,105 +153,98 @@ class EditActivity extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
             child: TextField(
-              autofocus: true,
-              onChanged: (text) {
-                nameInputController.text = text;
-                nameInputController.value = TextEditingValue(
-                    text: text,
-                    selection: TextSelection.collapsed(offset: text.length));
-              },
               decoration: InputDecoration(
-                helperText: 'Enter a name of a activity',
+                helperText: 'Edit a name of a activity',
               ),
               controller: nameInputController,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            child: IconPicker(
-              initialValue: null,
-              icon: Icon(Icons.apps),
-              labelText: "Icon",
-              title: "Select an icon",
-              cancelBtn: 'Cancel',
-              enableSearch: false,
-              iconCollection: iconsCollection,
-              controller: iconInputController,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-            child: Container(
-              height: 50,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  colorSwitch(Colors.red, 'red', colorInputController),
-                  colorSwitch(Colors.black, 'black', colorInputController),
-                  colorSwitch(Colors.blue, 'blue', colorInputController),
-                  colorSwitch(Colors.green, 'green', colorInputController),
-                  colorSwitch(Colors.pink, 'pink', colorInputController),
-                  colorSwitch(Colors.yellow, 'yellow', colorInputController),
-                  colorSwitch(
-                      Colors.lightBlue, 'lightBlue', colorInputController),
-                  colorSwitch(
-                      Colors.lightGreen, 'lightGreen', colorInputController),
-                  colorSwitch(Colors.purple, 'purple', colorInputController),
-                  colorSwitch(
-                      Colors.amberAccent, 'amberAccent', colorInputController),
-                ],
-              ),
-            ),
-          ),
-          Column(
-            children: [
-              Text(
-                'Choose date',
-              ),
-              InkWell(
-                onTap: () {
-                  _selectedDate(context);
-                },
-                child: Container(
-                  child: TextFormField(
-                    style: TextStyle(fontSize: 25),
-                    textAlign: TextAlign.center,
-                    onSaved: (String val) {
-                      _setDate = val;
-                    },
-                    enabled: false,
-                    controller: _dateController,
-                    decoration: InputDecoration(
-                        disabledBorder:
-                            UnderlineInputBorder(borderSide: BorderSide.none)),
-                  ),
-                ),
-              ),
-              Text(
-                'Choose time',
-              ),
-              InkWell(
-                onTap: () {
-                  _selectedTime(context);
-                },
-                child: Container(
-                  child: TextFormField(
-                    style: TextStyle(fontSize: 25),
-                    textAlign: TextAlign.center,
-                    onSaved: (String val) {
-                      _setTime = val;
-                    },
-                    enabled: false,
-                    keyboardType: TextInputType.text,
-                    controller: _timeController,
-                    decoration: InputDecoration(
-                        disabledBorder:
-                            UnderlineInputBorder(borderSide: BorderSide.none)),
-                  ),
-                ),
-              )
-            ],
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+          //   child: IconPicker(
+          //     initialValue: null,
+          //     icon: Icon(Icons.apps),
+          //     labelText: "Icon",
+          //     title: "Select an icon",
+          //     cancelBtn: 'Cancel',
+          //     enableSearch: false,
+          //     iconCollection: iconsCollection,
+          //     controller: iconInputController,
+          //   ),
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+          //   child: Container(
+          //     height: 50,
+          //     child: ListView(
+          //       scrollDirection: Axis.horizontal,
+          //       children: [
+          //         colorSwitch(Colors.red, 'red', colorInputController),
+          //         colorSwitch(Colors.black, 'black', colorInputController),
+          //         colorSwitch(Colors.blue, 'blue', colorInputController),
+          //         colorSwitch(Colors.green, 'green', colorInputController),
+          //         colorSwitch(Colors.pink, 'pink', colorInputController),
+          //         colorSwitch(Colors.yellow, 'yellow', colorInputController),
+          //         colorSwitch(
+          //             Colors.lightBlue, 'lightBlue', colorInputController),
+          //         colorSwitch(
+          //             Colors.lightGreen, 'lightGreen', colorInputController),
+          //         colorSwitch(Colors.purple, 'purple', colorInputController),
+          //         colorSwitch(
+          //             Colors.amberAccent, 'amberAccent', colorInputController),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          // Column(
+          //   children: [
+          //     Text(
+          //       'Choose date',
+          //     ),
+          //     InkWell(
+          //       onTap: () {
+          //         _selectedDate(context);
+          //       },
+          //       child: Container(
+          //         child: TextFormField(
+          //           style: TextStyle(fontSize: 25),
+          //           textAlign: TextAlign.center,
+          //           onSaved: (String val) {
+          //             _setDate = val;
+          //           },
+          //           enabled: false,
+          //           controller: _dateController,
+          //           decoration: InputDecoration(
+          //               disabledBorder:
+          //                   UnderlineInputBorder(borderSide: BorderSide.none)),
+          //         ),
+          //       ),
+          //     ),
+          //     Text(
+          //       'Choose time',
+          //     ),
+          //     InkWell(
+          //       onTap: () {
+          //         _selectedTime(context);
+          //       },
+          //       child: Container(
+          //         child: TextFormField(
+          //           style: TextStyle(fontSize: 25),
+          //           textAlign: TextAlign.center,
+          //           onSaved: (String val) {
+          //             _setTime = val;
+          //           },
+          //           enabled: false,
+          //           keyboardType: TextInputType.text,
+          //           controller: _timeController,
+          //           decoration: InputDecoration(
+          //               disabledBorder:
+          //                   UnderlineInputBorder(borderSide: BorderSide.none)),
+          //         ),
+          //       ),
+          //     )
+          //   ],
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
