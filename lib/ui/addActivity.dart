@@ -200,7 +200,9 @@ class _AddActivityState extends State<AddActivity> {
                           ),
                           InkWell(
                             onTap: () async {
-                              var selectedDate = DateTime.now();
+                              var selectedDate = DateFormat('dd/MM/yyyy')
+                                  .parse(_dateController.text);
+                              print(selectedDate);
                               final DateTime picked = await showDatePicker(
                                   context: context,
                                   initialDate: selectedDate,
