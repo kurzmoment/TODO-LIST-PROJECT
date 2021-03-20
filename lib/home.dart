@@ -16,6 +16,7 @@ class HomeScreen extends StatelessWidget {
       //theme: lightThemeData(context),
       //darkTheme: darkThemeData(context),
       home: Home(),
+      navigatorKey: null,
     );
   }
 }
@@ -32,13 +33,14 @@ class Home extends StatelessWidget {
     return Scaffold(
       backgroundColor: colorBody,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         toolbarHeight: 120,
         title: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Image(
-                image: AssetImage('assets/ku.png'),
+                image: AssetImage('assets/logo.png'),
                 fit: BoxFit.contain,
                 height: 70,
                 width: 70,

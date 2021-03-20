@@ -97,226 +97,230 @@ class _AddActFormsState extends State<AddActForms> {
   String dropDownValue = 'NONE';
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-          child: TextField(
-            decoration: InputDecoration(
-              helperText: 'Enter a name of a activity',
-            ),
-            controller: nameInputController,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-          child: DropdownButton<String>(
-            value: dropDownValue,
-            icon: Icon(Icons.arrow_drop_down_outlined),
-            iconSize: 25,
-            elevation: 15,
-            style: TextStyle(color: Colors.black),
-            onChanged: (String newValue) {
-              setState(() {
-                dropDownValue = newValue;
-                categoryInputController.text = dropDownValue;
-              });
-            },
-            items: <String>['GYM', 'WORK', 'NONE']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-          child: IconPicker(
-            initialValue: null,
-            icon: Icon(Icons.apps),
-            labelText: "Icon",
-            title: "Select an icon",
-            cancelBtn: 'Cancel',
-            enableSearch: false,
-            iconCollection: iconsCollection,
-            controller: iconInputController,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-          child: Container(
-            height: 50,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                colorSwitch(Colors.red, 'red', colorInputController),
-                colorSwitch(Colors.black, 'black', colorInputController),
-                colorSwitch(Colors.blue, 'blue', colorInputController),
-                colorSwitch(Colors.green, 'green', colorInputController),
-                colorSwitch(Colors.pink, 'pink', colorInputController),
-                colorSwitch(Colors.yellow, 'yellow', colorInputController),
-                colorSwitch(
-                    Colors.lightBlue, 'lightBlue', colorInputController),
-                colorSwitch(
-                    Colors.lightGreen, 'lightGreen', colorInputController),
-                colorSwitch(Colors.purple, 'purple', colorInputController),
-                colorSwitch(
-                    Colors.amberAccent, 'amberAccent', colorInputController),
-              ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 70, left: 30, right: 30),
+            child: TextField(
+              decoration: InputDecoration(
+                helperText: 'Enter a name of a activity',
+              ),
+              controller: nameInputController,
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-          child: TextField(
-            decoration: InputDecoration(
-              helperText: 'Enter notes',
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+            child: TextField(
+              decoration: InputDecoration(
+                helperText: 'Enter notes',
+              ),
+              controller: notesInputController,
             ),
-            controller: notesInputController,
           ),
-        ),
-        Column(
-          children: [
-            Text(
-              'Choose date',
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 10,
             ),
-            InkWell(
-              onTap: () {
-                _selectedDate(context);
+            child: DropdownButton<String>(
+              value: dropDownValue,
+              icon: Icon(Icons.arrow_drop_down_outlined),
+              iconSize: 25,
+              elevation: 15,
+              style: TextStyle(color: Colors.black),
+              onChanged: (String newValue) {
+                setState(() {
+                  dropDownValue = newValue;
+                  categoryInputController.text = dropDownValue;
+                });
               },
-              child: Container(
-                child: TextFormField(
-                  style: TextStyle(fontSize: 25),
-                  textAlign: TextAlign.center,
-                  onSaved: (String val) {
-                    _setDate = val;
-                  },
-                  enabled: false,
-                  controller: _dateController,
-                  decoration: InputDecoration(
-                      disabledBorder:
-                          UnderlineInputBorder(borderSide: BorderSide.none)),
+              items: <String>['GYM', 'WORK', 'NONE']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+            child: IconPicker(
+              initialValue: null,
+              icon: Icon(Icons.apps),
+              labelText: "Icon",
+              title: "Select an icon",
+              cancelBtn: 'Cancel',
+              enableSearch: false,
+              iconCollection: iconsCollection,
+              controller: iconInputController,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+            child: Container(
+              height: 50,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  colorSwitch(Colors.red, 'red', colorInputController),
+                  colorSwitch(Colors.black, 'black', colorInputController),
+                  colorSwitch(Colors.blue, 'blue', colorInputController),
+                  colorSwitch(Colors.green, 'green', colorInputController),
+                  colorSwitch(Colors.pink, 'pink', colorInputController),
+                  colorSwitch(Colors.yellow, 'yellow', colorInputController),
+                  colorSwitch(
+                      Colors.lightBlue, 'lightBlue', colorInputController),
+                  colorSwitch(
+                      Colors.lightGreen, 'lightGreen', colorInputController),
+                  colorSwitch(Colors.purple, 'purple', colorInputController),
+                  colorSwitch(
+                      Colors.amberAccent, 'amberAccent', colorInputController),
+                ],
+              ),
+            ),
+          ),
+          Column(
+            children: [
+              Text(
+                'Choose date',
+              ),
+              InkWell(
+                onTap: () {
+                  _selectedDate(context);
+                },
+                child: Container(
+                  child: TextFormField(
+                    style: TextStyle(fontSize: 25),
+                    textAlign: TextAlign.center,
+                    onSaved: (String val) {
+                      _setDate = val;
+                    },
+                    enabled: false,
+                    controller: _dateController,
+                    decoration: InputDecoration(
+                        disabledBorder:
+                            UnderlineInputBorder(borderSide: BorderSide.none)),
+                  ),
                 ),
               ),
-            ),
-            Text(
-              'Choose time',
-            ),
-            InkWell(
-              onTap: () {
-                _selectedTime(context);
-              },
-              child: Container(
-                child: TextFormField(
-                  style: TextStyle(fontSize: 25),
-                  textAlign: TextAlign.center,
-                  onSaved: (String val) {
-                    _setTime = val;
-                  },
-                  enabled: false,
-                  keyboardType: TextInputType.text,
-                  controller: _timeController,
-                  decoration: InputDecoration(
-                      disabledBorder:
-                          UnderlineInputBorder(borderSide: BorderSide.none)),
+              Text(
+                'Choose time',
+              ),
+              InkWell(
+                onTap: () {
+                  _selectedTime(context);
+                },
+                child: Container(
+                  child: TextFormField(
+                    style: TextStyle(fontSize: 25),
+                    textAlign: TextAlign.center,
+                    onSaved: (String val) {
+                      _setTime = val;
+                    },
+                    enabled: false,
+                    keyboardType: TextInputType.text,
+                    controller: _timeController,
+                    decoration: InputDecoration(
+                        disabledBorder:
+                            UnderlineInputBorder(borderSide: BorderSide.none)),
+                  ),
                 ),
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FlatButton(
+                child: Text(
+                  'Save',
+                  style: TextStyle(fontSize: 25),
+                ),
+                onPressed: () {
+                  if (nameInputController.text.isNotEmpty) {
+                    Firestore.instance.collection('test').add({
+                      'name': nameInputController.text,
+                      'category': categoryInputController.text,
+                      'ikona': iconInputController.text,
+                      'date': _dateController.text,
+                      'barva': colorInputController.text,
+                      'time': _timeController.text,
+                      'timestamp': dt,
+                      'notes': notesInputController.text,
+                    }).then((response) {
+                      print(response.documentID);
+                      Navigator.pop(context);
+                      nameInputController.clear();
+                      categoryInputController.clear();
+                      iconInputController.clear();
+                      _dateController.clear();
+                      _timeController.clear();
+                      colorInputController.clear();
+                      notesInputController.clear();
+                    }).catchError((error) => print(error));
+                  }
+                },
               ),
-            )
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FlatButton(
-              child: Text(
-                'Save',
-                style: TextStyle(fontSize: 25),
-              ),
-              onPressed: () {
-                if (nameInputController.text.isNotEmpty) {
-                  Firestore.instance.collection('test').add({
-                    'name': nameInputController.text,
-                    'category': categoryInputController.text,
-                    'ikona': iconInputController.text,
-                    'date': _dateController.text,
-                    'barva': colorInputController.text,
-                    'time': _timeController.text,
-                    'timestamp': dt,
-                    'notes': notesInputController.text,
-                  }).then((response) {
-                    print(response.documentID);
-                    Navigator.pop(context);
-                    nameInputController.clear();
-                    categoryInputController.clear();
-                    iconInputController.clear();
-                    _dateController.clear();
-                    _timeController.clear();
-                    colorInputController.clear();
-                    notesInputController.clear();
-                  }).catchError((error) => print(error));
-                }
-              },
-            ),
-            FlatButton(
-              child: Text(
-                'Cancel',
-                style: TextStyle(fontSize: 25),
-              ),
-              onPressed: () {
-                if (nameInputController.text.isNotEmpty &&
-                    iconInputController.text.isNotEmpty &&
-                    categoryInputController.text.isNotEmpty &&
-                    _dateController.text.isNotEmpty &&
-                    _timeController.text.isNotEmpty &&
-                    colorInputController.text.isNotEmpty &&
-                    notesInputController.text.isNotEmpty) {
-                  return showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('Do you really want exit?'),
-                          content: SingleChildScrollView(
-                            child: ListBody(
-                              children: [
-                                Text(
-                                    'You make some changes do you really want to exit?')
-                              ],
+              FlatButton(
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(fontSize: 25),
+                ),
+                onPressed: () {
+                  if (nameInputController.text.isNotEmpty ||
+                      iconInputController.text.isNotEmpty ||
+                      categoryInputController.text.isNotEmpty ||
+                      _dateController.text.isNotEmpty ||
+                      _timeController.text.isNotEmpty ||
+                      colorInputController.text.isNotEmpty ||
+                      notesInputController.text.isNotEmpty) {
+                    return showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Do you really want exit?'),
+                            content: SingleChildScrollView(
+                              child: ListBody(
+                                children: [
+                                  Text(
+                                      'You make some changes do you really want to exit?')
+                                ],
+                              ),
                             ),
-                          ),
-                          actions: [
-                            TextButton(
-                              child: Text('Yes'),
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (builder) => HomeScreen()));
-                              },
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('No'),
-                            )
-                          ],
-                        );
-                      });
-                }
-                nameInputController.clear();
-                categoryInputController.clear();
-                iconInputController.clear();
-                _dateController.clear();
-                _timeController.clear();
-                colorInputController.clear();
-                notesInputController.clear();
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-      ],
+                            actions: [
+                              TextButton(
+                                child: Text('Yes'),
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (builder) => HomeScreen()));
+                                },
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('No'),
+                              )
+                            ],
+                          );
+                        });
+                  }
+                  nameInputController.clear();
+                  categoryInputController.clear();
+                  iconInputController.clear();
+                  _dateController.clear();
+                  _timeController.clear();
+                  colorInputController.clear();
+                  notesInputController.clear();
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
