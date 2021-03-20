@@ -77,7 +77,6 @@ class AddCategory extends StatelessWidget {
             snapshotData['name'],
             style: TextStyle(fontSize: 20),
           ),
-          subtitle: Text('${snapshotData['date']}, ${snapshotData['time']}'),
         ),
       ),
     );
