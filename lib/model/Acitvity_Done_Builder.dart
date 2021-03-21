@@ -1,30 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:todoList/ui/addActivity.dart';
+import 'package:todoList/model/Activity_Done_Show.dart';
+import 'package:todoList/model/Activity_Future_Show.dart';
 
-class Activity extends StatefulWidget {
-  @override
-  _ActivityState createState() => _ActivityState();
-}
-
-class _ActivityState extends State<Activity> {
+class ActivityDoneBuilder extends StatelessWidget {
   var firestoreDb = Firestore.instance.collection("test").snapshots();
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: firestoreDb,
+      stream: Firestore.instance.collection('test').orderBy('date').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return CircularProgressIndicator();
         return ListView.builder(
+          shrinkWrap: true,
           itemCount: snapshot.data.documents.length,
           itemBuilder: (context, int index) {
-            return AddActivity(snapshot: snapshot.data, index: index);
+            return ActivityDoneShow(snapshot: snapshot.data, index: index);
           },
         );
       },

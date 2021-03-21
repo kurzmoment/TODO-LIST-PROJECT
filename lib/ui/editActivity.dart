@@ -6,7 +6,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:todoList/home.dart';
-import 'package:todoList/ui/activities.dart';
 import 'package:we_slide/we_slide.dart';
 
 class EditActSlide extends StatefulWidget {

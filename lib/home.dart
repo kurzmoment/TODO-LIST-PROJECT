@@ -1,13 +1,16 @@
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:todoList/model/Acitvity_Done_Builder.dart';
+import 'package:todoList/model/Activity_Future_Builder.dart';
+import 'package:todoList/model/Activity_This_Week_Builder.dart';
+import 'package:todoList/model/Activity_Today_Builder.dart';
 import 'package:todoList/ui/addBackdrop.dart';
 import 'package:todoList/ui/categ.dart';
 import 'ui/calendaryWithAct.dart';
 import 'package:todoList/ui/profilePage.dart';
 import 'package:todoList/ui/settings.dart';
 import 'hexcolor.dart';
-import 'package:todoList/ui/activities.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -16,6 +19,7 @@ class HomeScreen extends StatelessWidget {
       //theme: lightThemeData(context),
       //darkTheme: darkThemeData(context),
       home: Home(),
+      theme: ThemeData(fontFamily: 'OpenSans'),
       navigatorKey: null,
     );
   }
@@ -51,7 +55,7 @@ class Home extends StatelessWidget {
               child: Text(
                 '${dateFormat.toString()}',
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 15,
                   color: Colors.black,
                 ),
               ),
@@ -84,7 +88,7 @@ class Home extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Activity(),
+        child: displayActivity(),
       ),
       bottomNavigationBar: new BottomAppBar(
         color: colorBottom,
@@ -134,4 +138,43 @@ class Home extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget displayActivity() {
+  return ListView(
+    children: [
+      Text(
+        'Activities you\'ve done',
+        style: TextStyle(fontSize: 20),
+      ),
+      Divider(
+        color: Colors.black38,
+      ),
+      ActivityDoneBuilder(),
+      Text(
+        'Today',
+        style: TextStyle(fontSize: 20),
+      ),
+      Divider(
+        color: Colors.black38,
+      ),
+      ActivityTodayBuilder(),
+      Text(
+        'In few days',
+        style: TextStyle(fontSize: 20),
+      ),
+      Divider(
+        color: Colors.black38,
+      ),
+      ActivityThisWeekBuilder(),
+      Text(
+        'Future activities',
+        style: TextStyle(fontSize: 20),
+      ),
+      Divider(
+        color: Colors.black38,
+      ),
+      ActivityFutureBuilder(),
+    ],
+  );
 }
