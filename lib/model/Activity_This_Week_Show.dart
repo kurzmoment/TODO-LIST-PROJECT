@@ -103,9 +103,7 @@ class _ActivityThisWeekShowState extends State<ActivityThisWeekShow> {
     var selectedDate = DateFormat('dd/MM/yyyy').parse(_dateController.text);
     final double _panelMinSize = 60.0;
     final double _panelMaxSize = MediaQuery.of(context).size.height / 1.5;
-    if (selectedDate != formatedDate && selectedDate.isBefore(formatedDate)) {
-      return Text('Nothing for today');
-    } else if (selectedDate.isAfter(formatedDate) &&
+    if (selectedDate.isAfter(formatedDate) &&
         selectedDate.isBefore(formattedThisWeek)) {
       return Slidable(
         actionPane: SlidableDrawerActionPane(),
