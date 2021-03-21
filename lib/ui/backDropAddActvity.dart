@@ -5,6 +5,9 @@ import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:todoList/home.dart';
 import 'package:date_format/date_format.dart';
+import 'package:todoList/ui/category.dart';
+import 'package:todoList/ui/categ.dart';
+import 'package:todoList/ui/categoryadd.dart';
 
 class AddActForms extends StatefulWidget {
   @override
@@ -13,6 +16,7 @@ class AddActForms extends StatefulWidget {
 
 class _AddActFormsState extends State<AddActForms> {
   // DATE AND TIME PICK
+
   String _setTime, _setDate;
   String _hour, _minute, _time;
   String dateTime;
@@ -95,6 +99,7 @@ class _AddActFormsState extends State<AddActForms> {
     'default': FontAwesomeIcons.question
   };
   String dropDownValue = 'NONE';
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -109,28 +114,8 @@ class _AddActFormsState extends State<AddActForms> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-          child: DropdownButton<String>(
-            value: dropDownValue,
-            icon: Icon(Icons.arrow_drop_down_outlined),
-            iconSize: 25,
-            elevation: 15,
-            style: TextStyle(color: Colors.black),
-            onChanged: (String newValue) {
-              setState(() {
-                dropDownValue = newValue;
-                categoryInputController.text = dropDownValue;
-              });
-            },
-            items: <String>['GYM', 'WORK', 'NONE']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          ),
-        ),
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+            child: Categoryforactiv()),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
           child: IconPicker(

@@ -5,7 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
-import 'categ.dart';
+import 'category.dart';
 import 'package:todoList/ui/editActivity.dart';
 import 'package:we_slide/we_slide.dart';
 
@@ -34,7 +34,6 @@ class AddCategory extends StatelessWidget {
     'purple': Colors.purple,
     'amberAccent': Colors.amberAccent
   };
-  final firebaseDB = Firestore.instance.collection('Category').snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +76,46 @@ class AddCategory extends StatelessWidget {
             snapshotData['name'],
             style: TextStyle(fontSize: 20),
           ),
-          subtitle: Text('${snapshotData['date']}, ${snapshotData['time']}'),
         ),
       ),
+    );
+  }
+}
+
+class AddCategoryforActiv extends StatelessWidget {
+  // PROBIHAJICI TESTOVANI
+
+  TextEditingController categoryInputController;
+
+  final QuerySnapshot snapshot;
+  final int index;
+  AddCategoryforActiv({Key key, this.snapshot, this.index}) : super(key: key);
+  String dropDownValue = 'NONE';
+
+  @override
+  Widget build(BuildContext context) {
+    var snapshotData = snapshot.documents[index].data;
+    var docID = snapshot.documents[index].documentID;
+
+    return DropdownButton<String>(
+      value: dropDownValue,
+      icon: Icon(Icons.arrow_drop_down_outlined),
+      iconSize: 25,
+      elevation: 15,
+      style: TextStyle(color: Colors.black),
+      onChanged: (String newValue) {
+        {
+          dropDownValue = newValue;
+          categoryInputController.text = dropDownValue;
+        }
+      },
+      items: <String>[snapshotData['name']]
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
   }
 }
