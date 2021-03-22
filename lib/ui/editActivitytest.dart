@@ -1,29 +1,86 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:todoList/home.dart';
-import 'package:date_format/date_format.dart';
-import 'package:todoList/ui/category.dart';
-import 'package:todoList/ui/categ.dart';
-import 'package:todoList/ui/categoryadd.dart';
+import 'package:we_slide/we_slide.dart';
 
-class AddActForms extends StatefulWidget {
+import '../home.dart';
+
+class EditActTest extends StatelessWidget {
   @override
-  _AddActFormsState createState() => _AddActFormsState();
+  Widget build(BuildContext context) {
+    final firestoreDb = Firestore.instance.collection('test').snapshots();
+    final double _panelMinSize = 60.0;
+    final double _panelMaxSize = MediaQuery.of(context).size.height / 1.5;
+    return Scaffold(
+      body: WeSlide(
+        controller: WeSlideController(),
+        panelMinSize: _panelMinSize,
+        panelMaxSize: _panelMaxSize,
+        body: HomeScreen(),
+        panel: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: StreamBuilder(
+            stream: firestoreDb,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) return CircularProgressIndicator();
+              return ListView.builder(
+                itemCount: snapshot.data.documents.length,
+                itemBuilder: (context, int index) {
+                  return EditActivityTest(
+                    index: index,
+                    snapshot: snapshot.data,
+                  );
+                },
+              );
+            },
+          ),
+        ),
+        panelHeader: Container(
+          alignment: Alignment.center,
+          child: Text(
+            'Edit activity',
+            style: TextStyle(fontSize: 20, color: Colors.white),
+          ),
+          color: Colors.blue,
+          height: _panelMinSize,
+        ),
+        blurSigma: 0.75,
+        blur: true,
+        parallax: true,
+        bodyBorderRadiusBegin: 20,
+        panelBorderRadiusEnd: 20,
+        parallaxOffset: 0,
+        overlayOpacity: 10,
+        hidePanelHeader: false,
+      ),
+    );
+  }
 }
 
-class _AddActFormsState extends State<AddActForms> {
-  // DATE AND TIME PICK
+class EditActivityTest extends StatefulWidget {
+  final QuerySnapshot snapshot;
+  final int index;
 
+  const EditActivityTest({Key key, this.snapshot, this.index})
+      : super(key: key);
+  @override
+  _EditActivityTestState createState() => _EditActivityTestState();
+}
+
+class _EditActivityTestState extends State<EditActivityTest> {
   String _setTime, _setDate;
   String _hour, _minute, _time;
   String dateTime;
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
-  TextEditingController _dateController = TextEditingController();
-  TextEditingController _timeController = TextEditingController();
+  TextEditingController _dateController;
+  TextEditingController _timeController;
+  TextEditingController nameInputController;
+  TextEditingController iconInputController;
+  TextEditingController colorInputController;
 
   Future<Null> _selectedDate(BuildContext context) async {
     var selectedDate = DateTime.now();
@@ -60,23 +117,15 @@ class _AddActFormsState extends State<AddActForms> {
     }
   }
 
-  // DATE AND TIME PICK
-  TextEditingController nameInputController;
-  TextEditingController notesInputController;
-  TextEditingController categoryInputController;
-  TextEditingController iconInputController;
-  TextEditingController colorInputController;
-
   void initState() {
     super.initState();
-    iconInputController = new TextEditingController();
-    nameInputController = new TextEditingController();
-    notesInputController = new TextEditingController();
-    categoryInputController = new TextEditingController();
-    iconInputController = new TextEditingController();
-    colorInputController = new TextEditingController();
-    _dateController = new TextEditingController();
-    _timeController = new TextEditingController();
+    //iconInputController = new TextEditingController();
+    //nameInputController = new TextEditingController();
+    //categoryInputController = new TextEditingController();
+    //iconInputController = new TextEditingController();
+    //colorInputController = new TextEditingController();
+    //_dateController = new TextEditingController();
+    //_timeController = new TextEditingController();
     _dateController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
     _timeController.text = formatDate(
         DateTime(2021, 03, 16, selectedTime.hour, selectedTime.minute),
@@ -84,8 +133,6 @@ class _AddActFormsState extends State<AddActForms> {
   }
 
   String initalValue = 'icon';
-  var _d1;
-  var _t1;
   DateTime dt = new DateTime.now();
   Color screenPickerColor = Colors.black;
 
@@ -98,97 +145,36 @@ class _AddActFormsState extends State<AddActForms> {
     'repair': FontAwesomeIcons.tools,
     'default': FontAwesomeIcons.question
   };
-  String dropDownValue = 'NONE';
-
+  final firebaseDB = Firestore.instance.collection('test').snapshots();
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    //final firestoreDb = Firestore.instance.collection('test').snapshots();
+    var snapshotData = widget.snapshot.documents[widget.index].data;
+    var docID = widget.snapshot.documents[widget.index].documentID;
+    TextEditingController nameInputController =
+        TextEditingController(text: snapshotData['name']);
+    TextEditingController iconInputController =
+        TextEditingController(text: snapshotData['ikona']);
+    TextEditingController colorInputController =
+        TextEditingController(text: snapshotData['barva']);
+    TextEditingController _dateController =
+        TextEditingController(text: snapshotData['date']);
+    TextEditingController _timeController =
+        TextEditingController(text: snapshotData['time']);
+    return Padding(
+      padding: const EdgeInsets.only(top: 50),
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 70, left: 30, right: 30),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
             child: TextField(
+              autofocus: true,
+              autocorrect: true,
+              maxLines: 1,
               decoration: InputDecoration(
                 helperText: 'Enter a name of a activity',
               ),
               controller: nameInputController,
-            ),
-<<<<<<< HEAD
-            controller: nameInputController,
-          ),
-        ),
-        Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-            child: Categoryforactiv()),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-          child: IconPicker(
-            initialValue: null,
-            icon: Icon(Icons.apps),
-            labelText: "Icon",
-            title: "Select an icon",
-            cancelBtn: 'Cancel',
-            enableSearch: false,
-            iconCollection: iconsCollection,
-            controller: iconInputController,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-          child: Container(
-            height: 50,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                colorSwitch(Colors.red, 'red', colorInputController),
-                colorSwitch(Colors.black, 'black', colorInputController),
-                colorSwitch(Colors.blue, 'blue', colorInputController),
-                colorSwitch(Colors.green, 'green', colorInputController),
-                colorSwitch(Colors.pink, 'pink', colorInputController),
-                colorSwitch(Colors.yellow, 'yellow', colorInputController),
-                colorSwitch(
-                    Colors.lightBlue, 'lightBlue', colorInputController),
-                colorSwitch(
-                    Colors.lightGreen, 'lightGreen', colorInputController),
-                colorSwitch(Colors.purple, 'purple', colorInputController),
-                colorSwitch(
-                    Colors.amberAccent, 'amberAccent', colorInputController),
-              ],
-=======
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            child: TextField(
-              decoration: InputDecoration(
-                helperText: 'Enter notes',
-              ),
-              controller: notesInputController,
->>>>>>> c318aa8b3ab3c47046ab6bdf218d01e45a291609
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10,
-            ),
-            child: DropdownButton<String>(
-              value: dropDownValue,
-              icon: Icon(Icons.arrow_drop_down_outlined),
-              iconSize: 25,
-              elevation: 15,
-              style: TextStyle(color: Colors.black),
-              onChanged: (String newValue) {
-                setState(() {
-                  dropDownValue = newValue;
-                  categoryInputController.text = dropDownValue;
-                });
-              },
-              items: <String>['GYM', 'WORK', 'NONE']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
             ),
           ),
           Padding(
@@ -286,27 +272,25 @@ class _AddActFormsState extends State<AddActForms> {
                   style: TextStyle(fontSize: 25),
                 ),
                 onPressed: () {
-                  if (nameInputController.text.isNotEmpty) {
-                    Firestore.instance.collection('test').add({
+                  if (nameInputController.text.isNotEmpty &&
+                      iconInputController.text.isNotEmpty &&
+                      _dateController.text.isNotEmpty &&
+                      colorInputController.text.isNotEmpty &&
+                      _timeController.text.isNotEmpty) {
+                    debugPrint('EDITNUTO');
+                    Firestore.instance
+                        .collection('test')
+                        .document(docID)
+                        .updateData({
                       'name': nameInputController.text,
-                      'category': categoryInputController.text,
                       'ikona': iconInputController.text,
                       'date': _dateController.text,
                       'barva': colorInputController.text,
                       'time': _timeController.text,
                       'timestamp': dt,
-                      'notes': notesInputController.text,
                     }).then((response) {
-                      print(response.documentID);
                       Navigator.pop(context);
-                      nameInputController.clear();
-                      categoryInputController.clear();
-                      iconInputController.clear();
-                      _dateController.clear();
-                      _timeController.clear();
-                      colorInputController.clear();
-                      notesInputController.clear();
-                    }).catchError((error) => print(error));
+                    });
                   }
                 },
               ),
@@ -316,13 +300,11 @@ class _AddActFormsState extends State<AddActForms> {
                   style: TextStyle(fontSize: 25),
                 ),
                 onPressed: () {
-                  if (nameInputController.text.isNotEmpty ||
-                      iconInputController.text.isNotEmpty ||
-                      categoryInputController.text.isNotEmpty ||
-                      _dateController.text.isNotEmpty ||
-                      _timeController.text.isNotEmpty ||
-                      colorInputController.text.isNotEmpty ||
-                      notesInputController.text.isNotEmpty) {
+                  if (nameInputController.text.isNotEmpty &&
+                      iconInputController.text.isNotEmpty &&
+                      _dateController.text.isNotEmpty &&
+                      _timeController.text.isNotEmpty &&
+                      colorInputController.text.isNotEmpty) {
                     return showDialog(
                         context: context,
                         barrierDismissible: false,
@@ -356,12 +338,10 @@ class _AddActFormsState extends State<AddActForms> {
                         });
                   }
                   nameInputController.clear();
-                  categoryInputController.clear();
                   iconInputController.clear();
                   _dateController.clear();
                   _timeController.clear();
                   colorInputController.clear();
-                  notesInputController.clear();
                   Navigator.pop(context);
                 },
               ),

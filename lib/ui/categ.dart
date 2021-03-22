@@ -1,6 +1,7 @@
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:todoList/home.dart';
 import 'categoryaddBackdrop.dart';
 import 'package:todoList/ui/category.dart';
 import 'package:todoList/ui/categoryaddBackdrop.dart';
@@ -92,7 +93,10 @@ class CategoryHome extends StatelessWidget {
           children: [
             IconButton(
               icon: Icon(Icons.home),
-              onPressed: () => debugPrint('Home'),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
+              },
             ),
             IconButton(
               icon: Icon(Icons.account_circle),

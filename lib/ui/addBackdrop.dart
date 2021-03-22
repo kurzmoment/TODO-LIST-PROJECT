@@ -29,22 +29,17 @@ class _AddActState extends State<AddAct> {
         ),
         panelHeader: Container(
           alignment: Alignment.center,
+          color: Colors.blue,
+          height: _panelMinSize,
           child: Text(
             'Add activity',
             style: TextStyle(fontSize: 20, color: Colors.white),
           ),
-          color: Colors.blue,
-          height: _panelMinSize,
         ),
-        // BLUR
         blurSigma: 0.75,
         blur: true,
-        //transformScale: true,
-        //transformScaleEnd: 0.95,
-        // BLUR
-        parallax: false,
-        bodyBorderRadiusBegin: 20,
-        panelBorderRadiusEnd: 20,
+        panelBorderRadiusBegin: 0,
+        panelBorderRadiusEnd: 25,
         parallaxOffset: 0,
         overlayOpacity: 10,
         hidePanelHeader: false,
