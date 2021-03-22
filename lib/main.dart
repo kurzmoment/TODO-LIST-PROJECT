@@ -5,5 +5,5 @@ import 'package:todoList/ui/registerPage.dart';
 import 'home.dart';
 
 void main() {
-  runApp(HomeScreen());
+  runApp(LoginPage());
 }

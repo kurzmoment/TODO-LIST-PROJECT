@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todoList/hexcolor.dart';
+import 'package:todoList/home.dart';
 import 'package:todoList/ui/loginpage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterPage extends StatelessWidget {
   // Map<String, IconData> iconPack = {
@@ -15,7 +17,7 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: HexColor('#D5F3EF'),
+        backgroundColor: HexColor('#73BAF5'),
         body: Container(
           child: Register(),
         ),
@@ -30,6 +32,10 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _rePasswordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -53,16 +59,14 @@ class _RegisterState extends State<Register> {
             padding: const EdgeInsets.only(left: 15, bottom: 20),
             child: Text(
               'Register',
-              style: TextStyle(fontSize: 40, color: Colors.blueAccent.shade200),
+              style: TextStyle(fontSize: 40, color: Colors.white),
             ),
           ),
         ),
-        inputText('Email'),
-        emailForm(),
-        inputText('Password'),
-        passwordForm(),
-        inputText('Confirm password'),
-        passwordConfirmForm(),
+        userNameForm(_usernameController),
+        emailForm(_emailController),
+        passwordForm(_passwordController),
+        passwordConfirmForm(_rePasswordController),
         Padding(
           padding: const EdgeInsets.only(top: 25, left: 1),
           child: Row(
@@ -84,11 +88,34 @@ class _RegisterState extends State<Register> {
         Container(
           width: 20,
           child: Padding(
-            padding: const EdgeInsets.all(40),
+            padding: const EdgeInsets.only(top: 0, left: 40, right: 40),
             child: ElevatedButton(
               style: ButtonStyle(),
               child: Text('Register'),
-              onPressed: () => debugPrint('Register'),
+              onPressed: () async {
+                try {
+                  FirebaseUser user = (await FirebaseAuth.instance
+                          .createUserWithEmailAndPassword(
+                    email: _emailController.text,
+                    password: _passwordController.text,
+                  ))
+                      .user;
+                  if (user != null) {
+                    UserUpdateInfo updateUser = UserUpdateInfo();
+                    updateUser.displayName = _usernameController.text;
+                    user.updateProfile(updateUser);
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                  }
+                } catch (e) {
+                  print(e);
+                  _passwordController.text = '';
+                  _rePasswordController.text = '';
+                  _emailController.text = '';
+                  _usernameController.text = '';
+                  // TODO: alertDialog with error
+                }
+              },
             ),
           ),
         )
@@ -97,49 +124,43 @@ class _RegisterState extends State<Register> {
   }
 }
 
-Widget inputText(String thing) {
-  return Container(
-    alignment: Alignment.centerLeft,
+Widget emailForm(TextEditingController _emailController) {
+  return Padding(
+    padding: const EdgeInsets.only(left: 15, right: 100),
     child: Padding(
-      padding: const EdgeInsets.only(left: 15, top: 10),
-      child: Text(
-        '${thing}',
-        style: TextStyle(fontSize: 15, color: Colors.blueAccent.shade200),
-      ),
-    ),
-  );
-}
-
-Widget emailForm() {
-  return Padding(
-    padding: const EdgeInsets.only(left: 15, right: 100),
-    child: Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: Colors.blue.shade100, width: 2),
-      ),
-      child: TextField(
+      padding: const EdgeInsets.only(left: 10),
+      child: TextFormField(
+        controller: _emailController,
         decoration: InputDecoration(
-          border: InputBorder.none,
+          hintText: 'Email',
+          labelText: 'Email',
+          hintStyle: TextStyle(color: Colors.white),
+          labelStyle: TextStyle(
+            color: Colors.white,
+          ),
         ),
       ),
     ),
   );
 }
 
-Widget passwordForm() {
+Widget passwordForm(TextEditingController _passwordController) {
   return Padding(
     padding: const EdgeInsets.only(left: 15, right: 100),
     child: Column(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(color: Colors.blue.shade100, width: 2),
-          ),
-          child: TextField(
+        Padding(
+          padding: const EdgeInsets.only(left: 10),
+          child: TextFormField(
+            obscureText: true,
+            controller: _passwordController,
             decoration: InputDecoration(
-              border: InputBorder.none,
+              hintText: 'Password',
+              labelText: 'Password',
+              hintStyle: TextStyle(color: Colors.white),
+              labelStyle: TextStyle(
+                color: Colors.white,
+              ),
             ),
           ),
         ),
@@ -148,23 +169,48 @@ Widget passwordForm() {
   );
 }
 
-Widget passwordConfirmForm() {
+Widget passwordConfirmForm(TextEditingController _rePasswordController) {
   return Padding(
     padding: const EdgeInsets.only(left: 15, right: 100),
     child: Column(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(color: Colors.blue.shade100, width: 2),
-          ),
-          child: TextField(
+        Padding(
+          padding: const EdgeInsets.only(left: 10),
+          child: TextFormField(
+            obscureText: true,
+            controller: _rePasswordController,
             decoration: InputDecoration(
-              border: InputBorder.none,
+              hintText: 'Re-enter Password',
+              labelText: 'Re-enter Password',
+              hintStyle: TextStyle(color: Colors.white),
+              labelStyle: TextStyle(
+                color: Colors.white,
+              ),
             ),
           ),
         ),
       ],
+    ),
+  );
+}
+
+Widget userNameForm(TextEditingController _usernameController) {
+  return Padding(
+    padding: const EdgeInsets.only(left: 15, right: 100),
+    child: Padding(
+      padding: const EdgeInsets.only(left: 10),
+      child: TextField(
+        controller: _usernameController,
+        decoration: InputDecoration(
+          focusColor: Colors.white,
+          hintText: 'Username',
+          labelText: 'Username',
+          hintStyle: TextStyle(color: Colors.white),
+          labelStyle: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
     ),
   );
 }
