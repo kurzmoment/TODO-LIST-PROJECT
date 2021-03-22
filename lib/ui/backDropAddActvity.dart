@@ -113,48 +113,6 @@ class _AddActFormsState extends State<AddActForms> {
               ),
               controller: nameInputController,
             ),
-<<<<<<< HEAD
-            controller: nameInputController,
-          ),
-        ),
-        Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-            child: Categoryforactiv()),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-          child: IconPicker(
-            initialValue: null,
-            icon: Icon(Icons.apps),
-            labelText: "Icon",
-            title: "Select an icon",
-            cancelBtn: 'Cancel',
-            enableSearch: false,
-            iconCollection: iconsCollection,
-            controller: iconInputController,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-          child: Container(
-            height: 50,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                colorSwitch(Colors.red, 'red', colorInputController),
-                colorSwitch(Colors.black, 'black', colorInputController),
-                colorSwitch(Colors.blue, 'blue', colorInputController),
-                colorSwitch(Colors.green, 'green', colorInputController),
-                colorSwitch(Colors.pink, 'pink', colorInputController),
-                colorSwitch(Colors.yellow, 'yellow', colorInputController),
-                colorSwitch(
-                    Colors.lightBlue, 'lightBlue', colorInputController),
-                colorSwitch(
-                    Colors.lightGreen, 'lightGreen', colorInputController),
-                colorSwitch(Colors.purple, 'purple', colorInputController),
-                colorSwitch(
-                    Colors.amberAccent, 'amberAccent', colorInputController),
-              ],
-=======
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
@@ -163,7 +121,6 @@ class _AddActFormsState extends State<AddActForms> {
                 helperText: 'Enter notes',
               ),
               controller: notesInputController,
->>>>>>> c318aa8b3ab3c47046ab6bdf218d01e45a291609
             ),
           ),
           Padding(
