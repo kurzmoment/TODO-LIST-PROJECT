@@ -12,7 +12,7 @@ class ActivityTodayBuilder extends StatelessWidget {
         if (!snapshot.hasData) return CircularProgressIndicator();
         return ListView.builder(
           shrinkWrap: true,
-          itemCount: snapshot.data.documents.length,
+          itemCount: snapshot.data.docs.length,
           itemBuilder: (context, int index) {
             return ActivityTodayShow(snapshot: snapshot.data, index: index);
           },

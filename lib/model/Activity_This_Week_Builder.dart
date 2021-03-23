@@ -12,7 +12,7 @@ class ActivityThisWeekBuilder extends StatelessWidget {
         if (!snapshot.hasData) return CircularProgressIndicator();
         return ListView.builder(
           shrinkWrap: true,
-          itemCount: snapshot.data.documents.length,
+          itemCount: snapshot.data.docs.length,
           itemBuilder: (context, int index) {
             return ActivityThisWeekShow(snapshot: snapshot.data, index: index);
           },
