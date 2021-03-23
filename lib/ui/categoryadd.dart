@@ -3,11 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:icon_picker/icon_picker.dart';
-import 'package:intl/intl.dart';
-import 'category.dart';
-import 'package:todoList/ui/editActivity.dart';
-import 'package:we_slide/we_slide.dart';
 
 class AddCategory extends StatelessWidget {
   // PROBIHAJICI TESTOVANI
@@ -37,8 +32,8 @@ class AddCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var snapshotData = snapshot.documents[index].data;
-    var docID = snapshot.documents[index].documentID;
+    var snapshotData = snapshot.docs[index].data;
+    var docID = snapshot.docs[index].id;
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
       secondaryActions: [
@@ -54,7 +49,8 @@ class AddCategory extends StatelessWidget {
           color: Colors.red,
           caption: 'Delete',
           onTap: () async {
-            var collectionReference = Firestore.instance.collection("Category");
+            var collectionReference =
+                FirebaseFirestore.instance.collection("Category");
             await collectionReference
                 .document(docID)
                 .delete()
@@ -68,7 +64,7 @@ class AddCategory extends StatelessWidget {
           leading: Padding(
             padding: const EdgeInsets.all(4.0),
             child: Icon(
-              iconMapping[snapshotData['ikona']],
+              iconMapping[snapshotData],
               color: colorsMapping[snapshotData['barva']],
             ),
           ),
@@ -94,8 +90,8 @@ class AddCategoryforActiv extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var snapshotData = snapshot.documents[index].data;
-    var docID = snapshot.documents[index].documentID;
+    var snapshotData = snapshot.docs[index].data;
+    var docID = snapshot.docs[index].id;
 
     return DropdownButton<String>(
       value: dropDownValue,

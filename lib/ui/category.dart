@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'categoryadd.dart';
 import 'package:todoList/ui/categoryadd.dart';
-import 'backDropAddActvity.dart';
 
 class Category extends StatefulWidget {
   @override
@@ -10,7 +9,8 @@ class Category extends StatefulWidget {
 }
 
 class _CategoryState extends State<Category> {
-  var firestoreDb = Firestore.instance.collection("Category").snapshots();
+  var firestoreDb =
+      FirebaseFirestore.instance.collection("Category").snapshots();
 
   @override
   void initState() {
@@ -40,7 +40,8 @@ class Categoryforactiv extends StatefulWidget {
 }
 
 class _CategoryStateforactiv extends State<Categoryforactiv> {
-  var firestoreDb = Firestore.instance.collection("Category").snapshots();
+  var firestoreDb =
+      FirebaseFirestore.instance.collection("Category").snapshots();
 
   @override
   void initState() {

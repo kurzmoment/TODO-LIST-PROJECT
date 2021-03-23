@@ -16,7 +16,8 @@ class EditActSlide extends StatefulWidget {
 class _EditActSlideState extends State<EditActSlide> {
   @override
   Widget build(BuildContext context) {
-    final firestoreDb = Firestore.instance.collection('test').snapshots();
+    final firestoreDb =
+        FirebaseFirestore.instance.collection('test').snapshots();
     final double _panelMinSize = 60.0;
     final double _panelMaxSize = MediaQuery.of(context).size.height / 1.5;
     return Scaffold(
@@ -130,11 +131,11 @@ class EditActivity extends StatelessWidget {
     'repair': FontAwesomeIcons.tools,
     'default': FontAwesomeIcons.question
   };
-  final firebaseDB = Firestore.instance.collection('test').snapshots();
+  final firebaseDB = FirebaseFirestore.instance.collection('test').snapshots();
   @override
   Widget build(BuildContext context) {
-    var snapshotData = snapshot.documents[index].data;
-    var docID = snapshot.documents[index].documentID;
+    var snapshotData = snapshot.docs[index].data;
+    var docID = snapshot.docs[index].id;
     TextEditingController nameInputController =
         TextEditingController(text: snapshotData['name']);
     TextEditingController iconInputController =
@@ -258,9 +259,9 @@ class EditActivity extends StatelessWidget {
                       _dateController.text.isNotEmpty &&
                       colorInputController.text.isNotEmpty &&
                       _timeController.text.isNotEmpty) {
-                    Firestore.instance
+                    FirebaseFirestore.instance
                         .collection('test')
-                        .document(docID)
+                        .id(docID)
                         .updateData({
                       'name': nameInputController.text,
                       'ikona': iconInputController.text,

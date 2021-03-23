@@ -104,12 +104,12 @@ class _AddCatFormsState extends State<AddCatForms> {
               ),
               onPressed: () {
                 if (nameInputController.text.isNotEmpty) {
-                  Firestore.instance.collection('Category').add({
+                  FirebaseFirestore.instance.collection('Category').add({
                     'name': nameInputController.text,
                     'ikona': iconInputController.text,
                     'barva': colorInputController.text,
                   }).then((response) {
-                    print(response.documentID);
+                    print(response.id);
                     Navigator.pop(context);
                     nameInputController.clear();
 

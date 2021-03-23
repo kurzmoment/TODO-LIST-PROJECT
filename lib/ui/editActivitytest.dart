@@ -11,7 +11,8 @@ import '../home.dart';
 class EditActTest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final firestoreDb = Firestore.instance.collection('test').snapshots();
+    final firestoreDb =
+        FirebaseFirestore.instance.collection('test').snapshots();
     final double _panelMinSize = 60.0;
     final double _panelMaxSize = MediaQuery.of(context).size.height / 1.5;
     return Scaffold(
@@ -145,12 +146,12 @@ class _EditActivityTestState extends State<EditActivityTest> {
     'repair': FontAwesomeIcons.tools,
     'default': FontAwesomeIcons.question
   };
-  final firebaseDB = Firestore.instance.collection('test').snapshots();
+  final firebaseDB = FirebaseFirestore.instance.collection('test').snapshots();
   @override
   Widget build(BuildContext context) {
     //final firestoreDb = Firestore.instance.collection('test').snapshots();
-    var snapshotData = widget.snapshot.documents[widget.index].data;
-    var docID = widget.snapshot.documents[widget.index].documentID;
+    var snapshotData = widget.snapshot.docs[widget.index].data;
+    var docID = widget.snapshot.docs[widget.index].id;
     TextEditingController nameInputController =
         TextEditingController(text: snapshotData['name']);
     TextEditingController iconInputController =
@@ -278,7 +279,7 @@ class _EditActivityTestState extends State<EditActivityTest> {
                       colorInputController.text.isNotEmpty &&
                       _timeController.text.isNotEmpty) {
                     debugPrint('EDITNUTO');
-                    Firestore.instance
+                    FirebaseFirestore.instance
                         .collection('test')
                         .document(docID)
                         .updateData({
