@@ -134,18 +134,24 @@ class EditActivity extends StatelessWidget {
   final firebaseDB = FirebaseFirestore.instance.collection('test').snapshots();
   @override
   Widget build(BuildContext context) {
+    var snapshotName = snapshot.docs[index].get('name');
+    var snapshotIkona = snapshot.docs[index].get('ikona');
+    var snapshotBarva = snapshot.docs[index].get('barva');
+    var snapshotDate = snapshot.docs[index].get('date');
+    var snapshotTime = snapshot.docs[index].get('time');
+    var snapshotNotes = snapshot.docs[index].get('notes');
     var snapshotData = snapshot.docs[index].data;
     var docID = snapshot.docs[index].id;
     TextEditingController nameInputController =
-        TextEditingController(text: snapshotData['name']);
+        TextEditingController(text: snapshotName);
     TextEditingController iconInputController =
-        TextEditingController(text: snapshotData['ikona']);
+        TextEditingController(text: snapshotIkona);
     TextEditingController colorInputController =
-        TextEditingController(text: snapshotData['barva']);
+        TextEditingController(text: snapshotBarva);
     TextEditingController _dateController =
-        TextEditingController(text: snapshotData['date']);
+        TextEditingController(text: snapshotDate);
     TextEditingController _timeController =
-        TextEditingController(text: snapshotData['time']);
+        TextEditingController(text: snapshotTime);
     return Padding(
       padding: const EdgeInsets.only(top: 50),
       child: Column(
@@ -159,92 +165,6 @@ class EditActivity extends StatelessWidget {
               controller: nameInputController,
             ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-          //   child: IconPicker(
-          //     initialValue: null,
-          //     icon: Icon(Icons.apps),
-          //     labelText: "Icon",
-          //     title: "Select an icon",
-          //     cancelBtn: 'Cancel',
-          //     enableSearch: false,
-          //     iconCollection: iconsCollection,
-          //     controller: iconInputController,
-          //   ),
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-          //   child: Container(
-          //     height: 50,
-          //     child: ListView(
-          //       scrollDirection: Axis.horizontal,
-          //       children: [
-          //         colorSwitch(Colors.red, 'red', colorInputController),
-          //         colorSwitch(Colors.black, 'black', colorInputController),
-          //         colorSwitch(Colors.blue, 'blue', colorInputController),
-          //         colorSwitch(Colors.green, 'green', colorInputController),
-          //         colorSwitch(Colors.pink, 'pink', colorInputController),
-          //         colorSwitch(Colors.yellow, 'yellow', colorInputController),
-          //         colorSwitch(
-          //             Colors.lightBlue, 'lightBlue', colorInputController),
-          //         colorSwitch(
-          //             Colors.lightGreen, 'lightGreen', colorInputController),
-          //         colorSwitch(Colors.purple, 'purple', colorInputController),
-          //         colorSwitch(
-          //             Colors.amberAccent, 'amberAccent', colorInputController),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          // Column(
-          //   children: [
-          //     Text(
-          //       'Choose date',
-          //     ),
-          //     InkWell(
-          //       onTap: () {
-          //         _selectedDate(context);
-          //       },
-          //       child: Container(
-          //         child: TextFormField(
-          //           style: TextStyle(fontSize: 25),
-          //           textAlign: TextAlign.center,
-          //           onSaved: (String val) {
-          //             _setDate = val;
-          //           },
-          //           enabled: false,
-          //           controller: _dateController,
-          //           decoration: InputDecoration(
-          //               disabledBorder:
-          //                   UnderlineInputBorder(borderSide: BorderSide.none)),
-          //         ),
-          //       ),
-          //     ),
-          //     Text(
-          //       'Choose time',
-          //     ),
-          //     InkWell(
-          //       onTap: () {
-          //         _selectedTime(context);
-          //       },
-          //       child: Container(
-          //         child: TextFormField(
-          //           style: TextStyle(fontSize: 25),
-          //           textAlign: TextAlign.center,
-          //           onSaved: (String val) {
-          //             _setTime = val;
-          //           },
-          //           enabled: false,
-          //           keyboardType: TextInputType.text,
-          //           controller: _timeController,
-          //           decoration: InputDecoration(
-          //               disabledBorder:
-          //                   UnderlineInputBorder(borderSide: BorderSide.none)),
-          //         ),
-          //       ),
-          //     )
-          //   ],
-          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -261,8 +181,8 @@ class EditActivity extends StatelessWidget {
                       _timeController.text.isNotEmpty) {
                     FirebaseFirestore.instance
                         .collection('test')
-                        .id(docID)
-                        .updateData({
+                        .doc(docID)
+                        .update({
                       'name': nameInputController.text,
                       'ikona': iconInputController.text,
                       'date': _dateController.text,

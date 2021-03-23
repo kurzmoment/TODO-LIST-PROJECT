@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:todoList/model/Activity_Today_Show.dart';
 
 class ActivityTodayBuilder extends StatelessWidget {
-  var firestoreDb = Firestore.instance.collection("test").snapshots();
+  var firestoreDb = FirebaseFirestore.instance.collection("test").snapshots();
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(

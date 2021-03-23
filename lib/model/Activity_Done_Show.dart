@@ -77,20 +77,26 @@ class _ActivityDoneState extends State<ActivityDoneShow> {
       'purple': Colors.purple,
       'amberAccent': Colors.amberAccent
     };
-    var snapshotData = widget.snapshot.documents[widget.index].data;
-    var docID = widget.snapshot.documents[widget.index].documentID;
+    var snapshotName = widget.snapshot.docs[widget.index].get('name');
+    var snapshotIkona = widget.snapshot.docs[widget.index].get('ikona');
+    var snapshotBarva = widget.snapshot.docs[widget.index].get('barva');
+    var snapshotDate = widget.snapshot.docs[widget.index].get('date');
+    var snapshotTime = widget.snapshot.docs[widget.index].get('time');
+    var snapshotNotes = widget.snapshot.docs[widget.index].get('notes');
+    var snapshotData = widget.snapshot.docs[widget.index].data;
+    var docID = widget.snapshot.docs[widget.index].id;
     TextEditingController nameInputController =
-        TextEditingController(text: snapshotData['name']);
+        TextEditingController(text: snapshotName);
     TextEditingController iconInputController =
-        TextEditingController(text: snapshotData['ikona']);
+        TextEditingController(text: snapshotIkona);
     TextEditingController colorInputController =
-        TextEditingController(text: snapshotData['barva']);
+        TextEditingController(text: snapshotBarva);
     TextEditingController _dateController =
-        TextEditingController(text: snapshotData['date']);
+        TextEditingController(text: snapshotDate);
     TextEditingController _timeController =
-        TextEditingController(text: snapshotData['time']);
+        TextEditingController(text: snapshotTime);
     TextEditingController notesInputController =
-        TextEditingController(text: snapshotData['notes']);
+        TextEditingController(text: snapshotNotes);
 
     DateTime today = new DateTime.now();
     DateTime formatedDate = today.subtract(Duration(
@@ -114,7 +120,7 @@ class _ActivityDoneState extends State<ActivityDoneShow> {
             onTap: () async {
               await showDialog(
                 context: context,
-                child: Scaffold(
+                builder: (context) => Scaffold(
                   body: WeSlide(
                     controller: WeSlideController(),
                     blurSigma: 0.75,
@@ -299,10 +305,10 @@ class _ActivityDoneState extends State<ActivityDoneShow> {
                                         _dateController.text.isNotEmpty &&
                                         colorInputController.text.isNotEmpty &&
                                         _timeController.text.isNotEmpty) {
-                                      Firestore.instance
+                                      FirebaseFirestore.instance
                                           .collection('test')
-                                          .document(docID)
-                                          .updateData({
+                                          .doc(docID)
+                                          .update({
                                         'name': nameInputController.text,
                                         'ikona': iconInputController.text,
                                         'date': _dateController.text,
@@ -386,9 +392,10 @@ class _ActivityDoneState extends State<ActivityDoneShow> {
             color: Colors.red,
             caption: 'Delete',
             onTap: () async {
-              var collectionReference = Firestore.instance.collection("test");
+              var collectionReference =
+                  FirebaseFirestore.instance.collection("test");
               await collectionReference
-                  .document(docID)
+                  .doc(docID)
                   .delete()
                   .catchError((error) => print("$error"));
             },
@@ -400,15 +407,15 @@ class _ActivityDoneState extends State<ActivityDoneShow> {
             leading: Padding(
               padding: const EdgeInsets.all(4.0),
               child: Icon(
-                iconsCollection[snapshotData['ikona']],
-                color: colorsMapping[snapshotData['barva']],
+                iconsCollection[snapshotIkona],
+                color: colorsMapping[snapshotBarva],
               ),
             ),
             title: Text(
-              snapshotData['name'],
+              snapshotName,
               style: TextStyle(fontSize: 20),
             ),
-            subtitle: Text('${snapshotData['date']}, ${snapshotData['time']}'),
+            subtitle: Text('${snapshotDate}, ${snapshotTime}'),
           ),
         ),
       );

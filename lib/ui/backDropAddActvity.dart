@@ -244,7 +244,7 @@ class _AddActFormsState extends State<AddActForms> {
                 ),
                 onPressed: () {
                   if (nameInputController.text.isNotEmpty) {
-                    Firestore.instance.collection('test').add({
+                    FirebaseFirestore.instance.collection('test').add({
                       'name': nameInputController.text,
                       'category': categoryInputController.text,
                       'ikona': iconInputController.text,
@@ -254,7 +254,7 @@ class _AddActFormsState extends State<AddActForms> {
                       'timestamp': dt,
                       'notes': notesInputController.text,
                     }).then((response) {
-                      print(response.documentID);
+                      print(response.id);
                       Navigator.pop(context);
                       nameInputController.clear();
                       categoryInputController.clear();

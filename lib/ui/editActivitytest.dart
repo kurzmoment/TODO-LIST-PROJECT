@@ -149,19 +149,24 @@ class _EditActivityTestState extends State<EditActivityTest> {
   final firebaseDB = FirebaseFirestore.instance.collection('test').snapshots();
   @override
   Widget build(BuildContext context) {
-    //final firestoreDb = Firestore.instance.collection('test').snapshots();
+    var snapshotName = widget.snapshot.docs[widget.index].get('name');
+    var snapshotIkona = widget.snapshot.docs[widget.index].get('ikona');
+    var snapshotBarva = widget.snapshot.docs[widget.index].get('barva');
+    var snapshotDate = widget.snapshot.docs[widget.index].get('date');
+    var snapshotTime = widget.snapshot.docs[widget.index].get('time');
+    var snapshotNotes = widget.snapshot.docs[widget.index].get('notes');
     var snapshotData = widget.snapshot.docs[widget.index].data;
     var docID = widget.snapshot.docs[widget.index].id;
     TextEditingController nameInputController =
-        TextEditingController(text: snapshotData['name']);
+        TextEditingController(text: snapshotName);
     TextEditingController iconInputController =
-        TextEditingController(text: snapshotData['ikona']);
+        TextEditingController(text: snapshotIkona);
     TextEditingController colorInputController =
-        TextEditingController(text: snapshotData['barva']);
+        TextEditingController(text: snapshotBarva);
     TextEditingController _dateController =
-        TextEditingController(text: snapshotData['date']);
+        TextEditingController(text: snapshotDate);
     TextEditingController _timeController =
-        TextEditingController(text: snapshotData['time']);
+        TextEditingController(text: snapshotTime);
     return Padding(
       padding: const EdgeInsets.only(top: 50),
       child: Column(
@@ -281,8 +286,8 @@ class _EditActivityTestState extends State<EditActivityTest> {
                     debugPrint('EDITNUTO');
                     FirebaseFirestore.instance
                         .collection('test')
-                        .document(docID)
-                        .updateData({
+                        .doc(docID)
+                        .update({
                       'name': nameInputController.text,
                       'ikona': iconInputController.text,
                       'date': _dateController.text,

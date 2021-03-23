@@ -32,6 +32,9 @@ class AddCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var snapshotName = snapshot.docs[index].get('name');
+    var snapshotIkona = snapshot.docs[index].get('ikona');
+    var snapshotBarva = snapshot.docs[index].get('barva');
     var snapshotData = snapshot.docs[index].data;
     var docID = snapshot.docs[index].id;
     return Slidable(
@@ -52,7 +55,7 @@ class AddCategory extends StatelessWidget {
             var collectionReference =
                 FirebaseFirestore.instance.collection("Category");
             await collectionReference
-                .document(docID)
+                .doc(docID)
                 .delete()
                 .catchError((error) => print("$error"));
           },
@@ -64,12 +67,12 @@ class AddCategory extends StatelessWidget {
           leading: Padding(
             padding: const EdgeInsets.all(4.0),
             child: Icon(
-              iconMapping[snapshotData],
-              color: colorsMapping[snapshotData['barva']],
+              iconMapping[snapshotIkona],
+              color: colorsMapping[snapshotBarva],
             ),
           ),
           title: Text(
-            snapshotData['name'],
+            snapshotName,
             style: TextStyle(fontSize: 20),
           ),
         ),
@@ -90,6 +93,8 @@ class AddCategoryforActiv extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var snapshotName = snapshot.docs[index].get('name');
+
     var snapshotData = snapshot.docs[index].data;
     var docID = snapshot.docs[index].id;
 
@@ -105,8 +110,8 @@ class AddCategoryforActiv extends StatelessWidget {
           categoryInputController.text = dropDownValue;
         }
       },
-      items: <String>[snapshotData['name']]
-          .map<DropdownMenuItem<String>>((String value) {
+      items:
+          <String>[snapshotName].map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),

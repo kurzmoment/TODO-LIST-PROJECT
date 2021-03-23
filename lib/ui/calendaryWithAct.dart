@@ -17,7 +17,7 @@ class ListOfActivities extends StatelessWidget {
   final colorBody = HexColor('EEFCFA');
   final colorTop = HexColor('A1E7F7');
 
-  final firebaseDB = Firestore.instance.collection('test').snapshots();
+  final firebaseDB = FirebaseFirestore.instance.collection('test').snapshots();
   static var date = DateTime.now();
   final dateFormat = DateFormat('EEEE / dd.MM.yyyy').format(date);
 
