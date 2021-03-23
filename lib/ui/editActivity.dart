@@ -3,7 +3,6 @@ import 'package:date_format/date_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:todoList/home.dart';
 import 'package:we_slide/we_slide.dart';
@@ -117,8 +116,6 @@ class EditActivity extends StatelessWidget {
   }
 
   String initalValue = 'icon';
-  var _d1;
-  var _t1;
   DateTime dt = new DateTime.now();
   Color screenPickerColor = Colors.black;
 
@@ -139,8 +136,6 @@ class EditActivity extends StatelessWidget {
     var snapshotBarva = snapshot.docs[index].get('barva');
     var snapshotDate = snapshot.docs[index].get('date');
     var snapshotTime = snapshot.docs[index].get('time');
-    var snapshotNotes = snapshot.docs[index].get('notes');
-    var snapshotData = snapshot.docs[index].data;
     var docID = snapshot.docs[index].id;
     TextEditingController nameInputController =
         TextEditingController(text: snapshotName);
@@ -168,7 +163,7 @@ class EditActivity extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              FlatButton(
+              TextButton(
                 child: Text(
                   'Save',
                   style: TextStyle(fontSize: 25),
@@ -195,7 +190,7 @@ class EditActivity extends StatelessWidget {
                   }
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: Text(
                   'Cancel',
                   style: TextStyle(fontSize: 25),

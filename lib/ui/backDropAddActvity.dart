@@ -1,14 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:todoList/home.dart';
 import 'package:date_format/date_format.dart';
-import 'package:todoList/ui/category.dart';
-import 'package:todoList/ui/categ.dart';
-import 'package:todoList/ui/categoryadd.dart';
 
 class AddActForms extends StatefulWidget {
   @override
@@ -84,8 +80,6 @@ class _AddActFormsState extends State<AddActForms> {
   }
 
   String initalValue = 'icon';
-  var _d1;
-  var _t1;
   DateTime dt = new DateTime.now();
   Color screenPickerColor = Colors.black;
 
@@ -237,7 +231,7 @@ class _AddActFormsState extends State<AddActForms> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              FlatButton(
+              TextButton(
                 child: Text(
                   'Save',
                   style: TextStyle(fontSize: 25),
@@ -267,7 +261,7 @@ class _AddActFormsState extends State<AddActForms> {
                   }
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: Text(
                   'Cancel',
                   style: TextStyle(fontSize: 25),

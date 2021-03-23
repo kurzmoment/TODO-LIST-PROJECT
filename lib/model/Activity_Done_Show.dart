@@ -83,7 +83,6 @@ class _ActivityDoneState extends State<ActivityDoneShow> {
     var snapshotDate = widget.snapshot.docs[widget.index].get('date');
     var snapshotTime = widget.snapshot.docs[widget.index].get('time');
     var snapshotNotes = widget.snapshot.docs[widget.index].get('notes');
-    var snapshotData = widget.snapshot.docs[widget.index].data;
     var docID = widget.snapshot.docs[widget.index].id;
     TextEditingController nameInputController =
         TextEditingController(text: snapshotName);
@@ -105,7 +104,6 @@ class _ActivityDoneState extends State<ActivityDoneShow> {
         seconds: today.second,
         milliseconds: today.millisecond,
         microseconds: today.microsecond));
-    DateTime formattedThisWeek = formatedDate.add(Duration(days: 7));
     var selectedDate = DateFormat('dd/MM/yyyy').parse(_dateController.text);
     final double _panelMinSize = 60.0;
     final double _panelMaxSize = MediaQuery.of(context).size.height / 1.5;
@@ -294,7 +292,7 @@ class _ActivityDoneState extends State<ActivityDoneShow> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                FlatButton(
+                                TextButton(
                                   child: Text(
                                     'Save',
                                     style: TextStyle(fontSize: 25),
@@ -322,7 +320,7 @@ class _ActivityDoneState extends State<ActivityDoneShow> {
                                     }
                                   },
                                 ),
-                                FlatButton(
+                                TextButton(
                                   child: Text(
                                     'Cancel',
                                     style: TextStyle(fontSize: 25),

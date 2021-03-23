@@ -83,7 +83,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
     var snapshotDate = widget.snapshot.docs[widget.index].get('date');
     var snapshotTime = widget.snapshot.docs[widget.index].get('time');
     var snapshotNotes = widget.snapshot.docs[widget.index].get('notes');
-    var snapshotData = widget.snapshot.docs[widget.index].data;
     var docID = widget.snapshot.docs[widget.index].id;
     TextEditingController nameInputController =
         TextEditingController(text: snapshotName);
@@ -105,11 +104,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
         seconds: today.second,
         milliseconds: today.millisecond,
         microseconds: today.microsecond));
-    DateTime formattedThisWeek = formatedDate.add(Duration(days: 7));
-    DateTime formattedThisMonth = formatedDate.add(Duration(days: 30));
     var selectedDate = DateFormat('dd/MM/yyyy').parse(_dateController.text);
-    final DateFormat formatter = DateFormat('dd/MM/yyyy');
-    String date = formatter.format(formatedDate);
     final double _panelMinSize = 60.0;
     final double _panelMaxSize = MediaQuery.of(context).size.height / 1.5;
     if (selectedDate.isAtSameMomentAs(formatedDate)) {
@@ -297,7 +292,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                FlatButton(
+                                TextButton(
                                   child: Text(
                                     'Save',
                                     style: TextStyle(fontSize: 25),
@@ -325,7 +320,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                     }
                                   },
                                 ),
-                                FlatButton(
+                                TextButton(
                                   child: Text(
                                     'Cancel',
                                     style: TextStyle(fontSize: 25),

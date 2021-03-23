@@ -97,7 +97,7 @@ class _AddCatFormsState extends State<AddCatForms> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FlatButton(
+            TextButton(
               child: Text(
                 'Save',
                 style: TextStyle(fontSize: 25),
@@ -120,7 +120,7 @@ class _AddCatFormsState extends State<AddCatForms> {
                 }
               },
             ),
-            FlatButton(
+            TextButton(
               child: Text(
                 'Cancel',
                 style: TextStyle(fontSize: 25),

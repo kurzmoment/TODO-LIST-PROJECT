@@ -83,8 +83,6 @@ class _ActivityFutureShowState extends State<ActivityFutureShow> {
     var snapshotDate = widget.snapshot.docs[widget.index].get('date');
     var snapshotTime = widget.snapshot.docs[widget.index].get('time');
     var snapshotNotes = widget.snapshot.docs[widget.index].get('notes');
-
-    var snapshotData = widget.snapshot.docs[widget.index].data;
     var docID = widget.snapshot.docs[widget.index].id;
     TextEditingController nameInputController =
         TextEditingController(text: snapshotName);
@@ -295,7 +293,7 @@ class _ActivityFutureShowState extends State<ActivityFutureShow> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                FlatButton(
+                                TextButton(
                                   child: Text(
                                     'Save',
                                     style: TextStyle(fontSize: 25),
@@ -323,7 +321,7 @@ class _ActivityFutureShowState extends State<ActivityFutureShow> {
                                     }
                                   },
                                 ),
-                                FlatButton(
+                                TextButton(
                                   child: Text(
                                     'Cancel',
                                     style: TextStyle(fontSize: 25),

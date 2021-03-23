@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:todoList/model/Activity_This_Week_Show.dart';
 
 class ActivityThisWeekBuilder extends StatelessWidget {
-  var firestoreDb = FirebaseFirestore.instance.collection("test").snapshots();
+  final firestoreDb = FirebaseFirestore.instance.collection("test").snapshots();
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(

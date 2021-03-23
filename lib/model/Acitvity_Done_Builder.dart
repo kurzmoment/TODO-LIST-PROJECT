@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:todoList/model/Activity_Done_Show.dart';
-import 'package:todoList/model/Activity_Future_Show.dart';
 
 class ActivityDoneBuilder extends StatelessWidget {
-  var firestoreDb =
+  final firestoreDb =
       FirebaseFirestore.instance.collection("test").orderBy('date').snapshots();
   @override
   Widget build(BuildContext context) {

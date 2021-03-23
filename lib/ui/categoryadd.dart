@@ -35,7 +35,6 @@ class AddCategory extends StatelessWidget {
     var snapshotName = snapshot.docs[index].get('name');
     var snapshotIkona = snapshot.docs[index].get('ikona');
     var snapshotBarva = snapshot.docs[index].get('barva');
-    var snapshotData = snapshot.docs[index].data;
     var docID = snapshot.docs[index].id;
     return Slidable(
       actionPane: SlidableDrawerActionPane(),
@@ -82,10 +81,7 @@ class AddCategory extends StatelessWidget {
 }
 
 class AddCategoryforActiv extends StatelessWidget {
-  // PROBIHAJICI TESTOVANI
-
   TextEditingController categoryInputController;
-
   final QuerySnapshot snapshot;
   final int index;
   AddCategoryforActiv({Key key, this.snapshot, this.index}) : super(key: key);
@@ -94,10 +90,6 @@ class AddCategoryforActiv extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var snapshotName = snapshot.docs[index].get('name');
-
-    var snapshotData = snapshot.docs[index].data;
-    var docID = snapshot.docs[index].id;
-
     return DropdownButton<String>(
       value: dropDownValue,
       icon: Icon(Icons.arrow_drop_down_outlined),
