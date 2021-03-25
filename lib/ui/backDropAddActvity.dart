@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
@@ -237,6 +238,8 @@ class _AddActFormsState extends State<AddActForms> {
                 ),
                 onPressed: () {
                   if (_nameController.text.isNotEmpty) {
+                    var auth = FirebaseAuth.instance;
+                    var userName = auth.currentUser.displayName;
                     addActivityUID(
                             _nameController,
                             _categoryController,
@@ -245,7 +248,8 @@ class _AddActFormsState extends State<AddActForms> {
                             _colorController,
                             _timeController,
                             _notesController,
-                            dt)
+                            dt,
+                            userName)
                         .then((response) {
                       Navigator.pop(context);
                       _nameController.clear();

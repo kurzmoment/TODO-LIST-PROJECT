@@ -5,7 +5,9 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:todoList/util/userSetup.dart';
 import 'package:we_slide/we_slide.dart';
+import 'package:todoList/util/userSetup.dart';
 
 import '../home.dart';
 
@@ -13,14 +15,22 @@ class ActivityTodayShow extends StatefulWidget {
   final QuerySnapshot snapshot;
   final int index;
 
-  const ActivityTodayShow({Key key, this.snapshot, this.index})
-      : super(key: key);
+  const ActivityTodayShow({
+    Key key,
+    this.snapshot,
+    this.index,
+  }) : super(key: key);
 
   @override
   _ActivityTodayShowState createState() => _ActivityTodayShowState();
 }
 
 class _ActivityTodayShowState extends State<ActivityTodayShow> {
+  // activityShowToday(
+  //     BuildContext context,  , String name) {
+  //   return document['${name}'];
+  // }
+
   TextEditingController nameInputController;
   TextEditingController iconInputController;
   TextEditingController colorInputController;
@@ -304,7 +314,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                         colorInputController.text.isNotEmpty &&
                                         _timeController.text.isNotEmpty) {
                                       FirebaseFirestore.instance
-                                          .collection('test')
+                                          .collection('activity')
                                           .doc(docID)
                                           .update({
                                         'name': nameInputController.text,
@@ -390,10 +400,10 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
             color: Colors.red,
             caption: 'Delete',
             onTap: () async {
-              var collectionReference =
-                  FirebaseFirestore.instance.collection("test");
+              var collectionReference = FirebaseFirestore.instance
+                  .collection("userData/${getUID().toString()}");
               await collectionReference
-                  .doc(docID)
+                  .doc(getUID().toString())
                   .delete()
                   .catchError((error) => print("$error"));
             },

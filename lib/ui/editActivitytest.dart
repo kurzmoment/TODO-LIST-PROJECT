@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:todoList/util/userSetup.dart';
 import 'package:we_slide/we_slide.dart';
 
 import '../home.dart';
@@ -283,7 +284,7 @@ class _EditActivityTestState extends State<EditActivityTest> {
                       _timeController.text.isNotEmpty) {
                     debugPrint('EDITNUTO');
                     FirebaseFirestore.instance
-                        .collection('test')
+                        .collection('userData/${getUID}/activity')
                         .doc(docID)
                         .update({
                       'name': nameInputController.text,

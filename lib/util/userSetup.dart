@@ -3,16 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 Future<void> userSetup(String displayName) async {
+  //DateTime dt = DateTime.now();
   FirebaseAuth auth = FirebaseAuth.instance;
   String uid = auth.currentUser.uid.toString();
   CollectionReference users = FirebaseFirestore.instance
       .collection('userData')
       .doc(uid)
       .collection('activity');
-  users.add({
-    'displayName': displayName,
-    'uid': uid,
-  });
   return;
 }
 
@@ -24,7 +21,8 @@ Future<void> addActivityUID(
     TextEditingController _colorController,
     TextEditingController _timeController,
     TextEditingController _notesController,
-    DateTime dt) async {
+    DateTime dt,
+    String displayName) async {
   FirebaseAuth auth = FirebaseAuth.instance;
   String uid = auth.currentUser.uid.toString();
   CollectionReference users = FirebaseFirestore.instance
@@ -32,6 +30,8 @@ Future<void> addActivityUID(
       .doc(uid)
       .collection('activity');
   users.add({
+    'displayName': displayName,
+    'uid': uid,
     'name': _nameController.text,
     'category': _categoryController.text,
     'ikona': _iconController.text,
@@ -42,4 +42,10 @@ Future<void> addActivityUID(
     'timestamp': dt,
   });
   return;
+}
+
+Future<String> getUID() async {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  var uid = auth.currentUser.uid.toString();
+  return uid;
 }
