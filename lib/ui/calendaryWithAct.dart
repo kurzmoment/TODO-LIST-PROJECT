@@ -1,24 +1,31 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:todoList/home.dart';
 import 'package:todoList/ui/addBackdrop.dart';
+import 'package:todoList/ui/categ.dart';
 import 'package:todoList/ui/profilePage.dart';
 
 import '../hexcolor.dart';
-import 'activities.dart';
 
-class ListOfActivities extends StatefulWidget {
-  @override
-  _ListOfActivitiesState createState() => _ListOfActivitiesState();
-}
-
-class _ListOfActivitiesState extends State<ListOfActivities> {
+class ListOfActivities extends StatelessWidget {
+  final QuerySnapshot snapshot;
+  final int index;
   final colorBottom = HexColor('FCEDC5');
   final colorActivity = HexColor('FF0000');
   final colorBody = HexColor('EEFCFA');
   final colorTop = HexColor('A1E7F7');
+
+  final firebaseDB = FirebaseFirestore.instance.collection('test').snapshots();
+  static var date = DateTime.now();
+  final dateFormat = DateFormat('EEEE / dd.MM.yyyy').format(date);
+
+  ListOfActivities({Key key, this.snapshot, this.index}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    // var snapshotData = snapshot.documents[index].data;
+    // var docID = snapshot.documents[index].documentID;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: colorTop,
@@ -32,6 +39,8 @@ class _ListOfActivitiesState extends State<ListOfActivities> {
         ),
       ),
       body: SfCalendar(
+        showDatePickerButton: true,
+        //dataSource: ,
         view: CalendarView.workWeek,
         timeSlotViewSettings: TimeSlotViewSettings(
           startHour: 6,
@@ -65,26 +74,45 @@ class _ListOfActivitiesState extends State<ListOfActivities> {
                 // do nothing
               },
             ),
+            IconButton(
+              icon: Icon(Icons.album),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => Categoryscreen()));
+              },
+            ),
           ],
         ),
       ),
-      floatingActionButton: Align(
-        child: FloatingActionButton(
-          child: Icon(
-            Icons.add,
-            size: 30,
-          ),
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                // ZATIM PRILIS NEFUNGUJE
-                builder: (context) => AddAct(),
-              ),
-            );
-          },
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(
+          Icons.add,
+          size: 30,
         ),
-        alignment: Alignment(1, 1.1),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddActcal()),
+          );
+        },
       ),
     );
   }
 }
+
+// class DataSource extends CalendarDataSource{
+//   DataSource(List<Appointment> source){
+//     appointments = source;
+//   }
+// }
+
+// DataSource _getCalendarDataSource(QuerySnapshot snapshot){
+//   List<Appointment> appointments = <Appointment>[];
+//   appointments.add(
+//     Appointment(
+//       startTime: snapshot.documents('test')
+//     )
+//   );
+// }

@@ -1,31 +1,28 @@
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:todoList/model/Acitvity_Done_Builder.dart';
-import 'package:todoList/model/Activity_Future_Builder.dart';
-import 'package:todoList/model/Activity_This_Week_Builder.dart';
-import 'package:todoList/model/Activity_Today_Builder.dart';
-import 'package:todoList/ui/addBackdrop.dart';
-import 'package:todoList/ui/categ.dart';
-import 'ui/calendaryWithAct.dart';
+import 'package:todoList/home.dart';
+import 'categoryaddBackdrop.dart';
+import 'package:todoList/ui/category.dart';
+import 'package:todoList/ui/categoryaddBackdrop.dart';
+import 'calendaryWithAct.dart';
 import 'package:todoList/ui/profilePage.dart';
 import 'package:todoList/ui/settings.dart';
-import 'hexcolor.dart';
+import 'package:todoList/hexcolor.dart';
+import 'category.dart';
 
-class HomeScreen extends StatelessWidget {
+class Categoryscreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       //theme: lightThemeData(context),
       //darkTheme: darkThemeData(context),
-      home: Home(),
-      theme: ThemeData(fontFamily: 'OpenSans'),
-      navigatorKey: null,
+      home: CategoryHome(),
     );
   }
 }
 
-class Home extends StatelessWidget {
+class CategoryHome extends StatelessWidget {
   final colorBottom = HexColor('FCEDC5');
   final colorActivity = HexColor('FF0000');
   final colorBody = HexColor('EEFCFA');
@@ -37,7 +34,6 @@ class Home extends StatelessWidget {
     return Scaffold(
       backgroundColor: colorBody,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         toolbarHeight: 120,
         title: Column(
           children: [
@@ -55,7 +51,7 @@ class Home extends StatelessWidget {
               child: Text(
                 '${dateFormat.toString()}',
                 style: TextStyle(
-                  fontSize: 15,
+                  fontSize: 12,
                   color: Colors.black,
                 ),
               ),
@@ -88,7 +84,7 @@ class Home extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: displayActivity(),
+        child: Category(),
       ),
       bottomNavigationBar: new BottomAppBar(
         color: colorBottom,
@@ -97,7 +93,10 @@ class Home extends StatelessWidget {
           children: [
             IconButton(
               icon: Icon(Icons.home),
-              onPressed: () => debugPrint('Home'),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
+              },
             ),
             IconButton(
               icon: Icon(Icons.account_circle),
@@ -132,49 +131,10 @@ class Home extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddAct()),
+            MaterialPageRoute(builder: (context) => AddCat()),
           );
         },
       ),
     );
   }
-}
-
-Widget displayActivity() {
-  return ListView(
-    children: [
-      Text(
-        'Activities you\'ve done',
-        style: TextStyle(fontSize: 20),
-      ),
-      Divider(
-        color: Colors.black38,
-      ),
-      ActivityDoneBuilder(),
-      Text(
-        'Today',
-        style: TextStyle(fontSize: 20),
-      ),
-      Divider(
-        color: Colors.black38,
-      ),
-      ActivityTodayBuilder(),
-      Text(
-        'In few days',
-        style: TextStyle(fontSize: 20),
-      ),
-      Divider(
-        color: Colors.black38,
-      ),
-      ActivityThisWeekBuilder(),
-      Text(
-        'Future activities',
-        style: TextStyle(fontSize: 20),
-      ),
-      Divider(
-        color: Colors.black38,
-      ),
-      ActivityFutureBuilder(),
-    ],
-  );
 }

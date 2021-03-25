@@ -1,15 +1,11 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todoList/hexcolor.dart';
+import 'package:todoList/home.dart';
+import 'package:todoList/ui/registerPage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatelessWidget {
-  // Map<String, IconData> iconPack = {
-  //   'apple': FontAwesomeIcons.apple,
-  //   'google': FontAwesomeIcons.google,
-  //   'facebook': FontAwesomeIcons.facebook
-  // };
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,6 +25,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -56,10 +54,8 @@ class _LoginState extends State<Login> {
             ),
           ),
         ),
-        inputText('Email'),
-        emailForm(),
-        inputText('Password'),
-        passwordForm(),
+        emailForm(_emailController),
+        passwordForm(_passwordController),
         Container(
           alignment: Alignment.centerLeft,
           child: Padding(
@@ -83,7 +79,8 @@ class _LoginState extends State<Login> {
         Container(
           alignment: Alignment(-0.9, 0),
           child: TextButton(
-            onPressed: () => debugPrint('New here? Register.'),
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => RegisterPage())),
             child: Text('New here? Register.'),
           ),
         ),
@@ -94,7 +91,25 @@ class _LoginState extends State<Login> {
             child: ElevatedButton(
               style: ButtonStyle(),
               child: Text('Login'),
-              onPressed: () => debugPrint('login'),
+              onPressed: () async {
+                try {
+                  User user =
+                      (await FirebaseAuth.instance.signInWithEmailAndPassword(
+                    email: _emailController.text,
+                    password: _passwordController.text,
+                  ))
+                          .user;
+                  if (user != null) {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                  }
+                } catch (e) {
+                  print(e);
+                  _emailController.text = '';
+                  _passwordController.text = '';
+                  //TODO : ALERTDIALOG
+                }
+              },
             ),
           ),
         )
@@ -103,50 +118,37 @@ class _LoginState extends State<Login> {
   }
 }
 
-Widget inputText(String thing) {
-  return Container(
-    alignment: Alignment.centerLeft,
-    child: Padding(
-      padding: const EdgeInsets.only(left: 15, top: 10),
-      child: Text(
-        '${thing}',
-        style: TextStyle(fontSize: 15, color: Colors.blueAccent.shade200),
-      ),
-    ),
-  );
-}
-
-Widget emailForm() {
+Widget emailForm(TextEditingController _emailController) {
   return Padding(
     padding: const EdgeInsets.only(left: 15, right: 100),
-    child: Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: Colors.blue.shade100, width: 2),
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-          border: InputBorder.none,
+    child: TextFormField(
+      controller: _emailController,
+      decoration: InputDecoration(
+        hintText: 'Email',
+        labelText: 'Email',
+        hintStyle: TextStyle(color: Colors.black),
+        labelStyle: TextStyle(
+          color: Colors.black,
         ),
       ),
     ),
   );
 }
 
-Widget passwordForm() {
+Widget passwordForm(TextEditingController _passwordController) {
   return Padding(
     padding: const EdgeInsets.only(left: 15, right: 100),
     child: Column(
       children: [
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(color: Colors.blue.shade100, width: 2),
-          ),
-          child: TextField(
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              suffixIcon: showPassword(),
+        TextFormField(
+          obscureText: true,
+          controller: _passwordController,
+          decoration: InputDecoration(
+            hintText: 'Password',
+            labelText: 'Password',
+            hintStyle: TextStyle(color: Colors.black),
+            labelStyle: TextStyle(
+              color: Colors.black,
             ),
           ),
         ),
