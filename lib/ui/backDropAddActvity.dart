@@ -5,6 +5,7 @@ import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:todoList/home.dart';
 import 'package:date_format/date_format.dart';
+import 'package:todoList/util/userSetup.dart';
 
 class AddActForms extends StatefulWidget {
   @override
@@ -12,7 +13,6 @@ class AddActForms extends StatefulWidget {
 }
 
 class _AddActFormsState extends State<AddActForms> {
-  // DATE AND TIME PICK
   String _setTime, _setDate;
   String _hour, _minute, _time;
   String dateTime;
@@ -57,20 +57,20 @@ class _AddActFormsState extends State<AddActForms> {
   }
 
   // DATE AND TIME PICK
-  TextEditingController nameInputController;
-  TextEditingController notesInputController;
-  TextEditingController categoryInputController;
-  TextEditingController iconInputController;
-  TextEditingController colorInputController;
+  TextEditingController _nameController;
+  TextEditingController _notesController;
+  TextEditingController _categoryController;
+  TextEditingController _iconController;
+  TextEditingController _colorController;
 
   void initState() {
     super.initState();
-    iconInputController = new TextEditingController();
-    nameInputController = new TextEditingController();
-    notesInputController = new TextEditingController();
-    categoryInputController = new TextEditingController();
-    iconInputController = new TextEditingController();
-    colorInputController = new TextEditingController();
+    _iconController = new TextEditingController();
+    _nameController = new TextEditingController();
+    _notesController = new TextEditingController();
+    _categoryController = new TextEditingController();
+    _iconController = new TextEditingController();
+    _colorController = new TextEditingController();
     _dateController = new TextEditingController();
     _timeController = new TextEditingController();
     _dateController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
@@ -105,7 +105,7 @@ class _AddActFormsState extends State<AddActForms> {
               decoration: InputDecoration(
                 helperText: 'Enter a name of a activity',
               ),
-              controller: nameInputController,
+              controller: _nameController,
             ),
           ),
           Padding(
@@ -114,7 +114,7 @@ class _AddActFormsState extends State<AddActForms> {
               decoration: InputDecoration(
                 helperText: 'Enter notes',
               ),
-              controller: notesInputController,
+              controller: _notesController,
             ),
           ),
           Padding(
@@ -130,7 +130,7 @@ class _AddActFormsState extends State<AddActForms> {
               onChanged: (String newValue) {
                 setState(() {
                   dropDownValue = newValue;
-                  categoryInputController.text = dropDownValue;
+                  _categoryController.text = dropDownValue;
                 });
               },
               items: <String>['GYM', 'WORK', 'NONE']
@@ -152,7 +152,7 @@ class _AddActFormsState extends State<AddActForms> {
               cancelBtn: 'Cancel',
               enableSearch: false,
               iconCollection: iconsCollection,
-              controller: iconInputController,
+              controller: _iconController,
             ),
           ),
           Padding(
@@ -162,19 +162,18 @@ class _AddActFormsState extends State<AddActForms> {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
-                  colorSwitch(Colors.red, 'red', colorInputController),
-                  colorSwitch(Colors.black, 'black', colorInputController),
-                  colorSwitch(Colors.blue, 'blue', colorInputController),
-                  colorSwitch(Colors.green, 'green', colorInputController),
-                  colorSwitch(Colors.pink, 'pink', colorInputController),
-                  colorSwitch(Colors.yellow, 'yellow', colorInputController),
+                  colorSwitch(Colors.red, 'red', _colorController),
+                  colorSwitch(Colors.black, 'black', _colorController),
+                  colorSwitch(Colors.blue, 'blue', _colorController),
+                  colorSwitch(Colors.green, 'green', _colorController),
+                  colorSwitch(Colors.pink, 'pink', _colorController),
+                  colorSwitch(Colors.yellow, 'yellow', _colorController),
+                  colorSwitch(Colors.lightBlue, 'lightBlue', _colorController),
                   colorSwitch(
-                      Colors.lightBlue, 'lightBlue', colorInputController),
+                      Colors.lightGreen, 'lightGreen', _colorController),
+                  colorSwitch(Colors.purple, 'purple', _colorController),
                   colorSwitch(
-                      Colors.lightGreen, 'lightGreen', colorInputController),
-                  colorSwitch(Colors.purple, 'purple', colorInputController),
-                  colorSwitch(
-                      Colors.amberAccent, 'amberAccent', colorInputController),
+                      Colors.amberAccent, 'amberAccent', _colorController),
                 ],
               ),
             ),
@@ -237,26 +236,25 @@ class _AddActFormsState extends State<AddActForms> {
                   style: TextStyle(fontSize: 25),
                 ),
                 onPressed: () {
-                  if (nameInputController.text.isNotEmpty) {
-                    FirebaseFirestore.instance.collection('test').add({
-                      'name': nameInputController.text,
-                      'category': categoryInputController.text,
-                      'ikona': iconInputController.text,
-                      'date': _dateController.text,
-                      'barva': colorInputController.text,
-                      'time': _timeController.text,
-                      'timestamp': dt,
-                      'notes': notesInputController.text,
-                    }).then((response) {
-                      print(response.id);
+                  if (_nameController.text.isNotEmpty) {
+                    addActivityUID(
+                            _nameController,
+                            _categoryController,
+                            _iconController,
+                            _dateController,
+                            _colorController,
+                            _timeController,
+                            _notesController,
+                            dt)
+                        .then((response) {
                       Navigator.pop(context);
-                      nameInputController.clear();
-                      categoryInputController.clear();
-                      iconInputController.clear();
+                      _nameController.clear();
+                      _categoryController.clear();
+                      _iconController.clear();
                       _dateController.clear();
                       _timeController.clear();
-                      colorInputController.clear();
-                      notesInputController.clear();
+                      _colorController.clear();
+                      _notesController.clear();
                     }).catchError((error) => print(error));
                   }
                 },
@@ -267,13 +265,13 @@ class _AddActFormsState extends State<AddActForms> {
                   style: TextStyle(fontSize: 25),
                 ),
                 onPressed: () {
-                  if (nameInputController.text.isNotEmpty ||
-                      iconInputController.text.isNotEmpty ||
-                      categoryInputController.text.isNotEmpty ||
+                  if (_nameController.text.isNotEmpty ||
+                      _iconController.text.isNotEmpty ||
+                      _categoryController.text.isNotEmpty ||
                       _dateController.text.isNotEmpty ||
                       _timeController.text.isNotEmpty ||
-                      colorInputController.text.isNotEmpty ||
-                      notesInputController.text.isNotEmpty) {
+                      _colorController.text.isNotEmpty ||
+                      _notesController.text.isNotEmpty) {
                     return showDialog(
                         context: context,
                         barrierDismissible: false,
@@ -306,13 +304,13 @@ class _AddActFormsState extends State<AddActForms> {
                           );
                         });
                   }
-                  nameInputController.clear();
-                  categoryInputController.clear();
-                  iconInputController.clear();
+                  _nameController.clear();
+                  _categoryController.clear();
+                  _iconController.clear();
                   _dateController.clear();
                   _timeController.clear();
-                  colorInputController.clear();
-                  notesInputController.clear();
+                  _colorController.clear();
+                  _notesController.clear();
                   Navigator.pop(context);
                 },
               ),
