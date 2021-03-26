@@ -76,7 +76,7 @@ class _RegisterState extends State<Register> {
           child: TextButton(
             onPressed: () => Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => LoginPage())),
-            child: Text('Allready have accoutn? Click here.'),
+            child: Text('Allready have account? Click here.'),
           ),
         ),
         Container(

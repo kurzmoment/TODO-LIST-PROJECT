@@ -1,9 +1,86 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todoList/hexcolor.dart';
 import 'package:todoList/home.dart';
 import 'package:todoList/ui/registerPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:todoList/util/userSetup.dart';
+
+class Forgotpass extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: HexColor('#73BAF5'),
+        body: Container(
+          child: Forgot(),
+        ),
+      ),
+    );
+  }
+}
+
+class Forgot extends StatefulWidget {
+  @override
+  _ForgotState createState() => _ForgotState();
+}
+
+class _ForgotState extends State<Forgot> {
+  TextEditingController _emailController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 150,
+              child: Image(
+                image: AssetImage('assets/logo.png'),
+                height: 120,
+                width: 120,
+              ),
+            ),
+          ),
+        ),
+        Container(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 15, bottom: 20),
+            child: Text(
+              'Reset Password',
+              style: TextStyle(fontSize: 40, color: Colors.white),
+            ),
+          ),
+        ),
+        emailForm(_emailController),
+        Container(
+          alignment: Alignment(-0.9, 0),
+          child: TextButton(
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => LoginPage())),
+            child: Text('Return to Sign in'),
+          ),
+        ),
+        Container(
+          width: 20,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 0, left: 40, right: 40),
+            child: ElevatedButton(
+                style: ButtonStyle(),
+                child: Text('Submit'),
+                onPressed: () {
+                  sendPassResMail(_emailController.text);
+                }),
+          ),
+        )
+      ],
+    );
+  }
+}
 
 class LoginPage extends StatelessWidget {
   @override
@@ -61,12 +138,12 @@ class _LoginState extends State<Login> {
           child: Padding(
             padding: const EdgeInsets.only(left: 190, top: 0),
             child: TextButton(
-              child: Text(
-                'Forgot password?',
-                style: TextStyle(color: Colors.blueAccent.shade200),
-              ),
-              onPressed: () => debugPrint('forgot password?'),
-            ),
+                child: Text(
+                  'Forgot password?',
+                  style: TextStyle(color: Colors.blueAccent.shade200),
+                ),
+                onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => Forgotpass()))),
           ),
         ),
         Row(
