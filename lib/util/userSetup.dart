@@ -13,6 +13,11 @@ Future<void> userSetup(String displayName) async {
   return;
 }
 
+Future<void> sendPassResMail(String email) async {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  return auth.sendPasswordResetEmail(email: email);
+}
+
 Future<void> addActivityUID(
     TextEditingController _nameController,
     TextEditingController _categoryController,
