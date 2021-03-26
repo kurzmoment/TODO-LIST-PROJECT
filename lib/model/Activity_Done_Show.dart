@@ -77,7 +77,6 @@ class _ActivityDoneState extends State<ActivityDoneShow> {
       'purple': Colors.purple,
       'amberAccent': Colors.amberAccent
     };
-    
     var snapshotName = widget.snapshot.docs[widget.index].get('name');
     var snapshotIkona = widget.snapshot.docs[widget.index].get('ikona');
     var snapshotBarva = widget.snapshot.docs[widget.index].get('barva');
