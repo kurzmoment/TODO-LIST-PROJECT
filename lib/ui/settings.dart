@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todoList/home.dart';
+import 'package:todoList/ui/loginpage.dart';
 import 'calendaryWithAct.dart';
 import 'package:todoList/ui/profilePage.dart';
 
@@ -15,6 +18,15 @@ class Settings extends StatelessWidget {
     return Scaffold(
       backgroundColor: colorBody,
       appBar: AppBar(
+        actions: [
+          IconButton(
+              icon: FaIcon(FontAwesomeIcons.signOutAlt),
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => LoginPage()));
+              })
+        ],
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: colorTop,
         centerTitle: true,

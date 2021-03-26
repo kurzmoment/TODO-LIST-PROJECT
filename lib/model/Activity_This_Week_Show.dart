@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -306,9 +307,16 @@ class _ActivityThisWeekShowState extends State<ActivityThisWeekShow> {
                                         colorInputController.text.isNotEmpty &&
                                         _timeController.text.isNotEmpty) {
                                       FirebaseFirestore.instance
-                                          .collection('test')
+                                          .collection('userData')
+                                          .doc(FirebaseAuth
+                                              .instance.currentUser.uid)
+                                          .collection('activity')
                                           .doc(docID)
                                           .update({
+                                        'displayName': FirebaseAuth
+                                            .instance.currentUser.displayName,
+                                        'uid': FirebaseAuth
+                                            .instance.currentUser.uid,
                                         'name': nameInputController.text,
                                         'ikona': iconInputController.text,
                                         'date': _dateController.text,

@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:todoList/ui/loginpage.dart';
 
 Future<void> userSetup(String displayName) async {
   //DateTime dt = DateTime.now();
@@ -15,7 +18,7 @@ Future<void> userSetup(String displayName) async {
 
 Future<void> sendPassResMail(String email) async {
   FirebaseAuth auth = FirebaseAuth.instance;
-  return auth.sendPasswordResetEmail(email: email);
+  return await auth.sendPasswordResetEmail(email: email);
 }
 
 Future<void> addActivityUID(
