@@ -119,30 +119,39 @@ class _AddActFormsState extends State<AddActForms> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 10,
-            ),
-            child: DropdownButton<String>(
-              value: dropDownValue,
-              icon: Icon(Icons.arrow_drop_down_outlined),
-              iconSize: 25,
-              elevation: 15,
-              style: TextStyle(color: Colors.black),
-              onChanged: (String newValue) {
-                setState(() {
-                  dropDownValue = newValue;
-                  _categoryController.text = dropDownValue;
-                });
-              },
-              items: <String>['GYM', 'WORK', 'NONE']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+            child: TextField(
+              decoration: InputDecoration(
+                helperText: 'Enter your own category name',
+              ),
+              controller: _categoryController,
             ),
           ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(
+          //     vertical: 10,
+          //   ),
+          //   child: DropdownButton<String>(
+          //     value: dropDownValue,
+          //     icon: Icon(Icons.arrow_drop_down_outlined),
+          //     iconSize: 25,
+          //     elevation: 15,
+          //     style: TextStyle(color: Colors.black),
+          //     onChanged: (String newValue) {
+          //       setState(() {
+          //         dropDownValue = newValue;
+          //         _categoryController.text = dropDownValue;
+          //       });
+          //     },
+          //     items: <String>['Work', 'Gym', 'Programming', '']
+          //         .map<DropdownMenuItem<String>>((String value) {
+          //       return DropdownMenuItem<String>(
+          //         value: value,
+          //         child: Text(value),
+          //       );
+          //     }).toList(),
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
             child: IconPicker(

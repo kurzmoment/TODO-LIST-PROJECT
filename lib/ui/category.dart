@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
 import 'categoryadd.dart';
@@ -10,8 +12,7 @@ class Category extends StatefulWidget {
 }
 
 class _CategoryState extends State<Category> {
-  var firestoreDb =
-      FirebaseFirestore.instance.collection("Category").snapshots();
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -21,11 +22,16 @@ class _CategoryState extends State<Category> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: firestoreDb,
+      stream: FirebaseFirestore.instance
+          .collection("userData")
+          .doc(auth.currentUser.uid)
+          .collection('Category')
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return CircularProgressIndicator();
         return ListView.builder(
-          itemCount: snapshot.data.documents.length,
+          shrinkWrap: true,
+          itemCount: snapshot.data.docs.length,
           itemBuilder: (context, int index) {
             return AddCategory(snapshot: snapshot.data, index: index);
           },
@@ -41,8 +47,11 @@ class Categoryforactiv extends StatefulWidget {
 }
 
 class _CategoryStateforactiv extends State<Categoryforactiv> {
-  var firestoreDb =
-      FirebaseFirestore.instance.collection("Category").snapshots();
+  var firestoreDb = FirebaseFirestore.instance
+      .collection("userData")
+      .doc(FirebaseAuth.instance.currentUser.uid)
+      .collection('Category')
+      .snapshots();
 
   @override
   void initState() {

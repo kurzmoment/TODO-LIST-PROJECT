@@ -85,6 +85,7 @@ class _ActivityThisWeekShowState extends State<ActivityThisWeekShow> {
     var snapshotDate = widget.snapshot.docs[widget.index].get('date');
     var snapshotTime = widget.snapshot.docs[widget.index].get('time');
     var snapshotNotes = widget.snapshot.docs[widget.index].get('notes');
+    var snapshotCategory = widget.snapshot.docs[widget.index].get('category');
     var docID = widget.snapshot.docs[widget.index].id;
     TextEditingController nameInputController =
         TextEditingController(text: snapshotName);
@@ -98,6 +99,8 @@ class _ActivityThisWeekShowState extends State<ActivityThisWeekShow> {
         TextEditingController(text: snapshotTime);
     TextEditingController notesInputController =
         TextEditingController(text: snapshotNotes);
+    TextEditingController _categoryController =
+        TextEditingController(text: snapshotCategory);
 
     DateTime today = new DateTime.now();
     DateTime formatedDate = today.subtract(Duration(
@@ -163,6 +166,16 @@ class _ActivityThisWeekShowState extends State<ActivityThisWeekShow> {
                                   helperText: 'Enter notes',
                                 ),
                                 controller: notesInputController,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 30),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  helperText: 'Edit category',
+                                ),
+                                controller: _categoryController,
                               ),
                             ),
                             Padding(
@@ -402,8 +415,10 @@ class _ActivityThisWeekShowState extends State<ActivityThisWeekShow> {
             caption: 'Delete',
             onTap: () async {
               var collectionReference =
-                  FirebaseFirestore.instance.collection("test");
+                  FirebaseFirestore.instance.collection("userData");
               await collectionReference
+                  .doc(FirebaseAuth.instance.currentUser.uid)
+                  .collection('activity')
                   .doc(docID)
                   .delete()
                   .catchError((error) => print("$error"));

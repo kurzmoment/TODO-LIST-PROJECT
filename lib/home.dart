@@ -1,12 +1,14 @@
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:todoList/model/Acitvity_Done_Builder.dart';
 import 'package:todoList/model/Activity_Future_Builder.dart';
 import 'package:todoList/model/Activity_This_Week_Builder.dart';
 import 'package:todoList/model/Activity_Today_Builder.dart';
 import 'package:todoList/ui/addBackdrop.dart';
 import 'package:todoList/ui/categ.dart';
+import 'package:todoList/util/theme_provider.dart';
 import 'ui/calendaryWithAct.dart';
 import 'package:todoList/ui/profilePage.dart';
 import 'package:todoList/ui/settings.dart';
@@ -15,27 +17,33 @@ import 'hexcolor.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      //theme: lightThemeData(context),
-      //darkTheme: darkThemeData(context),
-      home: Home(),
-      theme: ThemeData(fontFamily: 'OpenSans'),
-      navigatorKey: null,
-    );
+    return ChangeNotifierProvider(
+        create: (context) => ThemeProvider(),
+        builder: (context, _) {
+          final themeProvider = Provider.of<ThemeProvider>(context);
+          return MaterialApp(
+            home: Home(),
+            themeMode: themeProvider.themeMode,
+            theme: MyThemes.lightTheme,
+            darkTheme: MyThemes.darkTheme,
+            navigatorKey: null,
+          );
+        });
   }
 }
 
 class Home extends StatelessWidget {
   final colorBottom = HexColor('FCEDC5');
   final colorActivity = HexColor('FF0000');
-  final colorBody = HexColor('EEFCFA');
   final colorTop = HexColor('A1E7F7');
   static var date = DateTime.now();
   final dateFormat = DateFormat('EEEE / dd.MM.yyyy').format(date);
   @override
   Widget build(BuildContext context) {
+    // final text = MediaQuery.of(context).platformBrightness == Brightness.dark
+    //     ? 'DarkTheme'
+    //     : 'LightTheme';
     return Scaffold(
-      backgroundColor: colorBody,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         toolbarHeight: 120,
@@ -96,9 +104,9 @@ class Home extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             IconButton(
-              icon: Icon(Icons.home),
-              onPressed: () => debugPrint('Home'),
-            ),
+                icon: Icon(Icons.home),
+                disabledColor: Colors.grey.shade600,
+                onPressed: null),
             IconButton(
               icon: Icon(Icons.account_circle),
               onPressed: () {
@@ -113,13 +121,13 @@ class Home extends StatelessWidget {
                     builder: (context) => ListOfActivities()));
               },
             ),
-            IconButton(
-              icon: Icon(Icons.album),
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => Categoryscreen()));
-              },
-            ),
+            // IconButton(
+            //   icon: Icon(Icons.album),
+            //   onPressed: () {
+            //     Navigator.of(context).push(
+            //         MaterialPageRoute(builder: (context) => Categoryscreen()));
+            //   },
+            // ),
           ],
         ),
       ),

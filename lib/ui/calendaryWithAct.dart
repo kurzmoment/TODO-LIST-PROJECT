@@ -70,17 +70,16 @@ class ListOfActivities extends StatelessWidget {
             ),
             IconButton(
               icon: Icon(Icons.calendar_today_rounded),
-              onPressed: () {
-                // do nothing
-              },
+              disabledColor: Colors.grey.shade700,
+              onPressed: null,
             ),
-            IconButton(
-              icon: Icon(Icons.album),
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => Categoryscreen()));
-              },
-            ),
+            // IconButton(
+            //   icon: Icon(Icons.album),
+            //   onPressed: () {
+            //     Navigator.of(context).push(
+            //         MaterialPageRoute(builder: (context) => Categoryscreen()));
+            //   },
+            // ),
           ],
         ),
       ),

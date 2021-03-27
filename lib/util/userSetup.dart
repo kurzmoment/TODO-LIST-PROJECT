@@ -13,6 +13,10 @@ Future<void> userSetup(String displayName) async {
       .collection('userData')
       .doc(uid)
       .collection('activity');
+  CollectionReference usersCat = FirebaseFirestore.instance
+      .collection('userData')
+      .doc(uid)
+      .collection('Category');
   return;
 }
 

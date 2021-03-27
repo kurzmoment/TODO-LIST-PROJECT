@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -52,8 +53,10 @@ class AddCategory extends StatelessWidget {
           caption: 'Delete',
           onTap: () async {
             var collectionReference =
-                FirebaseFirestore.instance.collection("Category");
+                FirebaseFirestore.instance.collection("userData");
             await collectionReference
+                .doc(FirebaseAuth.instance.currentUser.uid)
+                .collection('Category')
                 .doc(docID)
                 .delete()
                 .catchError((error) => print("$error"));

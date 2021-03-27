@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -85,6 +84,7 @@ class _ActivityDoneState extends State<ActivityDoneShow> {
     var snapshotDate = widget.snapshot.docs[widget.index].get('date');
     var snapshotTime = widget.snapshot.docs[widget.index].get('time');
     var snapshotNotes = widget.snapshot.docs[widget.index].get('notes');
+    var snapshotCategory = widget.snapshot.docs[widget.index].get('category');
     var docID = widget.snapshot.docs[widget.index].id;
     TextEditingController nameInputController =
         TextEditingController(text: snapshotName);
@@ -98,6 +98,8 @@ class _ActivityDoneState extends State<ActivityDoneShow> {
         TextEditingController(text: snapshotTime);
     TextEditingController notesInputController =
         TextEditingController(text: snapshotNotes);
+    TextEditingController _categoryController =
+        TextEditingController(text: snapshotCategory);
 
     DateTime today = new DateTime.now();
     DateTime formatedDate = today.subtract(Duration(
@@ -159,9 +161,19 @@ class _ActivityDoneState extends State<ActivityDoneShow> {
                                   vertical: 10, horizontal: 30),
                               child: TextField(
                                 decoration: InputDecoration(
-                                  helperText: 'Enter notes',
+                                  helperText: 'Edit notes',
                                 ),
                                 controller: notesInputController,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 30),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  helperText: 'Edit category',
+                                ),
+                                controller: _categoryController,
                               ),
                             ),
                             Padding(
@@ -400,8 +412,10 @@ class _ActivityDoneState extends State<ActivityDoneShow> {
             caption: 'Delete',
             onTap: () async {
               var collectionReference =
-                  FirebaseFirestore.instance.collection("test");
+                  FirebaseFirestore.instance.collection("userData");
               await collectionReference
+                  .doc(FirebaseAuth.instance.currentUser.uid)
+                  .collection('activity')
                   .doc(docID)
                   .delete()
                   .catchError((error) => print("$error"));

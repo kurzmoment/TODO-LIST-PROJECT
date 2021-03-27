@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todoList/home.dart';
 import 'package:todoList/ui/loginpage.dart';
+import 'package:todoList/util/theme_provider.dart';
 import 'calendaryWithAct.dart';
 import 'package:todoList/ui/profilePage.dart';
+import 'package:provider/provider.dart';
 
 import '../hexcolor.dart';
 
@@ -16,7 +18,6 @@ class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorBody,
       appBar: AppBar(
         actions: [
           IconButton(
@@ -27,7 +28,6 @@ class Settings extends StatelessWidget {
                     .push(MaterialPageRoute(builder: (context) => LoginPage()));
               })
         ],
-        iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: colorTop,
         centerTitle: true,
         title: Text(
@@ -82,7 +82,7 @@ class Settings extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 215, top: 5),
-                child: SwitcherSettings(),
+                //child: //SwitcherSettings(),
               ),
             ],
           ),
@@ -101,7 +101,6 @@ class Settings extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: new BottomAppBar(
-        color: colorBottom,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -173,16 +172,16 @@ class SwitcherSettings extends StatefulWidget {
 }
 
 class _SwitcherSettingsState extends State<SwitcherSettings> {
-  bool isSwitched = false;
   @override
   Widget build(BuildContext context) {
-    return Switch(
-      value: isSwitched,
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return Switch.adaptive(
+      value: themeProvider.isDarkMode,
       onChanged: (value) {
         setState(
           () {
-            isSwitched = value;
-            print(isSwitched);
+            final provider = Provider.of<ThemeProvider>(context, listen: false);
+            provider.toggleTheme(value);
           },
         );
       },

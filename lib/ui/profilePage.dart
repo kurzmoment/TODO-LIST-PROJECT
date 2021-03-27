@@ -1,4 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todoList/hexcolor.dart';
 import 'package:todoList/home.dart';
 import 'package:todoList/ui/editProfile.dart';
@@ -14,6 +19,7 @@ class _AccPageState extends State<AccPage> {
   final colorActivity = HexColor('FF0000');
   final colorBody = HexColor('EEFCFA');
   final colorTop = HexColor('A1E7F7');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,118 +42,40 @@ class _AccPageState extends State<AccPage> {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: ListView(
+      body: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
                 padding: const EdgeInsets.all(15.0),
-                child: Image(
-                  image: AssetImage('assets/marianek.webp'),
-                  alignment: Alignment.center,
-                  width: 128,
-                  height: 128,
+                child: Container(
+                  alignment: Alignment.topRight,
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage('assets/marianek.webp'))),
                 ),
+              ),
+              Column(
+                children: [
+                  Text(FirebaseAuth.instance.currentUser.displayName),
+                  Text(FirebaseAuth.instance.currentUser.email),
+                  Text('Place for your job')
+                ],
               )
             ],
           ),
           Divider(
-            thickness: 2,
+            thickness: 1,
             color: Colors.black54,
             indent: 20,
             endIndent: 20,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Your name: Jon \'Beverage\' Marianek',
-                  style: TextStyle(fontSize: 19, fontFamily: 'Roboto'),
-                ),
-              ),
-            ],
-          ),
-          Divider(
-            thickness: 1,
-            color: Colors.black38,
-            indent: 20,
-            endIndent: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Your job: Profesional cunt',
-                  style: TextStyle(fontSize: 19, fontFamily: 'SanSerif'),
-                ),
-              ),
-            ],
-          ),
-          Divider(
-            thickness: 1,
-            color: Colors.black38,
-            indent: 20,
-            endIndent: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Your country: USA (fuck czechia)',
-                  style: TextStyle(
-                    fontSize: 19,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Divider(
-            thickness: 1,
-            color: Colors.black38,
-            indent: 20,
-            endIndent: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Your email: jonfckmarianek@beverageinc.gov',
-                  style: TextStyle(
-                    fontSize: 19,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Divider(
-            thickness: 1,
-            color: Colors.black38,
-            indent: 20,
-            endIndent: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'MOZNA BUDOUCI GRAF NEBO SEZNAM PRATEL',
-                  style: TextStyle(
-                    fontSize: 17,
-                  ),
-                ),
-              ),
-            ],
-          ),
+          ProfileBuilder()
         ],
       ),
       bottomNavigationBar: new BottomAppBar(
@@ -164,7 +92,8 @@ class _AccPageState extends State<AccPage> {
             ),
             IconButton(
               icon: Icon(Icons.account_circle),
-              onPressed: () {},
+              disabledColor: Colors.grey.shade700,
+              onPressed: null,
             ),
             IconButton(
               icon: Icon(Icons.calendar_today_rounded),
@@ -176,6 +105,86 @@ class _AccPageState extends State<AccPage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class CardCategory extends StatefulWidget {
+  final QuerySnapshot snapshot;
+  final int index;
+
+  const CardCategory({Key key, this.snapshot, this.index}) : super(key: key);
+  @override
+  _CardCategoryState createState() => _CardCategoryState();
+}
+
+class _CardCategoryState extends State<CardCategory> {
+  int pocet = 1;
+  TextEditingController _categoryController;
+  TextEditingController _iconController;
+  void initState() {
+    super.initState();
+    if (_categoryController == _categoryController) {
+      pocet++;
+    } else {
+      pocet = 1;
+    }
+    _categoryController = new TextEditingController();
+    _iconController = new TextEditingController();
+  }
+
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final Map<String, IconData> iconsCollection = {
+      'shopping': FontAwesomeIcons.shoppingCart,
+      'gym': FontAwesomeIcons.dumbbell,
+      'business': FontAwesomeIcons.briefcase,
+      'eat': FontAwesomeIcons.utensils,
+      'code': FontAwesomeIcons.code,
+      'repair': FontAwesomeIcons.tools,
+    };
+    var snapshotCategory = widget.snapshot.docs[widget.index].get('category');
+    var snapshotIcon = widget.snapshot.docs[widget.index].get('ikona');
+    _categoryController = TextEditingController(text: snapshotCategory);
+    _iconController = TextEditingController(text: snapshotIcon);
+    if (_categoryController == _categoryController)
+      return Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Card(
+          child: ListTile(
+            title: Text(_categoryController.text),
+            trailing: Text(pocet.toString()),
+            leading: Icon(iconsCollection[_iconController.text]),
+          ),
+        ),
+      );
+  }
+}
+
+class ProfileBuilder extends StatelessWidget {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection('userData')
+          .doc(auth.currentUser.uid)
+          .collection('activity')
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return CircularProgressIndicator();
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: snapshot.data.docs.length,
+          itemBuilder: (context, int index) {
+            return CardCategory(snapshot: snapshot.data, index: index);
+          },
+        );
+      },
     );
   }
 }

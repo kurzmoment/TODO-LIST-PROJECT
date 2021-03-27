@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
@@ -104,7 +105,11 @@ class _AddCatFormsState extends State<AddCatForms> {
               ),
               onPressed: () {
                 if (nameInputController.text.isNotEmpty) {
-                  FirebaseFirestore.instance.collection('Category').add({
+                  FirebaseFirestore.instance
+                      .collection('userData')
+                      .doc(FirebaseAuth.instance.currentUser.uid)
+                      .collection('Category')
+                      .add({
                     'name': nameInputController.text,
                     'ikona': iconInputController.text,
                     'barva': colorInputController.text,
