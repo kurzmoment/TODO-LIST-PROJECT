@@ -14,7 +14,7 @@ class ThemeProvider extends ChangeNotifier {
 class MyThemes {
   static final darkTheme = ThemeData(
     fontFamily: 'OpenSans',
-    bottomAppBarColor: Colors.red,
+    bottomAppBarColor: Colors.black,
     iconTheme: IconThemeData(color: Colors.white),
     scaffoldBackgroundColor: Colors.grey.shade900,
     colorScheme: ColorScheme.dark(),
