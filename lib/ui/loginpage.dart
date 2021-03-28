@@ -74,8 +74,12 @@ class _ForgotState extends State<Forgot> {
                 style: ButtonStyle(),
                 child: Text('Submit'),
                 onPressed: () {
+                  //musíme přidat podmínku aby to čeklo jestli tam ten mail je
+                  // ta podmínka ti pak vypíše bud špatně zadaná
+
                   sendPassResMail(_emailController.text);
                   Navigator.of(context).push(
+                      // nebo ti tady napíše posláno na mail
                       MaterialPageRoute(builder: (context) => LoginPage()));
                 }),
           ),
