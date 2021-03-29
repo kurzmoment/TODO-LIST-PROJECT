@@ -43,9 +43,12 @@ class ListOfActivities extends StatelessWidget {
         showDatePickerButton: true,
         //dataSource: ,
         view: CalendarView.workWeek,
+        dataSource: _getCalendarDataSource(),
         timeSlotViewSettings: TimeSlotViewSettings(
-          startHour: 6,
+          startHour: 5,
           endHour: 22,
+          timeIntervalHeight: 75,
+          timeIntervalWidth: 60,
           nonWorkingDays: <int>[DateTime.sunday],
         ),
       ),
@@ -99,6 +102,26 @@ class ListOfActivities extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+_AppointmentDataSource _getCalendarDataSource() {
+  List<Appointment> appointments = <Appointment>[];
+  appointments.add(Appointment(
+    startTime: DateTime.now(),
+    endTime: DateTime.now().add(Duration(minutes: 55)),
+    subject: 'Meeting',
+    color: Colors.blue,
+    startTimeZone: '',
+    endTimeZone: '',
+  ));
+
+  return _AppointmentDataSource(appointments);
+}
+
+class _AppointmentDataSource extends CalendarDataSource {
+  _AppointmentDataSource(List<Appointment> source) {
+    appointments = source;
   }
 }
 
