@@ -7,6 +7,8 @@ import 'package:todoList/ui/addBackdrop.dart';
 import 'package:todoList/ui/categ.dart';
 import 'package:todoList/ui/profilePage.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../hexcolor.dart';
 
 // JAKYMKOLIV ZPUSOBEM ZOBRAZIT AKTIVITY V KALENDARI
@@ -97,11 +99,12 @@ class ListOfActivities extends StatelessWidget {
 
 _AppointmentDataSource _getCalendarDataSource() {
   List<Appointment> appointments = <Appointment>[];
+
   appointments.add(Appointment(
     startTime: DateTime.now(),
     endTime: DateTime.now().add(Duration(minutes: 55)),
     subject: 'Meeting',
-    color: Colors.blue,
+    color: Colors.red,
     startTimeZone: '',
     endTimeZone: '',
   ));
