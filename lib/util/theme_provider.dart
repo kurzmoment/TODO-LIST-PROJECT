@@ -11,6 +11,7 @@ class ThemeProvider extends ChangeNotifier {
   }
 }
 
+// ZBYVA DODELAT URCITE BARVY, NA TO SE ZITRA VRHNU
 class MyThemes {
   static final darkTheme = ThemeData(
     fontFamily: 'OpenSans',

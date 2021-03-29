@@ -123,6 +123,8 @@ class _CardCategoryState extends State<CardCategory> {
   TextEditingController _categoryController;
   TextEditingController _iconController;
   void initState() {
+    // POTREBA NASTAVIT PRIDAVANI POCTU, JESTE TEDA ZALEZI KVULI CEMU SE TO BUDE PRICITAT
+    // JESTLI PODLE POCTU STEJNEJCH KATEGORII NEBO PRI SPLNENI URCITY KATEGORIE
     super.initState();
     if (_categoryController == _categoryController) {
       pocet++;

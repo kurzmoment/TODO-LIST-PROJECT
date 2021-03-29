@@ -9,6 +9,7 @@ import 'package:todoList/ui/profilePage.dart';
 
 import '../hexcolor.dart';
 
+// JAKYMKOLIV ZPUSOBEM ZOBRAZIT AKTIVITY V KALENDARI
 class ListOfActivities extends StatelessWidget {
   final QuerySnapshot snapshot;
   final int index;

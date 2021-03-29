@@ -109,7 +109,7 @@ class _RegisterState extends State<Register> {
                   _rePasswordController.text = '';
                   _emailController.text = '';
                   _usernameController.text = '';
-                  // TODO: alertDialog with error
+                  // VSECHNY DRUHY ALERTU CHYBI
                 }
               },
             ),
