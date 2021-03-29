@@ -2,9 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:todoList/hexcolor.dart';
 import 'package:todoList/home.dart';
 import 'package:todoList/ui/editProfile.dart';
 import 'calendaryWithAct.dart';
@@ -15,21 +13,15 @@ class AccPage extends StatefulWidget {
 }
 
 class _AccPageState extends State<AccPage> {
-  final colorBottom = HexColor('FCEDC5');
-  final colorActivity = HexColor('FF0000');
-  final colorBody = HexColor('EEFCFA');
-  final colorTop = HexColor('A1E7F7');
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorBody,
       appBar: AppBar(
-        backgroundColor: colorTop,
-        iconTheme: IconThemeData(color: Colors.black),
         actions: [
           IconButton(
-            icon: Icon(Icons.edit),
+            icon: Icon(
+              Icons.edit,
+            ),
             onPressed: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => EditProfilePage()));
@@ -39,7 +31,7 @@ class _AccPageState extends State<AccPage> {
         centerTitle: true,
         title: Text(
           'My profile',
-          style: TextStyle(color: Colors.black),
+          style: Theme.of(context).textTheme.headline6,
         ),
       ),
       body: Column(
@@ -71,7 +63,6 @@ class _AccPageState extends State<AccPage> {
           ),
           Divider(
             thickness: 1,
-            color: Colors.black54,
             indent: 20,
             endIndent: 20,
           ),
@@ -79,15 +70,14 @@ class _AccPageState extends State<AccPage> {
         ],
       ),
       bottomNavigationBar: new BottomAppBar(
-        color: colorBottom,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             IconButton(
               icon: Icon(Icons.home),
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => Home()));
               },
             ),
             IconButton(

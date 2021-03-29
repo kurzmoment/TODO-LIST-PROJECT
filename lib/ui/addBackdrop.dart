@@ -11,8 +11,6 @@ class AddAct extends StatefulWidget {
   _AddActState createState() => _AddActState();
 }
 
-// PORAD NEFUNGUJE TAK JAK BY MELO
-// jebeti
 class _AddActState extends State<AddAct> {
   @override
   Widget build(BuildContext context) {
@@ -23,7 +21,7 @@ class _AddActState extends State<AddAct> {
         controller: WeSlideController(),
         panelMinSize: _panelMinSize,
         panelMaxSize: _panelMaxSize,
-        body: HomeScreen(),
+        body: Home(),
         panel: Scaffold(
           body: AddActForms(),
         ),
@@ -63,7 +61,7 @@ class _AddActStatecal extends State<AddActcal> {
         controller: WeSlideController(),
         panelMinSize: _panelMinSize,
         panelMaxSize: _panelMaxSize,
-        body: ListOfActivities(),
+        body: Home(),
         panel: Scaffold(
           body: AddActForms(),
         ),

@@ -8,13 +8,7 @@ import 'calendaryWithAct.dart';
 import 'package:todoList/ui/profilePage.dart';
 import 'package:provider/provider.dart';
 
-import '../hexcolor.dart';
-
 class Settings extends StatelessWidget {
-  final colorTop = HexColor('A1E7F7');
-  final colorBottom = HexColor('FCEDC5');
-  final colorActivity = HexColor('FF0000');
-  final colorBody = HexColor('EEFCFA');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,13 +22,10 @@ class Settings extends StatelessWidget {
                     .push(MaterialPageRoute(builder: (context) => LoginPage()));
               })
         ],
-        backgroundColor: colorTop,
         centerTitle: true,
         title: Text(
           'Settings',
-          style: TextStyle(
-            color: Colors.black,
-          ),
+          style: Theme.of(context).textTheme.headline6,
         ),
       ),
       body: ListView(
@@ -52,7 +43,6 @@ class Settings extends StatelessWidget {
           ),
           Divider(
             thickness: 1,
-            color: Colors.black38,
             indent: 20,
             endIndent: 20,
           ),
@@ -70,7 +60,6 @@ class Settings extends StatelessWidget {
           ),
           Divider(
             thickness: 1,
-            color: Colors.black38,
             indent: 20,
             endIndent: 20,
           ),
@@ -107,8 +96,8 @@ class Settings extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.home),
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => Home()));
               },
             ),
             IconButton(
@@ -148,7 +137,6 @@ class _DropDownSettingsState extends State<DropDownSettings> {
         icon: Icon(Icons.arrow_drop_down_outlined),
         iconSize: 25,
         elevation: 15,
-        style: TextStyle(color: Colors.black),
         onChanged: (String newValue) {
           setState(() {
             dropDownValue = newValue;

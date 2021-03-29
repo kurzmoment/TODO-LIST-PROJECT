@@ -210,8 +210,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                   children: [
                                     colorSwitch(Colors.red, 'red',
                                         colorInputController),
-                                    colorSwitch(Colors.black, 'black',
-                                        colorInputController),
                                     colorSwitch(Colors.blue, 'blue',
                                         colorInputController),
                                     colorSwitch(Colors.green, 'green',
@@ -383,8 +381,9 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                                   onPressed: () {
                                                     Navigator.of(context).push(
                                                         MaterialPageRoute(
-                                                            builder: (builder) =>
-                                                                HomeScreen()));
+                                                            builder:
+                                                                (builder) =>
+                                                                    Home()));
                                                   },
                                                 ),
                                                 TextButton(

@@ -127,31 +127,6 @@ class _AddActFormsState extends State<AddActForms> {
               controller: _categoryController,
             ),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(
-          //     vertical: 10,
-          //   ),
-          //   child: DropdownButton<String>(
-          //     value: dropDownValue,
-          //     icon: Icon(Icons.arrow_drop_down_outlined),
-          //     iconSize: 25,
-          //     elevation: 15,
-          //     style: TextStyle(color: Colors.black),
-          //     onChanged: (String newValue) {
-          //       setState(() {
-          //         dropDownValue = newValue;
-          //         _categoryController.text = dropDownValue;
-          //       });
-          //     },
-          //     items: <String>['Work', 'Gym', 'Programming', '']
-          //         .map<DropdownMenuItem<String>>((String value) {
-          //       return DropdownMenuItem<String>(
-          //         value: value,
-          //         child: Text(value),
-          //       );
-          //     }).toList(),
-          //   ),
-          // ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
             child: IconPicker(
@@ -173,7 +148,6 @@ class _AddActFormsState extends State<AddActForms> {
                 scrollDirection: Axis.horizontal,
                 children: [
                   colorSwitch(Colors.red, 'red', _colorController),
-                  colorSwitch(Colors.black, 'black', _colorController),
                   colorSwitch(Colors.blue, 'blue', _colorController),
                   colorSwitch(Colors.green, 'green', _colorController),
                   colorSwitch(Colors.pink, 'pink', _colorController),
@@ -304,7 +278,7 @@ class _AddActFormsState extends State<AddActForms> {
                                 child: Text('Yes'),
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (builder) => HomeScreen()));
+                                      builder: (context) => HomeScreen()));
                                 },
                               ),
                               TextButton(

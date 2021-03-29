@@ -202,8 +202,6 @@ class _ActivityThisWeekShowState extends State<ActivityThisWeekShow> {
                                   children: [
                                     colorSwitch(Colors.red, 'red',
                                         colorInputController),
-                                    colorSwitch(Colors.black, 'black',
-                                        colorInputController),
                                     colorSwitch(Colors.blue, 'blue',
                                         colorInputController),
                                     colorSwitch(Colors.green, 'green',
@@ -375,8 +373,9 @@ class _ActivityThisWeekShowState extends State<ActivityThisWeekShow> {
                                                   onPressed: () {
                                                     Navigator.of(context).push(
                                                         MaterialPageRoute(
-                                                            builder: (builder) =>
-                                                                HomeScreen()));
+                                                            builder:
+                                                                (builder) =>
+                                                                    Home()));
                                                   },
                                                 ),
                                                 TextButton(

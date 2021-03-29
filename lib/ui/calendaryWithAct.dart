@@ -13,10 +13,6 @@ import '../hexcolor.dart';
 class ListOfActivities extends StatelessWidget {
   final QuerySnapshot snapshot;
   final int index;
-  final colorBottom = HexColor('FCEDC5');
-  final colorActivity = HexColor('FF0000');
-  final colorBody = HexColor('EEFCFA');
-  final colorTop = HexColor('A1E7F7');
 
   final firebaseDB = FirebaseFirestore.instance.collection('test').snapshots();
   static var date = DateTime.now();
@@ -29,15 +25,10 @@ class ListOfActivities extends StatelessWidget {
     // var docID = snapshot.documents[index].documentID;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: colorTop,
         iconTheme: IconThemeData(color: Colors.black),
         centerTitle: true,
-        title: Text(
-          'List of activities',
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
+        title: Text('List of activities',
+            style: Theme.of(context).textTheme.headline6),
       ),
       body: SfCalendar(
         showDatePickerButton: true,
@@ -54,15 +45,14 @@ class ListOfActivities extends StatelessWidget {
       ),
       //Activity(),
       bottomNavigationBar: new BottomAppBar(
-        color: colorBottom,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             IconButton(
               icon: Icon(Icons.home),
               onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => Home()));
               },
             ),
             IconButton(

@@ -200,8 +200,6 @@ class _ActivityDoneState extends State<ActivityDoneShow> {
                                   children: [
                                     colorSwitch(Colors.red, 'red',
                                         colorInputController),
-                                    colorSwitch(Colors.black, 'black',
-                                        colorInputController),
                                     colorSwitch(Colors.blue, 'blue',
                                         colorInputController),
                                     colorSwitch(Colors.green, 'green',
@@ -373,8 +371,9 @@ class _ActivityDoneState extends State<ActivityDoneShow> {
                                                   onPressed: () {
                                                     Navigator.of(context).push(
                                                         MaterialPageRoute(
-                                                            builder: (builder) =>
-                                                                HomeScreen()));
+                                                            builder:
+                                                                (context) =>
+                                                                    Home()));
                                                   },
                                                 ),
                                                 TextButton(

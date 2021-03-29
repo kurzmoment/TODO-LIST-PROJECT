@@ -15,6 +15,9 @@ class ThemeProvider extends ChangeNotifier {
 class MyThemes {
   static final darkTheme = ThemeData(
     fontFamily: 'OpenSans',
+    dividerColor: Colors.white60,
+    cardColor: Colors.black,
+    appBarTheme: AppBarTheme(color: Colors.black),
     bottomAppBarColor: Colors.black,
     iconTheme: IconThemeData(color: Colors.white),
     scaffoldBackgroundColor: Colors.grey.shade900,
@@ -22,6 +25,14 @@ class MyThemes {
   );
   static final lightTheme = ThemeData(
       fontFamily: 'OpenSans',
+      dividerColor: Colors.black54,
+      cardColor: HexColor('#dfcdaa'),
+      buttonColor: Colors.black,
+      appBarTheme: AppBarTheme(
+          iconTheme: IconThemeData(color: Colors.black),
+          color: HexColor('A1E7F7'),
+          actionsIconTheme: IconThemeData(color: Colors.black),
+          foregroundColor: Colors.black),
       bottomAppBarColor: HexColor('FCEDC5'),
       iconTheme: IconThemeData(color: Colors.black),
       scaffoldBackgroundColor: HexColor('EEFCFA'),

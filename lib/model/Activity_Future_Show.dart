@@ -201,8 +201,6 @@ class _ActivityFutureShowState extends State<ActivityFutureShow> {
                                   children: [
                                     colorSwitch(Colors.red, 'red',
                                         colorInputController),
-                                    colorSwitch(Colors.black, 'black',
-                                        colorInputController),
                                     colorSwitch(Colors.blue, 'blue',
                                         colorInputController),
                                     colorSwitch(Colors.green, 'green',
@@ -374,8 +372,9 @@ class _ActivityFutureShowState extends State<ActivityFutureShow> {
                                                   onPressed: () {
                                                     Navigator.of(context).push(
                                                         MaterialPageRoute(
-                                                            builder: (builder) =>
-                                                                HomeScreen()));
+                                                            builder:
+                                                                (context) =>
+                                                                    Home()));
                                                   },
                                                 ),
                                                 TextButton(

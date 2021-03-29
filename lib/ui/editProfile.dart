@@ -7,16 +7,10 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  final colorBottom = HexColor('FCEDC5');
-  final colorActivity = HexColor('FF0000');
-  final colorBody = HexColor('EEFCFA');
-  final colorTop = HexColor('A1E7F7');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: colorTop,
-        iconTheme: IconThemeData(color: Colors.black),
         actions: [
           IconButton(
             icon: Icon(Icons.save_alt),
@@ -24,10 +18,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
         ],
         centerTitle: true,
-        title: Text(
-          'Edit your profile',
-          style: TextStyle(color: Colors.black),
-        ),
+        title: Text('Edit your profile',
+            style: Theme.of(context).textTheme.headline6),
       ),
       body: ListView(
         children: [

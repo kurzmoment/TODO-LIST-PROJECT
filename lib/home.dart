@@ -7,12 +7,10 @@ import 'package:todoList/model/Activity_Future_Builder.dart';
 import 'package:todoList/model/Activity_This_Week_Builder.dart';
 import 'package:todoList/model/Activity_Today_Builder.dart';
 import 'package:todoList/ui/addBackdrop.dart';
-import 'package:todoList/ui/categ.dart';
 import 'package:todoList/util/theme_provider.dart';
 import 'ui/calendaryWithAct.dart';
 import 'package:todoList/ui/profilePage.dart';
 import 'package:todoList/ui/settings.dart';
-import 'hexcolor.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -33,16 +31,10 @@ class HomeScreen extends StatelessWidget {
 }
 
 class Home extends StatelessWidget {
-  final colorBottom = HexColor('FCEDC5');
-  final colorActivity = HexColor('FF0000');
-  final colorTop = HexColor('A1E7F7');
   static var date = DateTime.now();
   final dateFormat = DateFormat('EEEE / dd.MM.yyyy').format(date);
   @override
   Widget build(BuildContext context) {
-    // final text = MediaQuery.of(context).platformBrightness == Brightness.dark
-    //     ? 'DarkTheme'
-    //     : 'LightTheme';
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -62,21 +54,16 @@ class Home extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 '${dateFormat.toString()}',
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.black,
-                ),
+                style: Theme.of(context).textTheme.headline6,
               ),
             ),
           ],
         ),
-        backgroundColor: colorTop,
         centerTitle: true,
         actions: <Widget>[
           IconButton(
             alignment: Alignment(0, -0.9),
             icon: const Icon(Icons.settings),
-            color: Colors.black,
             onPressed: () {
               Navigator.push(
                 context,
@@ -99,7 +86,6 @@ class Home extends StatelessWidget {
         child: displayActivity(),
       ),
       bottomNavigationBar: new BottomAppBar(
-        color: colorBottom,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -121,13 +107,6 @@ class Home extends StatelessWidget {
                     builder: (context) => ListOfActivities()));
               },
             ),
-            // IconButton(
-            //   icon: Icon(Icons.album),
-            //   onPressed: () {
-            //     Navigator.of(context).push(
-            //         MaterialPageRoute(builder: (context) => Categoryscreen()));
-            //   },
-            // ),
           ],
         ),
       ),
@@ -139,9 +118,19 @@ class Home extends StatelessWidget {
         ),
         onPressed: () {
           Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddAct()),
-          );
+              context, MaterialPageRoute(builder: (context) => AddAct())
+
+              // Navigator.push(
+              //   context,
+              //   PageTransition(
+              //     child: AddAct(),
+              //     childCurrent: this,
+              //     type: PageTransitionType.bottomToTop,
+              //     duration: Duration(milliseconds: 300),
+              //     reverseDuration: Duration(milliseconds: 300),
+              //     curve: Curves.easeInOut,
+              //   ),
+              );
         },
       ),
     );
@@ -155,33 +144,25 @@ Widget displayActivity() {
         'Activities you\'ve done',
         style: TextStyle(fontSize: 20),
       ),
-      Divider(
-        color: Colors.black38,
-      ),
+      Divider(),
       ActivityDoneBuilder(),
       Text(
         'Today',
         style: TextStyle(fontSize: 20),
       ),
-      Divider(
-        color: Colors.black38,
-      ),
+      Divider(),
       ActivityTodayBuilder(),
       Text(
         'In few days',
         style: TextStyle(fontSize: 20),
       ),
-      Divider(
-        color: Colors.black38,
-      ),
+      Divider(),
       ActivityThisWeekBuilder(),
       Text(
         'Future activities',
         style: TextStyle(fontSize: 20),
       ),
-      Divider(
-        color: Colors.black38,
-      ),
+      Divider(),
       ActivityFutureBuilder(),
     ],
   );
