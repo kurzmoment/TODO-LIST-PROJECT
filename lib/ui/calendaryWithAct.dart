@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:todoList/home.dart';
 import 'package:todoList/ui/addBackdrop.dart';
-import 'package:todoList/ui/categ.dart';
+import 'package:todoList/model/CALENDshow.dart';
 import 'package:todoList/ui/profilePage.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,15 +16,14 @@ class ListOfActivities extends StatelessWidget {
   final QuerySnapshot snapshot;
   final int index;
 
-  final firebaseDB = FirebaseFirestore.instance.collection('test').snapshots();
+  final firebaseDB =
+      FirebaseFirestore.instance.collection('userdata').snapshots();
   static var date = DateTime.now();
   final dateFormat = DateFormat('EEEE / dd.MM.yyyy').format(date);
 
   ListOfActivities({Key key, this.snapshot, this.index}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    // var snapshotData = snapshot.documents[index].data;
-    // var docID = snapshot.documents[index].documentID;
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -36,7 +35,7 @@ class ListOfActivities extends StatelessWidget {
         showDatePickerButton: true,
         //dataSource: ,
         view: CalendarView.workWeek,
-        dataSource: _getCalendarDataSource(),
+        dataSource: _getCalendarDataSource(snapshot, index),
         timeSlotViewSettings: TimeSlotViewSettings(
           startHour: 5,
           endHour: 22,
@@ -94,27 +93,6 @@ class ListOfActivities extends StatelessWidget {
         },
       ),
     );
-  }
-}
-
-_AppointmentDataSource _getCalendarDataSource() {
-  List<Appointment> appointments = <Appointment>[];
-
-  appointments.add(Appointment(
-    startTime: DateTime.now(),
-    endTime: DateTime.now().add(Duration(minutes: 55)),
-    subject: 'Meeting',
-    color: Colors.red,
-    startTimeZone: '',
-    endTimeZone: '',
-  ));
-
-  return _AppointmentDataSource(appointments);
-}
-
-class _AppointmentDataSource extends CalendarDataSource {
-  _AppointmentDataSource(List<Appointment> source) {
-    appointments = source;
   }
 }
 
