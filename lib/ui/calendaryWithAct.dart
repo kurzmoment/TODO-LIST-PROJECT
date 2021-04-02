@@ -53,8 +53,8 @@ class ListOfActivities extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.home),
               onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => Home()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
               },
             ),
             IconButton(

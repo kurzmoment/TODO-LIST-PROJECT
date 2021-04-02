@@ -6,6 +6,7 @@ import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:todoList/home.dart';
 import 'package:date_format/date_format.dart';
+import 'package:todoList/util/theme_provider.dart';
 import 'package:todoList/util/userSetup.dart';
 
 class AddActForms extends StatefulWidget {
@@ -60,7 +61,6 @@ class _AddActFormsState extends State<AddActForms> {
   // DATE AND TIME PICK
   TextEditingController _nameController;
   TextEditingController _notesController;
-  TextEditingController _categoryController;
   TextEditingController _iconController;
   TextEditingController _colorController;
 
@@ -69,7 +69,6 @@ class _AddActFormsState extends State<AddActForms> {
     _iconController = new TextEditingController();
     _nameController = new TextEditingController();
     _notesController = new TextEditingController();
-    _categoryController = new TextEditingController();
     _iconController = new TextEditingController();
     _colorController = new TextEditingController();
     _dateController = new TextEditingController();
@@ -116,15 +115,6 @@ class _AddActFormsState extends State<AddActForms> {
                 helperText: 'Enter notes',
               ),
               controller: _notesController,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            child: TextField(
-              decoration: InputDecoration(
-                helperText: 'Enter your own category name',
-              ),
-              controller: _categoryController,
             ),
           ),
           Padding(
@@ -225,7 +215,6 @@ class _AddActFormsState extends State<AddActForms> {
                     var userName = auth.currentUser.displayName;
                     addActivityUID(
                             _nameController,
-                            _categoryController,
                             _iconController,
                             _dateController,
                             _colorController,
@@ -236,7 +225,6 @@ class _AddActFormsState extends State<AddActForms> {
                         .then((response) {
                       Navigator.pop(context);
                       _nameController.clear();
-                      _categoryController.clear();
                       _iconController.clear();
                       _dateController.clear();
                       _timeController.clear();
@@ -254,45 +242,43 @@ class _AddActFormsState extends State<AddActForms> {
                 onPressed: () {
                   if (_nameController.text.isNotEmpty ||
                       _iconController.text.isNotEmpty ||
-                      _categoryController.text.isNotEmpty ||
                       _dateController.text.isNotEmpty ||
                       _timeController.text.isNotEmpty ||
                       _colorController.text.isNotEmpty ||
                       _notesController.text.isNotEmpty) {
                     return showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('Do you really want exit?'),
-                            content: SingleChildScrollView(
-                              child: ListBody(
-                                children: [
-                                  Text(
-                                      'You make some changes do you really want to exit?')
-                                ],
-                              ),
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text('Do you really want exit?'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: [
+                                Text(
+                                    'You make some changes do you really want to exit?')
+                              ],
                             ),
-                            actions: [
-                              TextButton(
+                          ),
+                          actions: [
+                            TextButton(
                                 child: Text('Yes'),
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => HomeScreen()));
-                                },
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text('No'),
-                              )
-                            ],
-                          );
-                        });
+                                      builder: (builder) => HomeScreen()));
+                                }),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('No'),
+                            )
+                          ],
+                        );
+                      },
+                    );
                   }
                   _nameController.clear();
-                  _categoryController.clear();
                   _iconController.clear();
                   _dateController.clear();
                   _timeController.clear();

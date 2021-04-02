@@ -13,15 +13,6 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-              icon: FaIcon(FontAwesomeIcons.signOutAlt),
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => LoginPage()));
-              })
-        ],
         centerTitle: true,
         title: Text(
           'Settings',
@@ -75,18 +66,45 @@ class Settings extends StatelessWidget {
               ),
             ],
           ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20, top: 5),
-                child: Text('dark mode'),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 250, top: 5),
-                child: SwitcherSettings(),
-              ),
-            ],
+          Consumer<ThemeNotifier>(
+            builder: (context, notifier, child) => SwitchListTile(
+              title: Text('Dark Mode'),
+              onChanged: (val) {
+                notifier.toggleTheme();
+              },
+              value: notifier.darkTheme,
+            ),
           ),
+          // Row(
+          //   children: [
+          //     Padding(
+          //       padding: const EdgeInsets.only(left: 20, top: 5),
+          //       child: Text('dark mode'),
+          //     ),
+          //     Padding(
+          //       padding: const EdgeInsets.only(left: 250, top: 5),
+          //       child: SwitcherSettings(),
+          //     ),
+          //   ],
+          // ),
+          Padding(
+            padding: const EdgeInsets.only(top: 300),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                    child: Text(
+                      'Sing out',
+                      style: TextStyle(fontSize: 22),
+                    ),
+                    onPressed: () {
+                      FirebaseAuth.instance.signOut();
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => LoginPage()));
+                    })
+              ],
+            ),
+          )
         ],
       ),
       bottomNavigationBar: new BottomAppBar(
@@ -96,8 +114,8 @@ class Settings extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.home),
               onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => Home()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
               },
             ),
             IconButton(
@@ -154,27 +172,35 @@ class _DropDownSettingsState extends State<DropDownSettings> {
   }
 }
 
-class SwitcherSettings extends StatefulWidget {
-  @override
-  _SwitcherSettingsState createState() => _SwitcherSettingsState();
-}
+// class SwitcherSettings extends StatefulWidget {
+//   @override
+//   _SwitcherSettingsState createState() => _SwitcherSettingsState();
+// }
 
-class _SwitcherSettingsState extends State<SwitcherSettings> {
-  @override
-  Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    return Switch.adaptive(
-      value: themeProvider.isDarkMode,
-      onChanged: (value) {
-        setState(
-          () {
-            final provider = Provider.of<ThemeProvider>(context, listen: false);
-            provider.toggleTheme(value);
-          },
-        );
-      },
-      activeTrackColor: Colors.lightGreenAccent,
-      activeColor: Colors.green,
-    );
-  }
-}
+// class _SwitcherSettingsState extends State<SwitcherSettings> {
+//   @override
+//   Widget build(BuildContext context) {
+//     // final themeProvider = Provider.of<ThemeProvider>(context);
+//     // return Switch.adaptive(
+//     //   value: themeProvider.isDarkMode,
+//     //   onChanged: (value) {
+//     //     setState(
+//     //       () {
+//     //         final provider = Provider.of<ThemeProvider>(context, listen: false);
+//     //         provider.toggleTheme(value);
+//     //       },
+//     //     );
+//     //   },
+//     //   activeTrackColor: Colors.lightGreenAccent,
+//     //   activeColor: Colors.green,
+//     // );
+//     return Consumer<ThemeProvider>(
+//         builder: (context, ThemeProvider notifier, child) => SwitchListTile(
+//               title: Text('Dark Mode'),
+//               onChanged: (val) {
+//                 notifier.toggleTheme(val);
+//               },
+//               value: notifier.isDarkMode,
+//             ));
+//   }
+// }

@@ -27,18 +27,12 @@ class ActivityTodayShow extends StatefulWidget {
 }
 
 class _ActivityTodayShowState extends State<ActivityTodayShow> {
-  // activityShowToday(
-  //     BuildContext context,  , String name) {
-  //   return document['${name}'];
-  // }
-
   TextEditingController nameInputController;
   TextEditingController iconInputController;
   TextEditingController colorInputController;
   TextEditingController _dateController;
   TextEditingController _timeController;
   TextEditingController notesInputController;
-  TextEditingController categoryInputController;
   String _setTime, _setDate;
   String _hour, _minute, _time;
   String dateTime;
@@ -51,7 +45,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
     iconInputController = new TextEditingController();
     nameInputController = new TextEditingController();
     notesInputController = new TextEditingController();
-    categoryInputController = new TextEditingController();
     iconInputController = new TextEditingController();
     colorInputController = new TextEditingController();
     _dateController = new TextEditingController();
@@ -94,7 +87,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
     var snapshotDate = widget.snapshot.docs[widget.index].get('date');
     var snapshotTime = widget.snapshot.docs[widget.index].get('time');
     var snapshotNotes = widget.snapshot.docs[widget.index].get('notes');
-    var snapshotCategory = widget.snapshot.docs[widget.index].get('category');
     var docID = widget.snapshot.docs[widget.index].id;
     TextEditingController nameInputController =
         TextEditingController(text: snapshotName);
@@ -108,8 +100,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
         TextEditingController(text: snapshotTime);
     TextEditingController notesInputController =
         TextEditingController(text: snapshotNotes);
-    TextEditingController _categoryController =
-        TextEditingController(text: snapshotCategory);
 
     DateTime today = new DateTime.now();
     DateTime formatedDate = today.subtract(Duration(
@@ -174,16 +164,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                   helperText: 'Edit notes',
                                 ),
                                 controller: notesInputController,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 30),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  helperText: 'Edit category',
-                                ),
-                                controller: _categoryController,
                               ),
                             ),
                             Padding(
@@ -381,9 +361,8 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                                   onPressed: () {
                                                     Navigator.of(context).push(
                                                         MaterialPageRoute(
-                                                            builder:
-                                                                (builder) =>
-                                                                    Home()));
+                                                            builder: (builder) =>
+                                                                HomeScreen()));
                                                   },
                                                 ),
                                                 TextButton(
