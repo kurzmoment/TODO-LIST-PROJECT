@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class Calendactshow extends StatefulWidget {
   final QuerySnapshot snapshot;
@@ -16,10 +17,6 @@ class Calendactshow extends StatefulWidget {
 }
 
 class _CalendactshowState extends State<Calendactshow> {
-  String dateTime;
-  DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
-
   @override
   void initState() {
     super.initState();
@@ -30,5 +27,34 @@ class _CalendactshowState extends State<Calendactshow> {
   }
 
   @override
-  Widget build(BuildContext context) {}
+  Widget build(BuildContext context) {
+    var snapshotData = widget.snapshot.docs[widget.index].data;
+    var docID = widget.snapshot.docs[widget.index].id;
+    var snapshotName = widget.snapshot.docs[widget.index].get('name');
+
+    var snapshotBarva = widget.snapshot.docs[widget.index].get('barva');
+    var snapshotDate = widget.snapshot.docs[widget.index].get('date');
+    var snapshotTime = widget.snapshot.docs[widget.index].get('time');
+
+    _AppointmentDataSource _getCalendarDataSource(
+        QuerySnapshot snapshot, int index) {
+      List<Appointment> appointments = <Appointment>[];
+      appointments.add(Appointment(
+        startTime: DateTime(snapshotDate, snapshotTime),
+        endTime:
+            DateTime(snapshotDate, snapshotTime).add(Duration(minutes: 55)),
+        subject: snapshotName,
+        color: snapshotBarva,
+        startTimeZone: '',
+        endTimeZone: '',
+      ));
+      return _AppointmentDataSource(appointments);
+    }
+  }
+}
+
+class _AppointmentDataSource extends CalendarDataSource {
+  _AppointmentDataSource(List<Appointment> source) {
+    appointments = source;
+  }
 }
