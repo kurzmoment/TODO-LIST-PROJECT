@@ -35,7 +35,7 @@ class ListOfActivities extends StatelessWidget {
         showDatePickerButton: true,
         //dataSource: ,
         view: CalendarView.workWeek,
-        dataSource: _getCalendarDataSource(snapshot, index),
+        // dataSource: _getCalendarDataSource(snapshot, index),
         timeSlotViewSettings: TimeSlotViewSettings(
           startHour: 5,
           endHour: 22,

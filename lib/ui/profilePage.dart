@@ -120,13 +120,12 @@ class _CardCategoryState extends State<CardCategory> {
   void initState() {
     // POTREBA NASTAVIT PRIDAVANI POCTU, JESTE TEDA ZALEZI KVULI CEMU SE TO BUDE PRICITAT
     // JESTLI PODLE POCTU STEJNEJCH KATEGORII NEBO PRI SPLNENI URCITY KATEGORIE
-
     super.initState();
     _iconController = new TextEditingController();
   }
 
   void dispose() {
-    pocet = 0;
+    pocet++;
     super.dispose();
   }
 
@@ -142,12 +141,8 @@ class _CardCategoryState extends State<CardCategory> {
     };
     var snapshotIcon = widget.snapshot.docs[widget.index].get('ikona');
     _iconController = TextEditingController(text: snapshotIcon);
-    if (_iconController.text != _iconController.text) {
-      pocet = 1;
-    } else {
+    if (_iconController.text == 'code') {
       pocet++;
-    }
-    if (_iconController.text != 'gym') {
       return Padding(
         padding: const EdgeInsets.all(4.0),
         child: Card(

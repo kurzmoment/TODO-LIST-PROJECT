@@ -113,8 +113,111 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
     final double _panelMaxSize = MediaQuery.of(context).size.height / 1.5;
     if (selectedDate.isAtSameMomentAs(formatedDate)) {
       return Slidable(
+        actionExtentRatio: 0.2,
         actionPane: SlidableDrawerActionPane(),
         secondaryActions: [
+          IconSlideAction(
+            icon: Icons.more_horiz,
+            color: Colors.blue,
+            caption: 'More',
+            onTap: () async {
+              await showDialog(
+                context: context,
+                builder: (context) => Scaffold(
+                  resizeToAvoidBottomInset: false,
+                  appBar: AppBar(
+                    centerTitle: true,
+                    title: Text(
+                      iconInputController.text.toUpperCase(),
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                  ),
+                  body: ListView(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Container(
+                              width: 70,
+                              height: 70,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: Icon(
+                                iconsCollection[snapshotIkona],
+                                color: colorsMapping[snapshotBarva],
+                                size: 60,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              snapshotName.toString().toUpperCase(),
+                              style: TextStyle(
+                                  fontSize: 30, fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Date: ${snapshotDate} ---',
+                              style: TextStyle(
+                                  fontSize: 17, fontStyle: FontStyle.italic),
+                            ),
+                            Text(
+                              ' Time: ${snapshotTime}',
+                              style: TextStyle(
+                                  fontSize: 17, fontStyle: FontStyle.italic),
+                            )
+                          ],
+                        ),
+                      ),
+                      Divider(
+                        thickness: 1,
+                        endIndent: 30,
+                        indent: 30,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 25),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: SingleChildScrollView(
+                                controller: ScrollController(),
+                                scrollDirection: Axis.vertical,
+                                child: Text(
+                                  snapshotNotes,
+                                  style: TextStyle(fontSize: 19),
+                                  textAlign: TextAlign.start,
+                                  softWrap: true,
+                                  overflow: TextOverflow.fade,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
           IconSlideAction(
             icon: Icons.edit,
             color: Colors.green,
@@ -150,6 +253,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 20, horizontal: 30),
                               child: TextField(
+                                maxLength: 20,
                                 decoration: InputDecoration(
                                   helperText: 'Edit a name of a activity',
                                 ),
@@ -160,6 +264,10 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 30),
                               child: TextField(
+                                maxLength: 300,
+                                minLines: 1,
+                                maxLines: 5,
+                                keyboardType: TextInputType.multiline,
                                 decoration: InputDecoration(
                                   helperText: 'Edit notes',
                                 ),
@@ -411,6 +519,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
           )
         ],
         child: Card(
+          shape: ContinuousRectangleBorder(),
           shadowColor: Colors.black,
           child: ListTile(
             leading: Padding(

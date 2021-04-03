@@ -102,6 +102,7 @@ class _AddActFormsState extends State<AddActForms> {
           Padding(
             padding: const EdgeInsets.only(top: 70, left: 30, right: 30),
             child: TextField(
+              maxLength: 20,
               decoration: InputDecoration(
                 helperText: 'Enter a name of a activity',
               ),
@@ -111,6 +112,10 @@ class _AddActFormsState extends State<AddActForms> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
             child: TextField(
+              maxLength: 300,
+              minLines: 1,
+              maxLines: 5,
+              keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
                 helperText: 'Enter notes',
               ),
