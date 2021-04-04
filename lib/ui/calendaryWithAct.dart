@@ -96,7 +96,7 @@ class DataSource extends CalendarDataSource {
 DataSource _getCalendarDataSource(
   QuerySnapshot snapshot,
 ) {
-  int index = 1;
+  int index = 0;
   var snapshotName = snapshot.docs[index].get('name');
 
   var snapshotBarva = snapshot.docs[index].get('barva');
@@ -142,12 +142,15 @@ class Calbuildr extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return CircularProgressIndicator();
-
+        double n = 0;
+        for (var i = 0; i < snapshot.data.docs.length; i++) {
+          n++;
+        }
         return SfCalendar(
           showDatePickerButton: true,
           view: CalendarView.week,
           timeSlotViewSettings: TimeSlotViewSettings(
-            startHour: 5,
+            startHour: n,
             endHour: 22,
             timeIntervalHeight: 75,
             timeIntervalWidth: 60,
