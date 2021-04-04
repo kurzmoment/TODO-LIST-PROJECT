@@ -97,35 +97,37 @@ DataSource _getCalendarDataSource(
   QuerySnapshot snapshot,
 ) {
   int index = 0;
-  var snapshotName = snapshot.docs[index].get('name');
-
-  var snapshotBarva = snapshot.docs[index].get('barva');
-  var snapshotDate = snapshot.docs[index].get('date');
-  var snapshotTime = snapshot.docs[index].get('time');
-  var snapfordat = snapshotDate + " " + snapshotTime;
-  final dateFormat = DateFormat("dd/MM/yyyy kk:mm");
-  DateTime dateTimme = dateFormat.parse(snapfordat);
-  final Map<String, Color> colorsMapping = {
-    'red': Colors.red,
-    'black': Colors.black,
-    'blue': Colors.blue,
-    'green': Colors.green,
-    'pink': Colors.pink,
-    'yellow': Colors.yellow,
-    'lightBlue': Colors.lightBlue,
-    'lightGreen': Colors.lightGreen,
-    'purple': Colors.purple,
-    'amberAccent': Colors.amberAccent
-  };
-
   List<Appointment> appointments = <Appointment>[];
+  for (var i = 0; i < snapshot.docs.length; i++) {
+    var snapshotName = snapshot.docs[index].get('name');
 
-  appointments.add(Appointment(
-    startTime: dateTimme,
-    endTime: dateTimme.add((Duration(hours: 5))),
-    subject: snapshotName,
-    color: colorsMapping[snapshotBarva],
-  ));
+    var snapshotBarva = snapshot.docs[index].get('barva');
+    var snapshotDate = snapshot.docs[index].get('date');
+    var snapshotTime = snapshot.docs[index].get('time');
+    var snapfordat = snapshotDate + " " + snapshotTime;
+    final dateFormat = DateFormat("dd/MM/yyyy kk:mm");
+    DateTime dateTimme = dateFormat.parse(snapfordat);
+    final Map<String, Color> colorsMapping = {
+      'red': Colors.red,
+      'black': Colors.black,
+      'blue': Colors.blue,
+      'green': Colors.green,
+      'pink': Colors.pink,
+      'yellow': Colors.yellow,
+      'lightBlue': Colors.lightBlue,
+      'lightGreen': Colors.lightGreen,
+      'purple': Colors.purple,
+      'amberAccent': Colors.amberAccent
+    };
+
+    appointments.add(Appointment(
+      startTime: dateTimme,
+      endTime: dateTimme.add((Duration(hours: 5))),
+      subject: snapshotName,
+      color: colorsMapping[snapshotBarva],
+    ));
+    index++;
+  }
 
   return DataSource(appointments);
 }
@@ -150,12 +152,14 @@ class Calbuildr extends StatelessWidget {
           showDatePickerButton: true,
           view: CalendarView.week,
           timeSlotViewSettings: TimeSlotViewSettings(
-            startHour: n,
+            startHour: 5,
             endHour: 22,
             timeIntervalHeight: 75,
             timeIntervalWidth: 60,
           ),
-          dataSource: _getCalendarDataSource(snapshot.data),
+          dataSource: _getCalendarDataSource(
+            snapshot.data,
+          ),
         );
       },
     );
