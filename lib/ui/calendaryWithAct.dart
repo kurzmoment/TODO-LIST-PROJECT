@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:todoList/home.dart';
 import 'package:todoList/ui/addBackdrop.dart';
-import 'package:todoList/model/CALENDshow.dart';
+
 import 'package:todoList/ui/profilePage.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,16 +12,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../hexcolor.dart';
 
 // JAKYMKOLIV ZPUSOBEM ZOBRAZIT AKTIVITY V KALENDARI
+
 class ListOfActivities extends StatelessWidget {
   final QuerySnapshot snapshot;
   final int index;
 
+  ListOfActivities({Key key, this.snapshot, this.index}) : super(key: key);
+  @override
+  final FirebaseAuth auth = FirebaseAuth.instance;
   final firebaseDB =
       FirebaseFirestore.instance.collection('userdata').snapshots();
   static var date = DateTime.now();
-  final dateFormat = DateFormat('EEEE / dd.MM.yyyy').format(date);
+  final dateFormat = DateFormat("dd/MM/yyyy").format(date);
 
-  ListOfActivities({Key key, this.snapshot, this.index}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,19 +34,8 @@ class ListOfActivities extends StatelessWidget {
         title: Text('List of activities',
             style: Theme.of(context).textTheme.headline6),
       ),
-      body: SfCalendar(
-        showDatePickerButton: true,
-        //dataSource: ,
-        view: CalendarView.workWeek,
-        dataSource: _getCalendarDataSource(snapshot, index),
-        timeSlotViewSettings: TimeSlotViewSettings(
-          startHour: 5,
-          endHour: 22,
-          timeIntervalHeight: 75,
-          timeIntervalWidth: 60,
-          nonWorkingDays: <int>[DateTime.sunday],
-        ),
-      ),
+
+      body: Calbuildr(),
       //Activity(),
       bottomNavigationBar: new BottomAppBar(
         child: Row(
@@ -52,8 +44,8 @@ class ListOfActivities extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.home),
               onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => Home()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
               },
             ),
             IconButton(
@@ -96,17 +88,74 @@ class ListOfActivities extends StatelessWidget {
   }
 }
 
-// class DataSource extends CalendarDataSource{
-//   DataSource(List<Appointment> source){
-//     appointments = source;
-//   }
-// }
+class DataSource extends CalendarDataSource {
+  DataSource(List<Appointment> source) {
+    appointments = source;
+  }
+}
 
-// DataSource _getCalendarDataSource(QuerySnapshot snapshot){
-//   List<Appointment> appointments = <Appointment>[];
-//   appointments.add(
-//     Appointment(
-//       startTime: snapshot.documents('test')
-//     )
-//   );
-// }
+DataSource _getCalendarDataSource(
+  QuerySnapshot snapshot,
+) {
+  int index = 1;
+  var snapshotName = snapshot.docs[index].get('name');
+
+  var snapshotBarva = snapshot.docs[index].get('barva');
+  var snapshotDate = snapshot.docs[index].get('date');
+  var snapshotTime = snapshot.docs[index].get('time');
+  var snapfordat = snapshotDate + " " + snapshotTime;
+  final dateFormat = DateFormat("dd/MM/yyyy kk:mm");
+  DateTime dateTimme = dateFormat.parse(snapfordat);
+  final Map<String, Color> colorsMapping = {
+    'red': Colors.red,
+    'black': Colors.black,
+    'blue': Colors.blue,
+    'green': Colors.green,
+    'pink': Colors.pink,
+    'yellow': Colors.yellow,
+    'lightBlue': Colors.lightBlue,
+    'lightGreen': Colors.lightGreen,
+    'purple': Colors.purple,
+    'amberAccent': Colors.amberAccent
+  };
+
+  List<Appointment> appointments = <Appointment>[];
+
+  appointments.add(Appointment(
+    startTime: dateTimme,
+    endTime: dateTimme.add((Duration(hours: 5))),
+    subject: snapshotName,
+    color: colorsMapping[snapshotBarva],
+  ));
+
+  return DataSource(appointments);
+}
+
+class Calbuildr extends StatelessWidget {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection('userData')
+          .doc(auth.currentUser.uid)
+          .collection('activity')
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return CircularProgressIndicator();
+
+        return SfCalendar(
+          showDatePickerButton: true,
+          view: CalendarView.week,
+          timeSlotViewSettings: TimeSlotViewSettings(
+            startHour: 5,
+            endHour: 22,
+            timeIntervalHeight: 75,
+            timeIntervalWidth: 60,
+          ),
+          dataSource: _getCalendarDataSource(snapshot.data),
+        );
+      },
+    );
+  }
+}

@@ -10,6 +10,7 @@ import 'package:todoList/ui/addBackdrop.dart';
 import 'package:todoList/util/theme_provider.dart';
 import 'ui/calendaryWithAct.dart';
 import 'package:todoList/ui/profilePage.dart';
+
 import 'package:todoList/ui/settings.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -101,12 +102,11 @@ class Home extends StatelessWidget {
               },
             ),
             IconButton(
-              icon: Icon(Icons.calendar_today_rounded),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ListOfActivities()));
-              },
-            ),
+                icon: Icon(Icons.calendar_today_rounded),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ListOfActivities()));
+                })
           ],
         ),
       ),
