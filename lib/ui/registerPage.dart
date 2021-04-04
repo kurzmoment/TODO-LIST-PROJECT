@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todoList/hexcolor.dart';
 import 'package:todoList/home.dart';
@@ -99,17 +100,18 @@ class _RegisterState extends State<Register> {
                   userSetup(_usernameController.text);
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => HomeScreen()));
-                } catch (e) {
-                  if (e.code == 'weak-password') {
-                    print('The password provided is too weak.');
-                  } else if (e.code == 'email-already-in-use') {
-                    print('The account already exist for that email');
-                  }
-                  _passwordController.text = '';
+                } on FirebaseAuthException catch (e) {
+                  Fluttertoast.showToast(
+                      msg: e.code,
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.TOP,
+                      backgroundColor: Colors.white,
+                      textColor: Colors.black);
+                  print(e.code);
+                  _usernameController.text = '';
                   _rePasswordController.text = '';
                   _emailController.text = '';
-                  _usernameController.text = '';
-                  // VSECHNY DRUHY ALERTU CHYBI
+                  _passwordController.text = '';
                 }
               },
             ),

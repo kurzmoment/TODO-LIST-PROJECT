@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoList/home.dart';
 import 'package:todoList/ui/loginpage.dart';
 import 'package:todoList/util/theme_provider.dart';
@@ -97,8 +98,11 @@ class Settings extends StatelessWidget {
                       'Sing out',
                       style: TextStyle(fontSize: 22),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       FirebaseAuth.instance.signOut();
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.remove('email');
                       Navigator.of(context).push(
                           MaterialPageRoute(builder: (context) => LoginPage()));
                     })

@@ -191,11 +191,16 @@ class _LoginState extends State<Login> {
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => HomeScreen()));
                   }
-                } catch (e) {
-                  print(e);
+                } on FirebaseAuthException catch (e) {
+                  Fluttertoast.showToast(
+                      msg: 'Email or password is wrong',
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.TOP,
+                      backgroundColor: Colors.blue,
+                      textColor: Colors.black);
+                  print(e.code);
                   _emailController.text = '';
                   _passwordController.text = '';
-                  // PODOBNY ALERTY JAK U REGISTRACE
                 }
               },
             ),

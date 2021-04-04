@@ -8,6 +8,9 @@ import 'package:todoList/ui/editProfile.dart';
 import 'calendaryWithAct.dart';
 
 class AccPage extends StatefulWidget {
+  final String ikona;
+
+  const AccPage({Key key, this.ikona}) : super(key: key);
   @override
   _AccPageState createState() => _AccPageState();
 }
@@ -71,7 +74,9 @@ class _AccPageState extends State<AccPage> {
             style: TextStyle(fontSize: 22),
           ),
           Container(
-            child: ProfileBuilder(),
+            child: CardCategory(
+              ikona: widget.ikona,
+            ),
           )
         ],
       ),
@@ -106,22 +111,23 @@ class _AccPageState extends State<AccPage> {
 }
 
 class CardCategory extends StatefulWidget {
-  final QuerySnapshot snapshot;
-  final int index;
+  final String ikona;
 
-  const CardCategory({Key key, this.snapshot, this.index}) : super(key: key);
+  const CardCategory({Key key, this.ikona}) : super(key: key);
+  // final QuerySnapshot snapshot;
+  // final int index;
+
+  // const CardCategory({Key key, this.snapshot, this.index}) : super(key: key);
   @override
   _CardCategoryState createState() => _CardCategoryState();
 }
 
 class _CardCategoryState extends State<CardCategory> {
   int pocet = 0;
-  TextEditingController _iconController;
   void initState() {
     // POTREBA NASTAVIT PRIDAVANI POCTU, JESTE TEDA ZALEZI KVULI CEMU SE TO BUDE PRICITAT
     // JESTLI PODLE POCTU STEJNEJCH KATEGORII NEBO PRI SPLNENI URCITY KATEGORIE
     super.initState();
-    _iconController = new TextEditingController();
   }
 
   void dispose() {
@@ -139,24 +145,81 @@ class _CardCategoryState extends State<CardCategory> {
       'code': FontAwesomeIcons.code,
       'repair': FontAwesomeIcons.tools,
     };
-    var snapshotIcon = widget.snapshot.docs[widget.index].get('ikona');
-    _iconController = TextEditingController(text: snapshotIcon);
-    if (_iconController.text == 'code') {
+    String snapshotIcon = widget.ikona;
+    if (widget.ikona == 'code') {
       pocet++;
       return Padding(
         padding: const EdgeInsets.all(4.0),
         child: Card(
           child: ListTile(
-            title: Text(_iconController.text.toString().toUpperCase()),
+            title: Text(widget.ikona.toString().toUpperCase()),
             trailing: Text(pocet.toString()),
-            leading: Icon(iconsCollection[_iconController.text]),
+            leading: Icon(iconsCollection[snapshotIcon]),
+          ),
+        ),
+      );
+    } else if (widget.ikona == 'business') {
+      pocet++;
+      return Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Card(
+          child: ListTile(
+            title: Text(widget.ikona.toString().toUpperCase()),
+            trailing: Text(pocet.toString()),
+            leading: Icon(iconsCollection[snapshotIcon]),
+          ),
+        ),
+      );
+    } else if (widget.ikona == 'shopping') {
+      pocet++;
+      return Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Card(
+          child: ListTile(
+            title: Text(widget.ikona.toString().toUpperCase()),
+            trailing: Text(pocet.toString()),
+            leading: Icon(iconsCollection[snapshotIcon]),
+          ),
+        ),
+      );
+    } else if (widget.ikona == 'gym') {
+      pocet++;
+      return Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Card(
+          child: ListTile(
+            title: Text(widget.ikona.toString().toUpperCase()),
+            trailing: Text(pocet.toString()),
+            leading: Icon(iconsCollection[snapshotIcon]),
+          ),
+        ),
+      );
+    } else if (widget.ikona == 'eat') {
+      pocet++;
+      return Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Card(
+          child: ListTile(
+            title: Text(widget.ikona.toString().toUpperCase()),
+            trailing: Text(pocet.toString()),
+            leading: Icon(iconsCollection[snapshotIcon]),
+          ),
+        ),
+      );
+    } else if (widget.ikona == 'repair') {
+      pocet++;
+      return Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Card(
+          child: ListTile(
+            title: Text(widget.ikona.toString().toUpperCase()),
+            trailing: Text(pocet.toString()),
+            leading: Icon(iconsCollection[snapshotIcon]),
           ),
         ),
       );
     } else {
       return Container(
-        color: Colors.red,
-        child: Text('deje se neco?'),
         width: 0,
         height: 0,
       );
@@ -164,28 +227,28 @@ class _CardCategoryState extends State<CardCategory> {
   }
 }
 
-class ProfileBuilder extends StatelessWidget {
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: FirebaseFirestore.instance
-          .collection('userData')
-          .doc(auth.currentUser.uid)
-          .collection('activity')
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) return CircularProgressIndicator();
-        return Expanded(
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: snapshot.data.docs.length,
-            itemBuilder: (context, int index) {
-              return CardCategory(snapshot: snapshot.data, index: index);
-            },
-          ),
-        );
-      },
-    );
-  }
-}
+// class ProfileBuilder extends StatelessWidget {
+//   final FirebaseAuth auth = FirebaseAuth.instance;
+//   @override
+//   Widget build(BuildContext context) {
+//     return StreamBuilder(
+//       stream: FirebaseFirestore.instance
+//           .collection('userData')
+//           .doc(auth.currentUser.uid)
+//           .collection('activity')
+//           .snapshots(),
+//       builder: (context, snapshot) {
+//         if (!snapshot.hasData) return CircularProgressIndicator();
+//         return Expanded(
+//           child: ListView.builder(
+//             shrinkWrap: true,
+//             itemCount: snapshot.data.docs.length,
+//             itemBuilder: (context, int index) {
+//               return CardCategory(snapshot: snapshot.data, index: index);
+//             },
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
