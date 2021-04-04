@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoList/hexcolor.dart';
 import 'package:todoList/home.dart';
 import 'package:todoList/ui/registerPage.dart';
@@ -183,6 +184,9 @@ class _LoginState extends State<Login> {
                     password: _passwordController.text,
                   ))
                           .user;
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.setString('email', _emailController.text);
                   if (user != null) {
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => HomeScreen()));
