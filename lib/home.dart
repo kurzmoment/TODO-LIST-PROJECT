@@ -2,9 +2,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:todoList/model/Acitvity_Done_Builder.dart';
-import 'package:todoList/model/Activity_Future_Builder.dart';
-import 'package:todoList/model/Activity_This_Week_Builder.dart';
+
 import 'package:todoList/model/Activity_Today_Builder.dart';
 import 'package:todoList/ui/addBackdrop.dart';
 import 'package:todoList/util/theme_provider.dart';
