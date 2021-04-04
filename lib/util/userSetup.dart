@@ -27,7 +27,6 @@ Future<void> sendPassResMail(String email) async {
 
 Future<void> addActivityUID(
     TextEditingController _nameController,
-    TextEditingController _categoryController,
     TextEditingController _iconController,
     TextEditingController _dateController,
     TextEditingController _colorController,
@@ -45,7 +44,6 @@ Future<void> addActivityUID(
     'displayName': displayName,
     'uid': uid,
     'name': _nameController.text,
-    'category': _categoryController.text,
     'ikona': _iconController.text,
     'date': _dateController.text,
     'barva': _colorController.text,

@@ -28,7 +28,6 @@ class _ActivityFutureShowState extends State<ActivityFutureShow> {
   TextEditingController _dateController;
   TextEditingController _timeController;
   TextEditingController notesInputController;
-  TextEditingController categoryInputController;
   String _setTime, _setDate;
   String _hour, _minute, _time;
   String dateTime;
@@ -41,7 +40,6 @@ class _ActivityFutureShowState extends State<ActivityFutureShow> {
     iconInputController = new TextEditingController();
     nameInputController = new TextEditingController();
     notesInputController = new TextEditingController();
-    categoryInputController = new TextEditingController();
     iconInputController = new TextEditingController();
     colorInputController = new TextEditingController();
     _dateController = new TextEditingController();
@@ -84,7 +82,6 @@ class _ActivityFutureShowState extends State<ActivityFutureShow> {
     var snapshotDate = widget.snapshot.docs[widget.index].get('date');
     var snapshotTime = widget.snapshot.docs[widget.index].get('time');
     var snapshotNotes = widget.snapshot.docs[widget.index].get('notes');
-    var snapshotCategory = widget.snapshot.docs[widget.index].get('category');
     var docID = widget.snapshot.docs[widget.index].id;
     TextEditingController nameInputController =
         TextEditingController(text: snapshotName);
@@ -98,8 +95,6 @@ class _ActivityFutureShowState extends State<ActivityFutureShow> {
         TextEditingController(text: snapshotTime);
     TextEditingController notesInputController =
         TextEditingController(text: snapshotNotes);
-    TextEditingController _categoryController =
-        TextEditingController(text: snapshotCategory);
 
     DateTime today = new DateTime.now();
     DateTime formatedDate = today.subtract(Duration(
@@ -116,6 +111,109 @@ class _ActivityFutureShowState extends State<ActivityFutureShow> {
       return Slidable(
         actionPane: SlidableDrawerActionPane(),
         secondaryActions: [
+          IconSlideAction(
+            icon: Icons.more_horiz,
+            color: Colors.blue,
+            caption: 'More',
+            onTap: () async {
+              await showDialog(
+                context: context,
+                builder: (context) => Scaffold(
+                  resizeToAvoidBottomInset: false,
+                  appBar: AppBar(
+                    centerTitle: true,
+                    title: Text(
+                      iconInputController.text.toUpperCase(),
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                  ),
+                  body: ListView(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Container(
+                              width: 70,
+                              height: 70,
+                              // decoration: BoxDecoration(
+                              //     borderRadius: BorderRadius.circular(25),
+                              //     color: ThemeData.light().primaryColor ??
+                              //         ThemeData.dark().primaryColor),
+                              child: Icon(
+                                iconsCollection[snapshotIkona],
+                                color: colorsMapping[snapshotBarva],
+                                size: 60,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              snapshotName.toString().toUpperCase(),
+                              style: TextStyle(
+                                  fontSize: 30, fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Date: ${snapshotDate} ---',
+                              style: TextStyle(
+                                  fontSize: 17, fontStyle: FontStyle.italic),
+                            ),
+                            Text(
+                              ' Time: ${snapshotTime}',
+                              style: TextStyle(
+                                  fontSize: 17, fontStyle: FontStyle.italic),
+                            )
+                          ],
+                        ),
+                      ),
+                      Divider(
+                        thickness: 1,
+                        endIndent: 30,
+                        indent: 30,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 25),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: SingleChildScrollView(
+                                controller: ScrollController(),
+                                scrollDirection: Axis.vertical,
+                                child: Text(
+                                  snapshotNotes,
+                                  style: TextStyle(fontSize: 19),
+                                  textAlign: TextAlign.start,
+                                  softWrap: true,
+                                  overflow: TextOverflow.fade,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
           IconSlideAction(
             icon: Icons.edit,
             color: Colors.green,
@@ -151,6 +249,7 @@ class _ActivityFutureShowState extends State<ActivityFutureShow> {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 20, horizontal: 30),
                               child: TextField(
+                                maxLength: 20,
                                 decoration: InputDecoration(
                                   helperText: 'Edit a name of a activity',
                                 ),
@@ -161,20 +260,14 @@ class _ActivityFutureShowState extends State<ActivityFutureShow> {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 30),
                               child: TextField(
+                                maxLength: 300,
+                                minLines: 1,
+                                maxLines: 5,
+                                keyboardType: TextInputType.multiline,
                                 decoration: InputDecoration(
                                   helperText: 'Edit notes',
                                 ),
                                 controller: notesInputController,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 30),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  helperText: 'Edit category',
-                                ),
-                                controller: _categoryController,
                               ),
                             ),
                             Padding(
@@ -372,9 +465,8 @@ class _ActivityFutureShowState extends State<ActivityFutureShow> {
                                                   onPressed: () {
                                                     Navigator.of(context).push(
                                                         MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    Home()));
+                                                            builder: (context) =>
+                                                                HomeScreen()));
                                                   },
                                                 ),
                                                 TextButton(

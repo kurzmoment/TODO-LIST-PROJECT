@@ -66,7 +66,13 @@ class _AccPageState extends State<AccPage> {
             indent: 20,
             endIndent: 20,
           ),
-          ProfileBuilder()
+          Text(
+            'STATISTICS',
+            style: TextStyle(fontSize: 22),
+          ),
+          Container(
+            child: ProfileBuilder(),
+          )
         ],
       ),
       bottomNavigationBar: new BottomAppBar(
@@ -76,8 +82,8 @@ class _AccPageState extends State<AccPage> {
             IconButton(
               icon: Icon(Icons.home),
               onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => Home()));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
               },
             ),
             IconButton(
@@ -109,23 +115,17 @@ class CardCategory extends StatefulWidget {
 }
 
 class _CardCategoryState extends State<CardCategory> {
-  int pocet = 1;
-  TextEditingController _categoryController;
+  int pocet = 0;
   TextEditingController _iconController;
   void initState() {
     // POTREBA NASTAVIT PRIDAVANI POCTU, JESTE TEDA ZALEZI KVULI CEMU SE TO BUDE PRICITAT
     // JESTLI PODLE POCTU STEJNEJCH KATEGORII NEBO PRI SPLNENI URCITY KATEGORIE
     super.initState();
-    if (_categoryController == _categoryController) {
-      pocet++;
-    } else {
-      pocet = 1;
-    }
-    _categoryController = new TextEditingController();
     _iconController = new TextEditingController();
   }
 
   void dispose() {
+    pocet++;
     super.dispose();
   }
 
@@ -139,21 +139,28 @@ class _CardCategoryState extends State<CardCategory> {
       'code': FontAwesomeIcons.code,
       'repair': FontAwesomeIcons.tools,
     };
-    var snapshotCategory = widget.snapshot.docs[widget.index].get('category');
     var snapshotIcon = widget.snapshot.docs[widget.index].get('ikona');
-    _categoryController = TextEditingController(text: snapshotCategory);
     _iconController = TextEditingController(text: snapshotIcon);
-    if (_categoryController == _categoryController)
+    if (_iconController.text == 'code') {
+      pocet++;
       return Padding(
         padding: const EdgeInsets.all(4.0),
         child: Card(
           child: ListTile(
-            title: Text(_categoryController.text),
+            title: Text(_iconController.text.toString().toUpperCase()),
             trailing: Text(pocet.toString()),
             leading: Icon(iconsCollection[_iconController.text]),
           ),
         ),
       );
+    } else {
+      return Container(
+        color: Colors.red,
+        child: Text('deje se neco?'),
+        width: 0,
+        height: 0,
+      );
+    }
   }
 }
 
@@ -169,12 +176,14 @@ class ProfileBuilder extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return CircularProgressIndicator();
-        return ListView.builder(
-          shrinkWrap: true,
-          itemCount: snapshot.data.docs.length,
-          itemBuilder: (context, int index) {
-            return CardCategory(snapshot: snapshot.data, index: index);
-          },
+        return Expanded(
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: snapshot.data.docs.length,
+            itemBuilder: (context, int index) {
+              return CardCategory(snapshot: snapshot.data, index: index);
+            },
+          ),
         );
       },
     );
