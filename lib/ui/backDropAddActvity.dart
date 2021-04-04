@@ -17,12 +17,15 @@ class AddActForms extends StatefulWidget {
 class _AddActFormsState extends State<AddActForms> {
   String _setTime, _setDate;
   String _hour, _minute, _time;
+  String _ehour, _eminute, _etime;
   String dateTime;
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
+  TimeOfDay eselectedTime = TimeOfDay(hour: 00, minute: 00);
   TextEditingController _dateController = TextEditingController();
   TextEditingController _timeController = TextEditingController();
 
+  TextEditingController _endtimeController;
   Future<Null> _selectedDate(BuildContext context) async {
     var selectedDate = DateTime.now();
     final DateTime picked = await showDatePicker(
@@ -58,6 +61,25 @@ class _AddActFormsState extends State<AddActForms> {
     }
   }
 
+  Future<Null> _eselectedTime(BuildContext context) async {
+    final TimeOfDay picked = await showTimePicker(
+      context: context,
+      initialTime: eselectedTime,
+    );
+    if (picked != null) {
+      setState(() {
+        eselectedTime = picked;
+        _ehour = eselectedTime.hour.toString();
+        _eminute = eselectedTime.minute.toString();
+        _etime = _ehour + ':' + _eminute;
+        _endtimeController.text = _etime;
+        _endtimeController.text = formatDate(
+            DateTime(2021, 03, 16, eselectedTime.hour, selectedTime.minute),
+            [hh, ':', nn, ' ', am]).toString();
+      });
+    }
+  }
+
   // DATE AND TIME PICK
   TextEditingController _nameController;
   TextEditingController _notesController;
@@ -73,8 +95,12 @@ class _AddActFormsState extends State<AddActForms> {
     _colorController = new TextEditingController();
     _dateController = new TextEditingController();
     _timeController = new TextEditingController();
+    _endtimeController = new TextEditingController();
     _dateController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
     _timeController.text = formatDate(
+        DateTime(2021, 03, 16, selectedTime.hour, selectedTime.minute),
+        [hh, ':', nn, ' ', am]).toString();
+    _endtimeController.text = formatDate(
         DateTime(2021, 03, 16, selectedTime.hour, selectedTime.minute),
         [hh, ':', nn, ' ', am]).toString();
   }
@@ -203,6 +229,29 @@ class _AddActFormsState extends State<AddActForms> {
                             UnderlineInputBorder(borderSide: BorderSide.none)),
                   ),
                 ),
+              ),
+              Text(
+                'Choose end time',
+              ),
+              InkWell(
+                onTap: () {
+                  _eselectedTime(context);
+                },
+                child: Container(
+                  child: TextFormField(
+                    style: TextStyle(fontSize: 25),
+                    textAlign: TextAlign.center,
+                    onSaved: (String val) {
+                      _setTime = val;
+                    },
+                    enabled: false,
+                    keyboardType: TextInputType.text,
+                    controller: _endtimeController,
+                    decoration: InputDecoration(
+                        disabledBorder:
+                            UnderlineInputBorder(borderSide: BorderSide.none)),
+                  ),
+                ),
               )
             ],
           ),
@@ -224,6 +273,7 @@ class _AddActFormsState extends State<AddActForms> {
                             _dateController,
                             _colorController,
                             _timeController,
+                            _endtimeController,
                             _notesController,
                             dt,
                             userName)
@@ -233,6 +283,7 @@ class _AddActFormsState extends State<AddActForms> {
                       _iconController.clear();
                       _dateController.clear();
                       _timeController.clear();
+                      _endtimeController.clear();
                       _colorController.clear();
                       _notesController.clear();
                     }).catchError((error) => print(error));
@@ -249,6 +300,7 @@ class _AddActFormsState extends State<AddActForms> {
                       _iconController.text.isNotEmpty ||
                       _dateController.text.isNotEmpty ||
                       _timeController.text.isNotEmpty ||
+                      _endtimeController.text.isNotEmpty ||
                       _colorController.text.isNotEmpty ||
                       _notesController.text.isNotEmpty) {
                     return showDialog(
@@ -287,6 +339,7 @@ class _AddActFormsState extends State<AddActForms> {
                   _iconController.clear();
                   _dateController.clear();
                   _timeController.clear();
+                  _endtimeController.clear();
                   _colorController.clear();
                   _notesController.clear();
                   Navigator.pop(context);

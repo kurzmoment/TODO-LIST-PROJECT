@@ -31,6 +31,7 @@ Future<void> addActivityUID(
     TextEditingController _dateController,
     TextEditingController _colorController,
     TextEditingController _timeController,
+    TextEditingController _endtimeController,
     TextEditingController _notesController,
     DateTime dt,
     String displayName) async {
@@ -48,6 +49,7 @@ Future<void> addActivityUID(
     'date': _dateController.text,
     'barva': _colorController.text,
     'time': _timeController.text,
+    'etime': _endtimeController.text,
     'notes': _notesController.text,
     'timestamp': dt,
   });

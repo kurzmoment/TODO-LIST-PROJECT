@@ -138,32 +138,12 @@ class Home extends StatelessWidget {
 }
 
 Widget displayActivity() {
-  return ListView(
-    children: [
-      Text(
-        'Activities you\'ve done',
-        style: TextStyle(fontSize: 20),
-      ),
-      Divider(),
-      ActivityDoneBuilder(),
-      Text(
-        'Today',
-        style: TextStyle(fontSize: 20),
-      ),
-      Divider(),
-      ActivityTodayBuilder(),
-      Text(
-        'In few days',
-        style: TextStyle(fontSize: 20),
-      ),
-      Divider(),
-      ActivityThisWeekBuilder(),
-      Text(
-        'Future activities',
-        style: TextStyle(fontSize: 20),
-      ),
-      Divider(),
-      ActivityFutureBuilder(),
-    ],
-  );
+  return ListView(children: [
+    Text(
+      'Today',
+      style: TextStyle(fontSize: 20),
+    ),
+    Divider(),
+    ActivityTodayBuilder(),
+  ]);
 }

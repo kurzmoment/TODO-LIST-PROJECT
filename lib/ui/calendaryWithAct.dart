@@ -104,9 +104,13 @@ DataSource _getCalendarDataSource(
     var snapshotBarva = snapshot.docs[index].get('barva');
     var snapshotDate = snapshot.docs[index].get('date');
     var snapshotTime = snapshot.docs[index].get('time');
+    var snapshotETime = snapshot.docs[index].get('etime');
     var snapfordat = snapshotDate + " " + snapshotTime;
+    var snapforEdat = snapshotDate + " " + snapshotETime;
     final dateFormat = DateFormat("dd/MM/yyyy kk:mm");
+    final dateFormatt = DateFormat("dd/MM/yyyy kk:mm");
     DateTime dateTimme = dateFormat.parse(snapfordat);
+    DateTime edateTimme = dateFormatt.parse(snapforEdat);
     final Map<String, Color> colorsMapping = {
       'red': Colors.red,
       'black': Colors.black,
@@ -122,7 +126,7 @@ DataSource _getCalendarDataSource(
 
     appointments.add(Appointment(
       startTime: dateTimme,
-      endTime: dateTimme.add((Duration(hours: 5))),
+      endTime: edateTimme,
       subject: snapshotName,
       color: colorsMapping[snapshotBarva],
     ));
@@ -144,10 +148,7 @@ class Calbuildr extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return CircularProgressIndicator();
-        double n = 0;
-        for (var i = 0; i < snapshot.data.docs.length; i++) {
-          n++;
-        }
+
         return SfCalendar(
           showDatePickerButton: true,
           view: CalendarView.week,
