@@ -34,19 +34,7 @@ class ListOfActivities extends StatelessWidget {
         title: Text('List of activities',
             style: Theme.of(context).textTheme.headline6),
       ),
-      body: SfCalendar(
-        showDatePickerButton: true,
-        //dataSource: ,
-        view: CalendarView.workWeek,
-        // dataSource: _getCalendarDataSource(snapshot, index),
-        timeSlotViewSettings: TimeSlotViewSettings(
-          startHour: 5,
-          endHour: 22,
-          timeIntervalHeight: 75,
-          timeIntervalWidth: 60,
-          nonWorkingDays: <int>[DateTime.sunday],
-        ),
-      ),
+      body: Calbuildr(),
       //Activity(),
       bottomNavigationBar: new BottomAppBar(
         child: Row(
