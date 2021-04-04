@@ -195,6 +195,7 @@ class _LoginState extends State<Login> {
                   print(e);
                   _emailController.text = '';
                   _passwordController.text = '';
+
                   // PODOBNY ALERTY JAK U REGISTRACE
                 }
               },
