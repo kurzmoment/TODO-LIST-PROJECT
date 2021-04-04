@@ -31,7 +31,7 @@ class HomeScreen extends StatelessWidget {
 
 class Home extends StatelessWidget {
   static var date = DateTime.now();
-  final dateFormat = DateFormat('EEEE / dd.MM.yyyy').format(date);
+  final dateFormat = DateFormat('dd/MM/yyyy kk:mm').format(date);
   @override
   Widget build(BuildContext context) {
     return Scaffold(

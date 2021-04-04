@@ -101,7 +101,7 @@ class _AddActFormsState extends State<AddActForms> {
         DateTime(2021, 03, 16, selectedTime.hour, selectedTime.minute),
         [hh, ':', nn, ' ', am]).toString();
     _endtimeController.text = formatDate(
-        DateTime(2021, 03, 16, selectedTime.hour, selectedTime.minute),
+        DateTime(2021, 03, 16, eselectedTime.hour, eselectedTime.minute),
         [hh, ':', nn, ' ', am]).toString();
   }
 

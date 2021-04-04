@@ -19,12 +19,6 @@ class ListOfActivities extends StatelessWidget {
 
   ListOfActivities({Key key, this.snapshot, this.index}) : super(key: key);
   @override
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  final firebaseDB =
-      FirebaseFirestore.instance.collection('userdata').snapshots();
-  static var date = DateTime.now();
-  final dateFormat = DateFormat("dd/MM/yyyy").format(date);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,10 +101,11 @@ DataSource _getCalendarDataSource(
     var snapshotETime = snapshot.docs[index].get('etime');
     var snapfordat = snapshotDate + " " + snapshotTime;
     var snapforEdat = snapshotDate + " " + snapshotETime;
-    final dateFormat = DateFormat("dd/MM/yyyy kk:mm");
-    final dateFormatt = DateFormat("dd/MM/yyyy kk:mm");
+    final dateFormat = DateFormat("dd/MM/yyyy hh:mm a");
+
     DateTime dateTimme = dateFormat.parse(snapfordat);
-    DateTime edateTimme = dateFormatt.parse(snapforEdat);
+    DateTime edateTimme = dateFormat.parse(snapforEdat);
+
     final Map<String, Color> colorsMapping = {
       'red': Colors.red,
       'black': Colors.black,
