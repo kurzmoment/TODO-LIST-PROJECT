@@ -6,6 +6,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:todoList/ui/profilePage.dart';
 import 'package:we_slide/we_slide.dart';
 
 import '../home.dart';
@@ -144,6 +145,12 @@ class _ActivityDoneState extends State<ActivityDoneShow> {
             trailing: IconButton(
               icon: _initIcon,
               onPressed: () async {
+                await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AccPage(
+                              ikona: iconInputController.text,
+                            )));
                 _initIcon = FaIcon(FontAwesomeIcons.solidCircle);
                 var collectionReference =
                     FirebaseFirestore.instance.collection("userData");
