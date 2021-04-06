@@ -2,8 +2,11 @@ import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
+import 'package:todoList/model/Activity_Week_Builder.dart';
+import 'package:todoList/model/Activity_Month_Builder.dart';
+import 'package:todoList/model/Activity_Done_Builder.dart';
 import 'package:todoList/model/Activity_Today_Builder.dart';
+
 import 'package:todoList/ui/addBackdrop.dart';
 import 'package:todoList/util/theme_provider.dart';
 import 'ui/calendaryWithAct.dart';
@@ -138,10 +141,28 @@ class Home extends StatelessWidget {
 Widget displayActivity() {
   return ListView(children: [
     Text(
+      'Done',
+      style: TextStyle(fontSize: 20),
+    ),
+    Divider(),
+    ActivityDoneBuilder(),
+    Text(
       'Today',
       style: TextStyle(fontSize: 20),
     ),
     Divider(),
     ActivityTodayBuilder(),
+    Text(
+      'This week',
+      style: TextStyle(fontSize: 20),
+    ),
+    Divider(),
+    ActivityWeekBuilder(),
+    Text(
+      'This month',
+      style: TextStyle(fontSize: 20),
+    ),
+    Divider(),
+    ActivityMonthBuilder(),
   ]);
 }

@@ -6,26 +6,28 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
-
+import 'package:todoList/util/userSetup.dart';
 import 'package:we_slide/we_slide.dart';
+
+import 'package:todoList/util/userSetup.dart';
 
 import '../home.dart';
 
-class ActivityTodayShow extends StatefulWidget {
+class ActivityWeekShow extends StatefulWidget {
   final QuerySnapshot snapshot;
   final int index;
 
-  const ActivityTodayShow({
+  const ActivityWeekShow({
     Key key,
     this.snapshot,
     this.index,
   }) : super(key: key);
 
   @override
-  _ActivityTodayShowState createState() => _ActivityTodayShowState();
+  _ActivityWeekShowState createState() => _ActivityWeekShowState();
 }
 
-class _ActivityTodayShowState extends State<ActivityTodayShow> {
+class _ActivityWeekShowState extends State<ActivityWeekShow> {
   TextEditingController nameInputController;
   TextEditingController iconInputController;
   TextEditingController colorInputController;
@@ -116,16 +118,18 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
         TextEditingController(text: snapshotNotes);
 
     DateTime today = new DateTime.now();
+
     DateTime formatedDate = today.subtract(Duration(
         hours: today.hour,
         minutes: today.minute,
         seconds: today.second,
         milliseconds: today.millisecond,
         microseconds: today.microsecond));
+
     var selectedDate = DateFormat('dd/MM/yyyy').parse(_dateController.text);
     final double _panelMinSize = 60.0;
     final double _panelMaxSize = MediaQuery.of(context).size.height / 1.5;
-    if (selectedDate.isAtSameMomentAs(formatedDate)) {
+    if (selectedDate.isAfter(formatedDate)) {
       return Slidable(
         actionExtentRatio: 0.2,
         actionPane: SlidableDrawerActionPane(),
@@ -359,7 +363,9 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                 child: TextFormField(
                                   style: TextStyle(fontSize: 25),
                                   textAlign: TextAlign.center,
-                                  onSaved: (String val) {},
+                                  onSaved: (String val) {
+                                    _setDate = val;
+                                  },
                                   enabled: false,
                                   controller: _dateController,
                                   decoration: InputDecoration(
@@ -399,7 +405,9 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                 child: TextFormField(
                                   style: TextStyle(fontSize: 25),
                                   textAlign: TextAlign.center,
-                                  onSaved: (String val) {},
+                                  onSaved: (String val) {
+                                    _setTime = val;
+                                  },
                                   enabled: false,
                                   keyboardType: TextInputType.datetime,
                                   controller: _timeController,
@@ -440,7 +448,9 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                 child: TextFormField(
                                   style: TextStyle(fontSize: 25),
                                   textAlign: TextAlign.center,
-                                  onSaved: (String val) {},
+                                  onSaved: (String val) {
+                                    _setTime = val;
+                                  },
                                   enabled: false,
                                   keyboardType: TextInputType.datetime,
                                   controller: _endtimeController,
@@ -599,25 +609,25 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
       );
     }
   }
-}
 
-Widget colorSwitch(
-    Color color, String colorController, TextEditingController controller) {
-  return Padding(
-    padding: const EdgeInsets.all(6.0),
-    child: Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25),
-        color: color,
+  Widget colorSwitch(
+      Color color, String colorController, TextEditingController controller) {
+    return Padding(
+      padding: const EdgeInsets.all(6.0),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(25),
+          color: color,
+        ),
+        width: 35,
+        height: 35,
+        child: TextButton(
+          onPressed: () {
+            controller.text = colorController;
+          },
+          child: Text(''),
+        ),
       ),
-      width: 35,
-      height: 35,
-      child: TextButton(
-        onPressed: () {
-          controller.text = colorController;
-        },
-        child: Text(''),
-      ),
-    ),
-  );
+    );
+  }
 }
