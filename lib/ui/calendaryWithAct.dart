@@ -123,6 +123,7 @@ DataSource _getCalendarDataSource(
       startTime: dateTimme,
       endTime: edateTimme,
       subject: snapshotName,
+      recurrenceRule: 'FREQ=DAILY;COUNT=100',
       color: colorsMapping[snapshotBarva],
     ));
     index++;
@@ -146,7 +147,7 @@ class Calbuildr extends StatelessWidget {
 
         return SfCalendar(
           showDatePickerButton: true,
-          view: CalendarView.week,
+          view: CalendarView.schedule,
           timeSlotViewSettings: TimeSlotViewSettings(
             startHour: 5,
             endHour: 22,
