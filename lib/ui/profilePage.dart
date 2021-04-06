@@ -74,9 +74,7 @@ class _AccPageState extends State<AccPage> {
             style: TextStyle(fontSize: 22),
           ),
           Container(
-            child: CardCategory(
-              ikona: widget.ikona,
-            ),
+            child: ProfileBuilder(),
           )
         ],
       ),
@@ -111,9 +109,11 @@ class _AccPageState extends State<AccPage> {
 }
 
 class CardCategory extends StatefulWidget {
-  final String ikona;
+  final QuerySnapshot snapshot;
+  final int index;
 
-  const CardCategory({Key key, this.ikona}) : super(key: key);
+  const CardCategory({Key key, this.snapshot, this.index}) : super(key: key);
+
   // final QuerySnapshot snapshot;
   // final int index;
 
@@ -124,14 +124,19 @@ class CardCategory extends StatefulWidget {
 
 class _CardCategoryState extends State<CardCategory> {
   int pocet = 0;
+  TextEditingController _ikonaController;
+  TextEditingController _nameController;
+  TextEditingController _pointController;
   void initState() {
+    _ikonaController = new TextEditingController();
+    _nameController = new TextEditingController();
+    _pointController = new TextEditingController();
     // POTREBA NASTAVIT PRIDAVANI POCTU, JESTE TEDA ZALEZI KVULI CEMU SE TO BUDE PRICITAT
     // JESTLI PODLE POCTU STEJNEJCH KATEGORII NEBO PRI SPLNENI URCITY KATEGORIE
     super.initState();
   }
 
   void dispose() {
-    pocet++;
     super.dispose();
   }
 
@@ -145,76 +150,99 @@ class _CardCategoryState extends State<CardCategory> {
       'code': FontAwesomeIcons.code,
       'repair': FontAwesomeIcons.tools,
     };
-    String snapshotIcon = widget.ikona;
-    if (widget.ikona == 'code') {
-      pocet++;
+    var snapshotName = widget.snapshot.docs[widget.index].get('categoryName');
+    var snapshotIkona = widget.snapshot.docs[widget.index].get('ikona');
+    var snapshotPoints = widget.snapshot.docs[widget.index].get('point');
+    _nameController = TextEditingController(text: snapshotName);
+    _ikonaController = TextEditingController(text: snapshotIkona);
+    _pointController = TextEditingController(text: snapshotPoints);
+
+    if (_nameController.text == 'code') {
+      // if (pocet.toString() == _pointController.text) {
+      //   pocet++;
+      // }
       return Padding(
         padding: const EdgeInsets.all(4.0),
         child: Card(
           child: ListTile(
-            title: Text(widget.ikona.toString().toUpperCase()),
-            trailing: Text(pocet.toString()),
-            leading: Icon(iconsCollection[snapshotIcon]),
+            title: Text(_nameController.text.toUpperCase()),
+            trailing: Text(_pointController.text),
+            leading: Icon(iconsCollection[_ikonaController.text]),
           ),
         ),
       );
-    } else if (widget.ikona == 'business') {
-      pocet++;
+    } else if (_nameController.text == 'business') {
+      // if (pocet.toString() == _pointController.text) {
+      //   pocet++;
+      // }
       return Padding(
         padding: const EdgeInsets.all(4.0),
         child: Card(
           child: ListTile(
-            title: Text(widget.ikona.toString().toUpperCase()),
-            trailing: Text(pocet.toString()),
-            leading: Icon(iconsCollection[snapshotIcon]),
+            title: Text(_nameController.text.toUpperCase()),
+            trailing: Text(_pointController.text),
+            leading: Icon(iconsCollection[_ikonaController.text]),
           ),
         ),
       );
-    } else if (widget.ikona == 'shopping') {
-      pocet++;
+    } else if (_nameController.text == 'shopping') {
+      // if (pocet.toString() == _pointController.text) {
+      //   pocet++;
+      // }
       return Padding(
         padding: const EdgeInsets.all(4.0),
         child: Card(
           child: ListTile(
-            title: Text(widget.ikona.toString().toUpperCase()),
-            trailing: Text(pocet.toString()),
-            leading: Icon(iconsCollection[snapshotIcon]),
+            title: Text(_nameController.text.toUpperCase()),
+            trailing: Text(_pointController.text),
+            leading: Icon(iconsCollection[_ikonaController.text]),
           ),
         ),
       );
-    } else if (widget.ikona == 'gym') {
-      pocet++;
+    } else if (_nameController.text == 'gym') {
+      int point = int.tryParse(snapshotPoints);
+      karta1:
+      if (_nameController.text.contains('gym')) {
+        point++;
+        return Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Card(
+            child: ListTile(
+              title: Text(_nameController.text.toUpperCase()),
+              trailing: Text(point.toString()),
+              leading: Icon(iconsCollection[_ikonaController.text]),
+            ),
+          ),
+        );
+      } else if (point > 0) {
+        point++;
+        break karta1;
+      }
+    } else if (_nameController.text == 'eat') {
+      // if (pocet.toString() == _pointController.text) {
+      //   pocet++;
+      // }
       return Padding(
         padding: const EdgeInsets.all(4.0),
         child: Card(
           child: ListTile(
-            title: Text(widget.ikona.toString().toUpperCase()),
-            trailing: Text(pocet.toString()),
-            leading: Icon(iconsCollection[snapshotIcon]),
+            title: Text(_nameController.text.toUpperCase()),
+            trailing: Text(_pointController.text),
+            leading: Icon(iconsCollection[_ikonaController.text]),
           ),
         ),
       );
-    } else if (widget.ikona == 'eat') {
-      pocet++;
+    } else if (_nameController.text == 'repair') {
+      // if (pocet.toString() == _pointController.text) {
+      //   pocet++;
+      // }
       return Padding(
         padding: const EdgeInsets.all(4.0),
         child: Card(
           child: ListTile(
-            title: Text(widget.ikona.toString().toUpperCase()),
-            trailing: Text(pocet.toString()),
-            leading: Icon(iconsCollection[snapshotIcon]),
-          ),
-        ),
-      );
-    } else if (widget.ikona == 'repair') {
-      pocet++;
-      return Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: Card(
-          child: ListTile(
-            title: Text(widget.ikona.toString().toUpperCase()),
-            trailing: Text(pocet.toString()),
-            leading: Icon(iconsCollection[snapshotIcon]),
+            title: Text(_nameController.text.toUpperCase()),
+            trailing: Text(_pointController.text),
+            leading: Icon(iconsCollection[_ikonaController.text]),
           ),
         ),
       );
@@ -227,28 +255,32 @@ class _CardCategoryState extends State<CardCategory> {
   }
 }
 
-// class ProfileBuilder extends StatelessWidget {
-//   final FirebaseAuth auth = FirebaseAuth.instance;
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder(
-//       stream: FirebaseFirestore.instance
-//           .collection('userData')
-//           .doc(auth.currentUser.uid)
-//           .collection('activity')
-//           .snapshots(),
-//       builder: (context, snapshot) {
-//         if (!snapshot.hasData) return CircularProgressIndicator();
-//         return Expanded(
-//           child: ListView.builder(
-//             shrinkWrap: true,
-//             itemCount: snapshot.data.docs.length,
-//             itemBuilder: (context, int index) {
-//               return CardCategory(snapshot: snapshot.data, index: index);
-//             },
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }
+class ProfileBuilder extends StatelessWidget {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection('userData')
+          .doc(auth.currentUser.uid)
+          .collection('categoryPoints')
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return CircularProgressIndicator();
+        return Expanded(
+          child: ListView.builder(
+            key: Key('ListViewKey'),
+            shrinkWrap: true,
+            itemCount: snapshot.data.docs.length,
+            itemBuilder: (context, int index) {
+              return CardCategory(
+                snapshot: snapshot.data,
+                index: index,
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+}

@@ -109,62 +109,72 @@ class _ActivityDoneState extends State<ActivityDoneShow> {
     final double _panelMaxSize = MediaQuery.of(context).size.height / 1.5;
     var _initIcon = FaIcon(FontAwesomeIcons.circle);
     if (selectedDate.isBefore(formatedDate)) {
-      return Slidable(
-        actionPane: SlidableDrawerActionPane(),
-        secondaryActions: [
-          IconSlideAction(
-            icon: Icons.delete,
-            color: Colors.red,
-            caption: 'Delete',
-            onTap: () async {
-              var collectionReference =
-                  FirebaseFirestore.instance.collection("userData");
-              await collectionReference
-                  .doc(FirebaseAuth.instance.currentUser.uid)
-                  .collection('activity')
-                  .doc(docID)
-                  .delete()
-                  .catchError((error) => print("$error"));
-            },
-          )
-        ],
-        child: Card(
-          shadowColor: Colors.black,
-          child: ListTile(
-            leading: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Icon(
-                iconsCollection[snapshotIkona],
-                color: colorsMapping[snapshotBarva],
+      return ListView(
+        shrinkWrap: true,
+        children: [
+          Text(
+            'Today',
+            style: TextStyle(fontSize: 20),
+          ),
+          Divider(),
+          Slidable(
+            actionPane: SlidableDrawerActionPane(),
+            secondaryActions: [
+              IconSlideAction(
+                icon: Icons.delete,
+                color: Colors.red,
+                caption: 'Delete',
+                onTap: () async {
+                  var collectionReference =
+                      FirebaseFirestore.instance.collection("userData");
+                  await collectionReference
+                      .doc(FirebaseAuth.instance.currentUser.uid)
+                      .collection('activity')
+                      .doc(docID)
+                      .delete()
+                      .catchError((error) => print("$error"));
+                },
+              )
+            ],
+            child: Card(
+              shadowColor: Colors.black,
+              child: ListTile(
+                leading: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Icon(
+                    iconsCollection[snapshotIkona],
+                    color: colorsMapping[snapshotBarva],
+                  ),
+                ),
+                title: Text(
+                  snapshotName,
+                  style: TextStyle(fontSize: 20),
+                ),
+                trailing: IconButton(
+                  icon: _initIcon,
+                  onPressed: () async {
+                    await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AccPage(
+                                  ikona: iconInputController.text,
+                                )));
+                    _initIcon = FaIcon(FontAwesomeIcons.solidCircle);
+                    var collectionReference =
+                        FirebaseFirestore.instance.collection("userData");
+                    await collectionReference
+                        .doc(FirebaseAuth.instance.currentUser.uid)
+                        .collection('activity')
+                        .doc(docID)
+                        .delete()
+                        .catchError((error) => print("$error"));
+                  },
+                ),
+                subtitle: Text('${snapshotDate}, ${snapshotTime}'),
               ),
             ),
-            title: Text(
-              snapshotName,
-              style: TextStyle(fontSize: 20),
-            ),
-            trailing: IconButton(
-              icon: _initIcon,
-              onPressed: () async {
-                await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AccPage(
-                              ikona: iconInputController.text,
-                            )));
-                _initIcon = FaIcon(FontAwesomeIcons.solidCircle);
-                var collectionReference =
-                    FirebaseFirestore.instance.collection("userData");
-                await collectionReference
-                    .doc(FirebaseAuth.instance.currentUser.uid)
-                    .collection('activity')
-                    .doc(docID)
-                    .delete()
-                    .catchError((error) => print("$error"));
-              },
-            ),
-            subtitle: Text('${snapshotDate}, ${snapshotTime}'),
           ),
-        ),
+        ],
       );
     } else {
       return Container(

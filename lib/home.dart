@@ -116,19 +116,7 @@ class Home extends StatelessWidget {
         ),
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AddAct())
-
-              // Navigator.push(
-              //   context,
-              //   PageTransition(
-              //     child: AddAct(),
-              //     childCurrent: this,
-              //     type: PageTransitionType.bottomToTop,
-              //     duration: Duration(milliseconds: 300),
-              //     reverseDuration: Duration(milliseconds: 300),
-              //     curve: Curves.easeInOut,
-              //   ),
-              );
+              context, MaterialPageRoute(builder: (context) => AddAct()));
         },
       ),
     );
@@ -136,12 +124,7 @@ class Home extends StatelessWidget {
 }
 
 Widget displayActivity() {
-  return ListView(children: [
-    Text(
-      'Today',
-      style: TextStyle(fontSize: 20),
-    ),
-    Divider(),
+  return Column(children: [
     ActivityTodayBuilder(),
   ]);
 }
