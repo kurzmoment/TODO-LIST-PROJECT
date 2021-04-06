@@ -123,7 +123,6 @@ DataSource _getCalendarDataSource(
       startTime: dateTimme,
       endTime: edateTimme,
       subject: snapshotName,
-      recurrenceRule: 'FREQ=DAILY;COUNT=100',
       color: colorsMapping[snapshotBarva],
     ));
     index++;
