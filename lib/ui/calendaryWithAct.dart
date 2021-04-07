@@ -23,7 +23,7 @@ class ListOfActivities extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        // iconTheme: IconThemeData(color: Colors.black),
         centerTitle: true,
         title: Text('List of activities',
             style: Theme.of(context).textTheme.headline6),
