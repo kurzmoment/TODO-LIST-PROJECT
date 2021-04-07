@@ -268,16 +268,16 @@ class _AddActFormsState extends State<AddActForms> {
                     var auth = FirebaseAuth.instance;
                     var userName = auth.currentUser.displayName;
                     addActivityUID(
-                            _nameController,
-                            _iconController,
-                            _dateController,
-                            _colorController,
-                            _timeController,
-                            _endtimeController,
-                            _notesController,
-                            dt,
-                            userName)
-                        .then((response) {
+                      _nameController,
+                      _iconController,
+                      _dateController,
+                      _colorController,
+                      _timeController,
+                      _endtimeController,
+                      _notesController,
+                      dt,
+                      userName,
+                    ).then((response) {
                       Navigator.pop(context);
                       _nameController.clear();
                       _iconController.clear();

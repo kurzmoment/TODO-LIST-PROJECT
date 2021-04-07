@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -73,9 +75,7 @@ class _AccPageState extends State<AccPage> {
             'STATISTICS',
             style: TextStyle(fontSize: 22),
           ),
-          Container(
-            child: ProfileBuilder(),
-          )
+          StatisticBuilder(),
         ],
       ),
       bottomNavigationBar: new BottomAppBar(
@@ -108,31 +108,46 @@ class _AccPageState extends State<AccPage> {
   }
 }
 
-class CardCategory extends StatefulWidget {
+class StatisticBuilder extends StatelessWidget {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection('userData')
+          .doc(auth.currentUser.uid)
+          .collection('categoryPoints')
+          .orderBy('point')
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return CircularProgressIndicator();
+        return Expanded(
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: snapshot.data.docs.length,
+            itemBuilder: (context, int index) {
+              return StatShow(snapshot: snapshot.data, index: index);
+            },
+          ),
+        );
+      },
+    );
+  }
+}
+
+class StatShow extends StatefulWidget {
   final QuerySnapshot snapshot;
   final int index;
 
-  const CardCategory({Key key, this.snapshot, this.index}) : super(key: key);
+  const StatShow({Key key, this.snapshot, this.index}) : super(key: key);
 
-  // final QuerySnapshot snapshot;
-  // final int index;
-
-  // const CardCategory({Key key, this.snapshot, this.index}) : super(key: key);
   @override
-  _CardCategoryState createState() => _CardCategoryState();
+  _StatShowState createState() => _StatShowState();
 }
 
-class _CardCategoryState extends State<CardCategory> {
+class _StatShowState extends State<StatShow> {
   int pocet = 0;
-  TextEditingController _ikonaController;
-  TextEditingController _nameController;
-  TextEditingController _pointController;
   void initState() {
-    _ikonaController = new TextEditingController();
-    _nameController = new TextEditingController();
-    _pointController = new TextEditingController();
-    // POTREBA NASTAVIT PRIDAVANI POCTU, JESTE TEDA ZALEZI KVULI CEMU SE TO BUDE PRICITAT
-    // JESTLI PODLE POCTU STEJNEJCH KATEGORII NEBO PRI SPLNENI URCITY KATEGORIE
     super.initState();
   }
 
@@ -150,137 +165,75 @@ class _CardCategoryState extends State<CardCategory> {
       'code': FontAwesomeIcons.code,
       'repair': FontAwesomeIcons.tools,
     };
-    var snapshotName = widget.snapshot.docs[widget.index].get('categoryName');
-    var snapshotIkona = widget.snapshot.docs[widget.index].get('ikona');
+    var snapshotName = widget.snapshot.docs[widget.index].get('name');
     var snapshotPoints = widget.snapshot.docs[widget.index].get('point');
-    _nameController = TextEditingController(text: snapshotName);
-    _ikonaController = TextEditingController(text: snapshotIkona);
-    _pointController = TextEditingController(text: snapshotPoints);
 
-    if (_nameController.text == 'code') {
-      // if (pocet.toString() == _pointController.text) {
-      //   pocet++;
-      // }
+    if (snapshotName == 'shopping') {
       return Padding(
         padding: const EdgeInsets.all(4.0),
         child: Card(
           child: ListTile(
-            title: Text(_nameController.text.toUpperCase()),
-            trailing: Text(_pointController.text),
-            leading: Icon(iconsCollection[_ikonaController.text]),
+            title: Text(snapshotName.toString().toUpperCase()),
+            trailing: Text(snapshotPoints.toString()),
+            leading: Icon(iconsCollection[snapshotName]),
           ),
         ),
       );
-    } else if (_nameController.text == 'business') {
-      // if (pocet.toString() == _pointController.text) {
-      //   pocet++;
-      // }
+    } else if (snapshotName == 'code') {
       return Padding(
         padding: const EdgeInsets.all(4.0),
         child: Card(
           child: ListTile(
-            title: Text(_nameController.text.toUpperCase()),
-            trailing: Text(_pointController.text),
-            leading: Icon(iconsCollection[_ikonaController.text]),
+            title: Text(snapshotName.toString().toUpperCase()),
+            trailing: Text(snapshotPoints.toString()),
+            leading: Icon(iconsCollection[snapshotName]),
           ),
         ),
       );
-    } else if (_nameController.text == 'shopping') {
-      // if (pocet.toString() == _pointController.text) {
-      //   pocet++;
-      // }
+    } else if (snapshotName == 'business') {
+      return new Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: new Card(
+          child: new ListTile(
+            title: new Text(snapshotName.toString().toUpperCase()),
+            trailing: new Text(snapshotPoints.toString()),
+            leading: new Icon(iconsCollection[snapshotName]),
+          ),
+        ),
+      );
+    } else if (snapshotName == 'repair') {
       return Padding(
         padding: const EdgeInsets.all(4.0),
         child: Card(
           child: ListTile(
-            title: Text(_nameController.text.toUpperCase()),
-            trailing: Text(_pointController.text),
-            leading: Icon(iconsCollection[_ikonaController.text]),
+            title: Text(snapshotName.toString().toUpperCase()),
+            trailing: Text(snapshotPoints.toString()),
+            leading: Icon(iconsCollection[snapshotName]),
           ),
         ),
       );
-    } else if (_nameController.text == 'gym') {
-      int point = int.tryParse(snapshotPoints);
-      karta1:
-      if (_nameController.text.contains('gym')) {
-        point++;
-        return Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Card(
-            child: ListTile(
-              title: Text(_nameController.text.toUpperCase()),
-              trailing: Text(point.toString()),
-              leading: Icon(iconsCollection[_ikonaController.text]),
-            ),
-          ),
-        );
-      } else if (point > 0) {
-        point++;
-        break karta1;
-      }
-    } else if (_nameController.text == 'eat') {
-      // if (pocet.toString() == _pointController.text) {
-      //   pocet++;
-      // }
+    } else if (snapshotName == 'eat') {
       return Padding(
         padding: const EdgeInsets.all(4.0),
         child: Card(
           child: ListTile(
-            title: Text(_nameController.text.toUpperCase()),
-            trailing: Text(_pointController.text),
-            leading: Icon(iconsCollection[_ikonaController.text]),
+            title: Text(snapshotName.toString().toUpperCase()),
+            trailing: Text(snapshotPoints.toString()),
+            leading: Icon(iconsCollection[snapshotName]),
           ),
         ),
       );
-    } else if (_nameController.text == 'repair') {
-      // if (pocet.toString() == _pointController.text) {
-      //   pocet++;
-      // }
+    } else if (snapshotName == 'gym') {
       return Padding(
         padding: const EdgeInsets.all(4.0),
         child: Card(
           child: ListTile(
-            title: Text(_nameController.text.toUpperCase()),
-            trailing: Text(_pointController.text),
-            leading: Icon(iconsCollection[_ikonaController.text]),
+            title: Text(snapshotName.toString().toUpperCase()),
+            trailing: Text(snapshotPoints.toString()),
+            leading: Icon(iconsCollection[snapshotName]),
           ),
         ),
-      );
-    } else {
-      return Container(
-        width: 0,
-        height: 0,
       );
     }
-  }
-}
-
-class ProfileBuilder extends StatelessWidget {
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: FirebaseFirestore.instance
-          .collection('userData')
-          .doc(auth.currentUser.uid)
-          .collection('categoryPoints')
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) return CircularProgressIndicator();
-        return Expanded(
-          child: ListView.builder(
-            key: Key('ListViewKey'),
-            shrinkWrap: true,
-            itemCount: snapshot.data.docs.length,
-            itemBuilder: (context, int index) {
-              return CardCategory(
-                snapshot: snapshot.data,
-                index: index,
-              );
-            },
-          ),
-        );
-      },
-    );
   }
 }
