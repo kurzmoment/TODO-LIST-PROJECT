@@ -117,7 +117,7 @@ class StatisticBuilder extends StatelessWidget {
           .collection('userData')
           .doc(auth.currentUser.uid)
           .collection('categoryPoints')
-          .orderBy('point')
+          .orderBy('point', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return CircularProgressIndicator();
