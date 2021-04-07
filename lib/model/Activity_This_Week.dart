@@ -27,6 +27,10 @@ class ActivityWeekShow extends StatefulWidget {
   _ActivityWeekShowState createState() => _ActivityWeekShowState();
 }
 
+DateTime findLastDateOfTheWeek(DateTime dateTime) {
+  return dateTime.add(Duration(days: DateTime.daysPerWeek - dateTime.weekday));
+}
+
 class _ActivityWeekShowState extends State<ActivityWeekShow> {
   TextEditingController nameInputController;
   TextEditingController iconInputController;
@@ -129,7 +133,10 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
     var selectedDate = DateFormat('dd/MM/yyyy').parse(_dateController.text);
     final double _panelMinSize = 60.0;
     final double _panelMaxSize = MediaQuery.of(context).size.height / 1.5;
-    if (selectedDate.isAfter(formatedDate)) {
+    if (selectedDate.isAfter(formatedDate) &&
+        (selectedDate.isBefore(findLastDateOfTheWeek(formatedDate)) ||
+            selectedDate
+                .isAtSameMomentAs(findLastDateOfTheWeek(formatedDate)))) {
       return Slidable(
         actionExtentRatio: 0.2,
         actionPane: SlidableDrawerActionPane(),
