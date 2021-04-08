@@ -8,6 +8,7 @@ import 'package:todoList/home.dart';
 import 'package:date_format/date_format.dart';
 import 'package:todoList/util/theme_provider.dart';
 import 'package:todoList/util/userSetup.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddActForms extends StatefulWidget {
   @override
@@ -130,7 +131,7 @@ class _AddActFormsState extends State<AddActForms> {
             child: TextField(
               maxLength: 20,
               decoration: InputDecoration(
-                helperText: 'Enter a name of a activity',
+                helperText: AppLocalizations.of(context).enterANameOfAActivity,
               ),
               controller: _nameController,
             ),
@@ -143,7 +144,7 @@ class _AddActFormsState extends State<AddActForms> {
               maxLines: 5,
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
-                helperText: 'Enter notes',
+                helperText: AppLocalizations.of(context).enterNotes,
               ),
               controller: _notesController,
             ),
@@ -153,9 +154,9 @@ class _AddActFormsState extends State<AddActForms> {
             child: IconPicker(
               initialValue: null,
               icon: Icon(Icons.apps),
-              labelText: "Icon",
-              title: "Select an icon",
-              cancelBtn: 'Cancel',
+              labelText: AppLocalizations.of(context).icon,
+              title: AppLocalizations.of(context).selectAnIcon,
+              cancelBtn: AppLocalizations.of(context).cancel,
               enableSearch: false,
               iconCollection: iconsCollection,
               controller: _iconController,
@@ -186,7 +187,7 @@ class _AddActFormsState extends State<AddActForms> {
           Column(
             children: [
               Text(
-                'Choose date',
+                AppLocalizations.of(context).chooseDate,
               ),
               InkWell(
                 onTap: () {
@@ -207,9 +208,7 @@ class _AddActFormsState extends State<AddActForms> {
                   ),
                 ),
               ),
-              Text(
-                'Choose time',
-              ),
+              Text(AppLocalizations.of(context).chooseTime),
               InkWell(
                 onTap: () {
                   _selectedTime(context);
@@ -230,9 +229,7 @@ class _AddActFormsState extends State<AddActForms> {
                   ),
                 ),
               ),
-              Text(
-                'Choose end time',
-              ),
+              Text(AppLocalizations.of(context).chooseEndTime),
               InkWell(
                 onTap: () {
                   _eselectedTime(context);
@@ -260,7 +257,7 @@ class _AddActFormsState extends State<AddActForms> {
             children: [
               TextButton(
                 child: Text(
-                  'Save',
+                  AppLocalizations.of(context).save,
                   style: TextStyle(fontSize: 25),
                 ),
                 onPressed: () {
@@ -292,7 +289,7 @@ class _AddActFormsState extends State<AddActForms> {
               ),
               TextButton(
                 child: Text(
-                  'Cancel',
+                  AppLocalizations.of(context).cancel,
                   style: TextStyle(fontSize: 25),
                 ),
                 onPressed: () {
@@ -308,18 +305,22 @@ class _AddActFormsState extends State<AddActForms> {
                       barrierDismissible: false,
                       builder: (context) {
                         return AlertDialog(
-                          title: Text('Do you really want exit?'),
+                          title: Text(
+                            AppLocalizations.of(context).doYouReallyWantExit,
+                          ),
                           content: SingleChildScrollView(
                             child: ListBody(
                               children: [
                                 Text(
-                                    'You make some changes do you really want to exit?')
+                                  AppLocalizations.of(context)
+                                      .youMakeSomeChangesDoYouReallyWantToExit,
+                                )
                               ],
                             ),
                           ),
                           actions: [
                             TextButton(
-                                child: Text('Yes'),
+                                child: Text(AppLocalizations.of(context).yes),
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (builder) => HomeScreen()));
@@ -328,7 +329,7 @@ class _AddActFormsState extends State<AddActForms> {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: Text('No'),
+                              child: Text(AppLocalizations.of(context).no),
                             )
                           ],
                         );

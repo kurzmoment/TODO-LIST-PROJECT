@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,7 +35,7 @@ class _AccPageState extends State<AccPage> {
         ],
         centerTitle: true,
         title: Text(
-          'My profile',
+          AppLocalizations.of(context).myProfile,
           style: Theme.of(context).textTheme.headline6,
         ),
       ),
@@ -61,7 +61,7 @@ class _AccPageState extends State<AccPage> {
                 children: [
                   Text(FirebaseAuth.instance.currentUser.displayName),
                   Text(FirebaseAuth.instance.currentUser.email),
-                  Text('Place for your job')
+                  Text(AppLocalizations.of(context).placeForYourJob)
                 ],
               )
             ],
@@ -72,7 +72,7 @@ class _AccPageState extends State<AccPage> {
             endIndent: 20,
           ),
           Text(
-            'STATISTICS',
+            AppLocalizations.of(context).statistics,
             style: TextStyle(fontSize: 22),
           ),
           StatisticBuilder(),

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoList/home.dart';
@@ -16,7 +17,7 @@ class Settings extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'Settings',
+          AppLocalizations.of(context).settings,
           style: Theme.of(context).textTheme.headline6,
         ),
       ),
@@ -27,7 +28,7 @@ class Settings extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 20, top: 20),
                 child: Text(
-                  'language',
+                  AppLocalizations.of(context).language,
                   style: TextStyle(fontSize: 17),
                 ),
               )
@@ -44,7 +45,7 @@ class Settings extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 20, top: 10),
                 child: Text(
-                  'notifaction',
+                  AppLocalizations.of(context).notification,
                   style: TextStyle(fontSize: 17),
                 ),
               )
@@ -59,7 +60,7 @@ class Settings extends StatelessWidget {
             padding: const EdgeInsets.only(left: 10),
             child: Consumer<ThemeNotifier>(
               builder: (context, notifier, child) => SwitchListTile(
-                title: Text('notification'),
+                title: Text(AppLocalizations.of(context).notification),
                 onChanged: (val) {
                   debugPrint(val.toString());
                 },
@@ -71,7 +72,7 @@ class Settings extends StatelessWidget {
             padding: const EdgeInsets.only(left: 10),
             child: Consumer<ThemeNotifier>(
               builder: (context, notifier, child) => SwitchListTile(
-                title: Text('dark mode'),
+                title: Text(AppLocalizations.of(context).darkMode),
                 onChanged: (val) {
                   notifier.toggleTheme();
                 },
@@ -86,7 +87,7 @@ class Settings extends StatelessWidget {
               children: [
                 TextButton(
                     child: Text(
-                      'Sing out',
+                      AppLocalizations.of(context).signOut,
                       style: TextStyle(fontSize: 22),
                     ),
                     onPressed: () async {

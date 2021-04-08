@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:we_slide/we_slide.dart';
 
@@ -148,7 +149,7 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
           IconSlideAction(
             icon: Icons.more_horiz,
             color: Colors.blue,
-            caption: 'More',
+            caption: AppLocalizations.of(context).more,
             onTap: () async {
               await showDialog(
                 context: context,
@@ -250,7 +251,7 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
           IconSlideAction(
             icon: Icons.edit,
             color: Colors.green,
-            caption: 'Edit',
+            caption: AppLocalizations.of(context).edit,
             onTap: () async {
               await showDialog(
                 context: context,
@@ -270,7 +271,7 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
                       color: Colors.blue,
                       height: _panelMinSize,
                       child: Text(
-                        'Edit activity',
+                        AppLocalizations.of(context).editActivity,
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                     ),
@@ -284,7 +285,8 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
                               child: TextField(
                                 maxLength: 20,
                                 decoration: InputDecoration(
-                                  helperText: 'Edit a name of a activity',
+                                  helperText: AppLocalizations.of(context)
+                                      .editANameOfAActivity,
                                 ),
                                 controller: nameInputController,
                               ),
@@ -298,7 +300,8 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
                                 maxLines: 5,
                                 keyboardType: TextInputType.multiline,
                                 decoration: InputDecoration(
-                                  helperText: 'Edit notes',
+                                  helperText:
+                                      AppLocalizations.of(context).editNotes,
                                 ),
                                 controller: notesInputController,
                               ),
@@ -309,9 +312,10 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
                               child: IconPicker(
                                 initialValue: null,
                                 icon: Icon(Icons.apps),
-                                labelText: "Icon",
-                                title: "Select an icon",
-                                cancelBtn: 'Cancel',
+                                labelText: AppLocalizations.of(context).icon,
+                                title:
+                                    AppLocalizations.of(context).selectAnIcon,
+                                cancelBtn: AppLocalizations.of(context).cancel,
                                 enableSearch: false,
                                 iconCollection: iconsCollection,
                                 controller: iconInputController,
@@ -348,7 +352,7 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
                               ),
                             ),
                             Text(
-                              'Choose date',
+                              AppLocalizations.of(context).chooseDate,
                             ),
                             InkWell(
                               onTap: () async {
@@ -386,7 +390,7 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
                               ),
                             ),
                             Text(
-                              'Choose time',
+                              AppLocalizations.of(context).chooseTime,
                             ),
                             InkWell(
                               onTap: () async {
@@ -429,7 +433,7 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
                               ),
                             ),
                             Text(
-                              'Choose end time',
+                              AppLocalizations.of(context).chooseEndTime,
                             ),
                             InkWell(
                               onTap: () async {
@@ -476,7 +480,7 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
                               children: [
                                 TextButton(
                                   child: Text(
-                                    'Save',
+                                    AppLocalizations.of(context).save,
                                     style: TextStyle(fontSize: 25),
                                   ),
                                   onPressed: () {
@@ -513,7 +517,7 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
                                 ),
                                 TextButton(
                                   child: Text(
-                                    'Cancel',
+                                    AppLocalizations.of(context).cancel,
                                     style: TextStyle(fontSize: 25),
                                   ),
                                   onPressed: () {
@@ -529,18 +533,23 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
                                           builder: (BuildContext context) {
                                             return AlertDialog(
                                               title: Text(
-                                                  'Do you really want exit?'),
+                                                  AppLocalizations.of(context)
+                                                      .doYouReallyWantExit),
                                               content: SingleChildScrollView(
                                                 child: ListBody(
                                                   children: [
-                                                    Text(
-                                                        'You make some changes do you really want to exit?')
+                                                    Text(AppLocalizations.of(
+                                                            context)
+                                                        .youMakeSomeChangesDoYouReallyWantToExit)
                                                   ],
                                                 ),
                                               ),
                                               actions: [
                                                 TextButton(
-                                                  child: Text('Yes'),
+                                                  child: Text(
+                                                      AppLocalizations.of(
+                                                              context)
+                                                          .yes),
                                                   onPressed: () {
                                                     Navigator.of(context).push(
                                                         MaterialPageRoute(
@@ -552,7 +561,10 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
                                                   onPressed: () {
                                                     Navigator.pop(context);
                                                   },
-                                                  child: Text('No'),
+                                                  child: Text(
+                                                      AppLocalizations.of(
+                                                              context)
+                                                          .no),
                                                 )
                                               ],
                                             );
@@ -581,7 +593,7 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
           IconSlideAction(
             icon: Icons.delete,
             color: Colors.red,
-            caption: 'Delete',
+            caption: AppLocalizations.of(context).delete,
             onTap: () async {
               var collectionReference =
                   FirebaseFirestore.instance.collection("userData");

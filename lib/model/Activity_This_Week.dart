@@ -8,7 +8,7 @@ import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:todoList/util/userSetup.dart';
 import 'package:we_slide/we_slide.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:todoList/util/userSetup.dart';
 
 import '../home.dart';
@@ -144,7 +144,7 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
           IconSlideAction(
             icon: Icons.more_horiz,
             color: Colors.blue,
-            caption: 'More',
+            caption: AppLocalizations.of(context).more,
             onTap: () async {
               await showDialog(
                 context: context,
@@ -246,7 +246,7 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
           IconSlideAction(
             icon: Icons.edit,
             color: Colors.green,
-            caption: 'Edit',
+            caption: AppLocalizations.of(context).edit,
             onTap: () async {
               await showDialog(
                 context: context,
@@ -266,7 +266,7 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                       color: Colors.blue,
                       height: _panelMinSize,
                       child: Text(
-                        'Edit activity',
+                        AppLocalizations.of(context).editActivity,
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                     ),
@@ -280,7 +280,8 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                               child: TextField(
                                 maxLength: 20,
                                 decoration: InputDecoration(
-                                  helperText: 'Edit a name of a activity',
+                                  helperText: AppLocalizations.of(context)
+                                      .editANameOfAActivity,
                                 ),
                                 controller: nameInputController,
                               ),
@@ -294,7 +295,8 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                                 maxLines: 5,
                                 keyboardType: TextInputType.multiline,
                                 decoration: InputDecoration(
-                                  helperText: 'Edit notes',
+                                  helperText:
+                                      AppLocalizations.of(context).editNotes,
                                 ),
                                 controller: notesInputController,
                               ),
@@ -305,9 +307,10 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                               child: IconPicker(
                                 initialValue: null,
                                 icon: Icon(Icons.apps),
-                                labelText: "Icon",
-                                title: "Select an icon",
-                                cancelBtn: 'Cancel',
+                                labelText: AppLocalizations.of(context).icon,
+                                title:
+                                    AppLocalizations.of(context).selectAnIcon,
+                                cancelBtn: AppLocalizations.of(context).cancel,
                                 enableSearch: false,
                                 iconCollection: iconsCollection,
                                 controller: iconInputController,
@@ -344,7 +347,7 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                               ),
                             ),
                             Text(
-                              'Choose date',
+                              AppLocalizations.of(context).chooseDate,
                             ),
                             InkWell(
                               onTap: () async {
@@ -382,7 +385,7 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                               ),
                             ),
                             Text(
-                              'Choose time',
+                              AppLocalizations.of(context).chooseTime,
                             ),
                             InkWell(
                               onTap: () async {
@@ -425,7 +428,7 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                               ),
                             ),
                             Text(
-                              'Choose end time',
+                              AppLocalizations.of(context).chooseEndTime,
                             ),
                             InkWell(
                               onTap: () async {
@@ -472,7 +475,7 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                               children: [
                                 TextButton(
                                   child: Text(
-                                    'Save',
+                                    AppLocalizations.of(context).save,
                                     style: TextStyle(fontSize: 25),
                                   ),
                                   onPressed: () {
@@ -509,7 +512,7 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                                 ),
                                 TextButton(
                                   child: Text(
-                                    'Cancel',
+                                    AppLocalizations.of(context).cancel,
                                     style: TextStyle(fontSize: 25),
                                   ),
                                   onPressed: () {
@@ -525,18 +528,23 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                                           builder: (BuildContext context) {
                                             return AlertDialog(
                                               title: Text(
-                                                  'Do you really want exit?'),
+                                                  AppLocalizations.of(context)
+                                                      .doYouReallyWantExit),
                                               content: SingleChildScrollView(
                                                 child: ListBody(
                                                   children: [
-                                                    Text(
-                                                        'You make some changes do you really want to exit?')
+                                                    Text(AppLocalizations.of(
+                                                            context)
+                                                        .youMakeSomeChangesDoYouReallyWantToExit)
                                                   ],
                                                 ),
                                               ),
                                               actions: [
                                                 TextButton(
-                                                  child: Text('Yes'),
+                                                  child: Text(
+                                                      AppLocalizations.of(
+                                                              context)
+                                                          .yes),
                                                   onPressed: () {
                                                     Navigator.of(context).push(
                                                         MaterialPageRoute(
@@ -548,7 +556,10 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                                                   onPressed: () {
                                                     Navigator.pop(context);
                                                   },
-                                                  child: Text('No'),
+                                                  child: Text(
+                                                      AppLocalizations.of(
+                                                              context)
+                                                          .no),
                                                 )
                                               ],
                                             );
@@ -577,7 +588,7 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
           IconSlideAction(
             icon: Icons.delete,
             color: Colors.red,
-            caption: 'Delete',
+            caption: AppLocalizations.of(context).delete,
             onTap: () async {
               var collectionReference =
                   FirebaseFirestore.instance.collection("userData");
