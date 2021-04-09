@@ -34,6 +34,7 @@ Future<void> addActivityUID(
     TextEditingController _endtimeController,
     TextEditingController _notesController,
     TextEditingController _ocurehowController,
+    TextEditingController _ocureID,
     DateTime dt,
     String displayName) async {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -53,6 +54,7 @@ Future<void> addActivityUID(
     'etime': _endtimeController.text,
     'notes': _notesController.text,
     "ocurence": _ocurehowController.text,
+    "ocureid": _ocureID,
     'timestamp': dt,
   });
   return;

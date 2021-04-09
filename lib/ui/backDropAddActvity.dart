@@ -24,6 +24,7 @@ class _AddActFormsState extends State<AddActForms> {
   TimeOfDay eselectedTime = TimeOfDay(hour: 00, minute: 00);
   TextEditingController _dateController;
   TextEditingController _timeController;
+  TextEditingController _ocureID;
   TextEditingController _endtimeController;
   Future<Null> _selectedDate(BuildContext context) async {
     var selectedDate = DateTime.now();
@@ -120,7 +121,8 @@ class _AddActFormsState extends State<AddActForms> {
     'repair': FontAwesomeIcons.tools,
     'default': FontAwesomeIcons.question
   };
-  String dropDownValue = "weekly";
+
+  bool checkBoxValue = false;
 
   @override
   Widget build(BuildContext context) {
@@ -259,27 +261,18 @@ class _AddActFormsState extends State<AddActForms> {
           ),
           Column(children: [
             Padding(
-                padding: const EdgeInsets.only(top: 70, left: 30, right: 30),
-                child: DropdownButton<String>(
-                  value: dropDownValue,
-                  icon: Icon(Icons.arrow_drop_down_outlined),
-                  iconSize: 25,
-                  elevation: 15,
-                  style: TextStyle(color: Colors.black),
-                  onChanged: (String newValue) {
-                    {
-                      dropDownValue = newValue;
-                      _ocurehowController.text = dropDownValue;
-                    }
-                  },
-                  items: <String>["daily", "weekly", "monthly", "unique"]
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                )),
+              padding: const EdgeInsets.only(top: 70, left: 30, right: 30),
+              child: new CheckboxListTile(
+                  title: Text("Repeat"),
+                  value: checkBoxValue,
+                  activeColor: Colors.green,
+                  onChanged: (bool newValue) {
+                    setState(() {
+                      checkBoxValue = newValue;
+                      _ocurehowController.text = checkBoxValue.toString();
+                    });
+                  }),
+            )
           ]),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -290,35 +283,33 @@ class _AddActFormsState extends State<AddActForms> {
                     style: TextStyle(fontSize: 25),
                   ),
                   onPressed: () {
-                    if (_nameController.text.isNotEmpty) {
+                    if (_nameController.text.isNotEmpty &&
+                        _ocurehowController.text == "true") {
                       var auth = FirebaseAuth.instance;
                       var userName = auth.currentUser.displayName;
 
-                      if (_ocurehowController.text == "unique") {
-                        addActivityUID(
-                                _nameController,
-                                _iconController,
-                                _dateController,
-                                _colorController,
-                                _timeController,
-                                _endtimeController,
-                                _notesController,
-                                _ocurehowController,
-                                dt,
-                                userName)
-                            .then((response) {
-                          Navigator.pop(context);
-                          _nameController.clear();
-                          _iconController.clear();
-                          _timeController.clear();
-                          _dateController.clear();
+                      addActivityUID(
+                          _nameController,
+                          _iconController,
+                          _dateController,
+                          _colorController,
+                          _timeController,
+                          _endtimeController,
+                          _notesController,
+                          _ocurehowController,
+                          _ocureID,
+                          dt,
+                          userName);
 
-                          _endtimeController.clear();
-                          _colorController.clear();
-                          _notesController.clear();
-                          _ocurehowController.clear();
-                        }).catchError((error) => print(error));
-                      } else if (_ocurehowController.text == "weekly") {
+                      for (var i = 0; i < 4; i++) {
+                        var datum = _dateController.text;
+                        var dateFormat = DateFormat("dd/MM/yyyy");
+                        DateTime tydenplus = dateFormat.parse(datum);
+                        DateTime dateTime = new DateTime(
+                            tydenplus.year, tydenplus.month, tydenplus.day + 7);
+
+                        _dateController.text = dateFormat.format(dateTime);
+
                         addActivityUID(
                             _nameController,
                             _iconController,
@@ -328,18 +319,24 @@ class _AddActFormsState extends State<AddActForms> {
                             _endtimeController,
                             _notesController,
                             _ocurehowController,
+                            _ocureID,
                             dt,
                             userName);
-                        for (var i = 0; i < 4; i++) {
-                          var datum = _dateController.text;
-                          var dateFormat = DateFormat("dd/MM/yyyy");
-                          DateTime tydenplus = dateFormat.parse(datum);
-                          DateTime dateTime = new DateTime(tydenplus.year,
-                              tydenplus.month, tydenplus.day + 7);
+                      }
+                      Navigator.pop(context);
+                      _nameController.clear();
+                      _iconController.clear();
+                      _timeController.clear();
+                      _dateController.clear();
 
-                          _dateController.text = dateFormat.format(dateTime);
-
-                          addActivityUID(
+                      _endtimeController.clear();
+                      _colorController.clear();
+                      _notesController.clear();
+                      _ocurehowController.clear();
+                    } else if (_nameController.text.isNotEmpty) {
+                      var auth = FirebaseAuth.instance;
+                      var userName = auth.currentUser.displayName;
+                      addActivityUID(
                               _nameController,
                               _iconController,
                               _dateController,
@@ -348,19 +345,21 @@ class _AddActFormsState extends State<AddActForms> {
                               _endtimeController,
                               _notesController,
                               _ocurehowController,
+                              _ocureID,
                               dt,
-                              userName);
-                        }
+                              userName)
+                          .then((response) {
+                        Navigator.pop(context);
                         _nameController.clear();
                         _iconController.clear();
-                        _dateController.clear();
-                        _colorController.clear();
                         _timeController.clear();
-                        _endtimeController.clear();
+                        _dateController.clear();
 
+                        _endtimeController.clear();
+                        _colorController.clear();
                         _notesController.clear();
                         _ocurehowController.clear();
-                      }
+                      }).catchError((error) => print(error));
                     }
                   }),
               TextButton(
