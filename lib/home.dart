@@ -1,7 +1,11 @@
+import 'dart:math';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:todoList/l10n/l10n.dart';
 import 'package:todoList/model/Activity_Week_Builder.dart';
 import 'package:todoList/model/Activity_Month_Builder.dart';
 import 'package:todoList/model/Activity_Done_Builder.dart';
@@ -25,6 +29,13 @@ class HomeScreen extends StatelessWidget {
             home: Home(),
             theme: notifier.darkTheme ? dark : light,
             navigatorKey: null,
+            supportedLocales: L10n.all,
+            localizationsDelegates: [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
           );
         },
       ),
@@ -85,7 +96,7 @@ class Home extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: displayActivity(),
+        child: displayActivity(context),
       ),
       bottomNavigationBar: new BottomAppBar(
         child: Row(
@@ -119,47 +130,35 @@ class Home extends StatelessWidget {
         ),
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AddAct())
-
-              // Navigator.push(
-              //   context,
-              //   PageTransition(
-              //     child: AddAct(),
-              //     childCurrent: this,
-              //     type: PageTransitionType.bottomToTop,
-              //     duration: Duration(milliseconds: 300),
-              //     reverseDuration: Duration(milliseconds: 300),
-              //     curve: Curves.easeInOut,
-              //   ),
-              );
+              context, MaterialPageRoute(builder: (context) => AddAct()));
         },
       ),
     );
   }
 }
 
-Widget displayActivity() {
+Widget displayActivity(BuildContext context) {
   return ListView(children: [
     Text(
-      'Done',
+      AppLocalizations.of(context).done,
       style: TextStyle(fontSize: 20),
     ),
     Divider(),
     ActivityDoneBuilder(),
     Text(
-      'Today',
+      AppLocalizations.of(context).today,
       style: TextStyle(fontSize: 20),
     ),
     Divider(),
     ActivityTodayBuilder(),
     Text(
-      'This week',
+      AppLocalizations.of(context).thisWeek,
       style: TextStyle(fontSize: 20),
     ),
     Divider(),
     ActivityWeekBuilder(),
     Text(
-      'This month',
+      AppLocalizations.of(context).thisMonth,
       style: TextStyle(fontSize: 20),
     ),
     Divider(),

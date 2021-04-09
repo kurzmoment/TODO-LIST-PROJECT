@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoList/home.dart';
@@ -16,7 +17,7 @@ class Settings extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'Settings',
+          AppLocalizations.of(context).settings,
           style: Theme.of(context).textTheme.headline6,
         ),
       ),
@@ -27,7 +28,7 @@ class Settings extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 20, top: 20),
                 child: Text(
-                  'language',
+                  AppLocalizations.of(context).language,
                   style: TextStyle(fontSize: 17),
                 ),
               )
@@ -42,9 +43,9 @@ class Settings extends StatelessWidget {
           Row(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 20, top: 30),
+                padding: const EdgeInsets.only(left: 20, top: 10),
                 child: Text(
-                  'notifaction',
+                  AppLocalizations.of(context).notification,
                   style: TextStyle(fontSize: 17),
                 ),
               )
@@ -55,39 +56,30 @@ class Settings extends StatelessWidget {
             indent: 20,
             endIndent: 20,
           ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20, top: 5),
-                child: Text('get notifications'),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Consumer<ThemeNotifier>(
+              builder: (context, notifier, child) => SwitchListTile(
+                title: Text(AppLocalizations.of(context).notification),
+                onChanged: (val) {
+                  debugPrint(val.toString());
+                },
+                value: notifier.darkTheme,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 215, top: 5),
-                //child: //SwitcherSettings(),
-              ),
-            ],
-          ),
-          Consumer<ThemeNotifier>(
-            builder: (context, notifier, child) => SwitchListTile(
-              title: Text('Dark Mode'),
-              onChanged: (val) {
-                notifier.toggleTheme();
-              },
-              value: notifier.darkTheme,
             ),
           ),
-          // Row(
-          //   children: [
-          //     Padding(
-          //       padding: const EdgeInsets.only(left: 20, top: 5),
-          //       child: Text('dark mode'),
-          //     ),
-          //     Padding(
-          //       padding: const EdgeInsets.only(left: 250, top: 5),
-          //       child: SwitcherSettings(),
-          //     ),
-          //   ],
-          // ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Consumer<ThemeNotifier>(
+              builder: (context, notifier, child) => SwitchListTile(
+                title: Text(AppLocalizations.of(context).darkMode),
+                onChanged: (val) {
+                  notifier.toggleTheme();
+                },
+                value: notifier.darkTheme,
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 300),
             child: Row(
@@ -95,7 +87,7 @@ class Settings extends StatelessWidget {
               children: [
                 TextButton(
                     child: Text(
-                      'Sing out',
+                      AppLocalizations.of(context).signOut,
                       style: TextStyle(fontSize: 22),
                     ),
                     onPressed: () async {
@@ -153,7 +145,7 @@ class _DropDownSettingsState extends State<DropDownSettings> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
+      padding: const EdgeInsets.only(left: 25, top: 5, right: 20),
       child: DropdownButton<String>(
         value: dropDownValue,
         icon: Icon(Icons.arrow_drop_down_outlined),
@@ -175,36 +167,3 @@ class _DropDownSettingsState extends State<DropDownSettings> {
     );
   }
 }
-
-// class SwitcherSettings extends StatefulWidget {
-//   @override
-//   _SwitcherSettingsState createState() => _SwitcherSettingsState();
-// }
-
-// class _SwitcherSettingsState extends State<SwitcherSettings> {
-//   @override
-//   Widget build(BuildContext context) {
-//     // final themeProvider = Provider.of<ThemeProvider>(context);
-//     // return Switch.adaptive(
-//     //   value: themeProvider.isDarkMode,
-//     //   onChanged: (value) {
-//     //     setState(
-//     //       () {
-//     //         final provider = Provider.of<ThemeProvider>(context, listen: false);
-//     //         provider.toggleTheme(value);
-//     //       },
-//     //     );
-//     //   },
-//     //   activeTrackColor: Colors.lightGreenAccent,
-//     //   activeColor: Colors.green,
-//     // );
-//     return Consumer<ThemeProvider>(
-//         builder: (context, ThemeProvider notifier, child) => SwitchListTile(
-//               title: Text('Dark Mode'),
-//               onChanged: (val) {
-//                 notifier.toggleTheme(val);
-//               },
-//               value: notifier.isDarkMode,
-//             ));
-//   }
-// }

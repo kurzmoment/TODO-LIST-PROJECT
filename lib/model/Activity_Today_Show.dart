@@ -6,6 +6,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:todoList/ui/backDropAddActvity.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:we_slide/we_slide.dart';
 
@@ -133,7 +135,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
           IconSlideAction(
             icon: Icons.more_horiz,
             color: Colors.blue,
-            caption: 'More',
+            caption: AppLocalizations.of(context).more,
             onTap: () async {
               await showDialog(
                 context: context,
@@ -235,7 +237,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
           IconSlideAction(
             icon: Icons.edit,
             color: Colors.green,
-            caption: 'Edit',
+            caption: AppLocalizations.of(context).edit,
             onTap: () async {
               await showDialog(
                 context: context,
@@ -255,7 +257,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                       color: Colors.blue,
                       height: _panelMinSize,
                       child: Text(
-                        'Edit activity',
+                        AppLocalizations.of(context).editActivity,
                         style: TextStyle(fontSize: 20, color: Colors.white),
                       ),
                     ),
@@ -269,7 +271,8 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                               child: TextField(
                                 maxLength: 20,
                                 decoration: InputDecoration(
-                                  helperText: 'Edit a name of a activity',
+                                  helperText: AppLocalizations.of(context)
+                                      .editANameOfAActivity,
                                 ),
                                 controller: nameInputController,
                               ),
@@ -283,7 +286,8 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                 maxLines: 5,
                                 keyboardType: TextInputType.multiline,
                                 decoration: InputDecoration(
-                                  helperText: 'Edit notes',
+                                  helperText:
+                                      AppLocalizations.of(context).editNotes,
                                 ),
                                 controller: notesInputController,
                               ),
@@ -294,9 +298,10 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                               child: IconPicker(
                                 initialValue: null,
                                 icon: Icon(Icons.apps),
-                                labelText: "Icon",
-                                title: "Select an icon",
-                                cancelBtn: 'Cancel',
+                                labelText: AppLocalizations.of(context).icon,
+                                title:
+                                    AppLocalizations.of(context).selectAnIcon,
+                                cancelBtn: AppLocalizations.of(context).cancel,
                                 enableSearch: false,
                                 iconCollection: iconsCollection,
                                 controller: iconInputController,
@@ -333,7 +338,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                               ),
                             ),
                             Text(
-                              'Choose date',
+                              AppLocalizations.of(context).chooseDate,
                             ),
                             InkWell(
                               onTap: () async {
@@ -368,9 +373,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                 ),
                               ),
                             ),
-                            Text(
-                              'Choose time',
-                            ),
+                            Text(AppLocalizations.of(context).chooseTime),
                             InkWell(
                               onTap: () async {
                                 final TimeOfDay picked = await showTimePicker(
@@ -409,9 +412,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                 ),
                               ),
                             ),
-                            Text(
-                              'Choose end time',
-                            ),
+                            Text(AppLocalizations.of(context).chooseEndTime),
                             InkWell(
                               onTap: () async {
                                 final TimeOfDay picked = await showTimePicker(
@@ -455,7 +456,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                               children: [
                                 TextButton(
                                   child: Text(
-                                    'Save',
+                                    AppLocalizations.of(context).save,
                                     style: TextStyle(fontSize: 25),
                                   ),
                                   onPressed: () {
@@ -492,7 +493,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                 ),
                                 TextButton(
                                   child: Text(
-                                    'Cancel',
+                                    AppLocalizations.of(context).cancel,
                                     style: TextStyle(fontSize: 25),
                                   ),
                                   onPressed: () {
@@ -508,18 +509,24 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                           builder: (BuildContext context) {
                                             return AlertDialog(
                                               title: Text(
-                                                  'Do you really want exit?'),
+                                                AppLocalizations.of(context)
+                                                    .doYouReallyWantExit,
+                                              ),
                                               content: SingleChildScrollView(
                                                 child: ListBody(
                                                   children: [
-                                                    Text(
-                                                        'You make some changes do you really want to exit?')
+                                                    Text(AppLocalizations.of(
+                                                            context)
+                                                        .youMakeSomeChangesDoYouReallyWantToExit)
                                                   ],
                                                 ),
                                               ),
                                               actions: [
                                                 TextButton(
-                                                  child: Text('Yes'),
+                                                  child: Text(
+                                                    AppLocalizations.of(context)
+                                                        .yes,
+                                                  ),
                                                   onPressed: () {
                                                     Navigator.of(context).push(
                                                         MaterialPageRoute(
@@ -531,7 +538,10 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                                   onPressed: () {
                                                     Navigator.pop(context);
                                                   },
-                                                  child: Text('No'),
+                                                  child: Text(
+                                                    AppLocalizations.of(context)
+                                                        .no,
+                                                  ),
                                                 )
                                               ],
                                             );
@@ -560,7 +570,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
           IconSlideAction(
             icon: Icons.delete,
             color: Colors.red,
-            caption: 'Delete',
+            caption: AppLocalizations.of(context).delete,
             onTap: () async {
               var collectionReference =
                   FirebaseFirestore.instance.collection("userData");

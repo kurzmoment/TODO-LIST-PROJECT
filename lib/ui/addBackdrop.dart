@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:todoList/ui/backDropAddActvity.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:we_slide/we_slide.dart';
 import 'package:todoList/home.dart';
 
@@ -30,7 +30,7 @@ class _AddActState extends State<AddAct> {
           color: Colors.blue,
           height: _panelMinSize,
           child: Text(
-            'Add activity',
+            AppLocalizations.of(context).addActivity,
             style: TextStyle(fontSize: 20, color: Colors.white),
           ),
         ),
@@ -68,7 +68,7 @@ class _AddActStatecal extends State<AddActcal> {
         panelHeader: Container(
           alignment: Alignment.center,
           child: Text(
-            'Add activity',
+            AppLocalizations.of(context).addActivity,
             style: TextStyle(fontSize: 20, color: Colors.white),
           ),
           color: Colors.blue,

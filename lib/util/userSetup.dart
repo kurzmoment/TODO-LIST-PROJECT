@@ -16,7 +16,7 @@ Future<void> userSetup(String displayName) async {
   CollectionReference usersCat = FirebaseFirestore.instance
       .collection('userData')
       .doc(uid)
-      .collection('Category');
+      .collection('categoryPoints');
   return;
 }
 

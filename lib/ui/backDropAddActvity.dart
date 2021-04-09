@@ -8,6 +8,7 @@ import 'package:todoList/home.dart';
 import 'package:date_format/date_format.dart';
 import 'package:todoList/util/theme_provider.dart';
 import 'package:todoList/util/userSetup.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddActForms extends StatefulWidget {
   @override
@@ -132,7 +133,7 @@ class _AddActFormsState extends State<AddActForms> {
             child: TextField(
               maxLength: 20,
               decoration: InputDecoration(
-                helperText: 'Enter a name of a activity',
+                helperText: AppLocalizations.of(context).enterANameOfAActivity,
               ),
               controller: _nameController,
             ),
@@ -145,7 +146,7 @@ class _AddActFormsState extends State<AddActForms> {
               maxLines: 5,
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
-                helperText: 'Enter notes',
+                helperText: AppLocalizations.of(context).enterNotes,
               ),
               controller: _notesController,
             ),
@@ -155,9 +156,9 @@ class _AddActFormsState extends State<AddActForms> {
             child: IconPicker(
               initialValue: null,
               icon: Icon(Icons.apps),
-              labelText: "Icon",
-              title: "Select an icon",
-              cancelBtn: 'Cancel',
+              labelText: AppLocalizations.of(context).icon,
+              title: AppLocalizations.of(context).selectAnIcon,
+              cancelBtn: AppLocalizations.of(context).cancel,
               enableSearch: false,
               iconCollection: iconsCollection,
               controller: _iconController,
@@ -188,7 +189,7 @@ class _AddActFormsState extends State<AddActForms> {
           Column(
             children: [
               Text(
-                'Choose date',
+                AppLocalizations.of(context).chooseDate,
               ),
               InkWell(
                 onTap: () {
@@ -209,9 +210,7 @@ class _AddActFormsState extends State<AddActForms> {
                   ),
                 ),
               ),
-              Text(
-                'Choose time',
-              ),
+              Text(AppLocalizations.of(context).chooseTime),
               InkWell(
                 onTap: () {
                   _selectedTime(context);
@@ -232,9 +231,7 @@ class _AddActFormsState extends State<AddActForms> {
                   ),
                 ),
               ),
-              Text(
-                'Choose end time',
-              ),
+              Text(AppLocalizations.of(context).chooseEndTime),
               InkWell(
                 onTap: () {
                   _eselectedTime(context);
@@ -285,87 +282,40 @@ class _AddActFormsState extends State<AddActForms> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextButton(
-                  child: Text(
-                    'Save',
-                    style: TextStyle(fontSize: 25),
-                  ),
-                  onPressed: () {
-                    if (_nameController.text.isNotEmpty) {
-                      var auth = FirebaseAuth.instance;
-                      var userName = auth.currentUser.displayName;
-
-                      if (_ocurehowController.text == "unique") {
-                        addActivityUID(
-                                _nameController,
-                                _iconController,
-                                _dateController,
-                                _colorController,
-                                _timeController,
-                                _endtimeController,
-                                _notesController,
-                                _ocurehowController,
-                                dt,
-                                userName)
-                            .then((response) {
-                          Navigator.pop(context);
-                          _nameController.clear();
-                          _iconController.clear();
-                          _timeController.clear();
-                          _dateController.clear();
-
-                          _endtimeController.clear();
-                          _colorController.clear();
-                          _notesController.clear();
-                          _ocurehowController.clear();
-                        }).catchError((error) => print(error));
-                      } else if (_ocurehowController.text == "weekly") {
-                        addActivityUID(
-                            _nameController,
-                            _iconController,
-                            _dateController,
-                            _colorController,
-                            _timeController,
-                            _endtimeController,
-                            _notesController,
-                            _ocurehowController,
-                            dt,
-                            userName);
-                        for (var i = 0; i < 4; i++) {
-                          var datum = _dateController.text;
-                          var dateFormat = DateFormat("dd/MM/yyyy");
-                          DateTime tydenplus = dateFormat.parse(datum);
-                          DateTime dateTime = new DateTime(tydenplus.year,
-                              tydenplus.month, tydenplus.day + 7);
-
-                          _dateController.text = dateFormat.format(dateTime);
-
-                          addActivityUID(
-                              _nameController,
-                              _iconController,
-                              _dateController,
-                              _colorController,
-                              _timeController,
-                              _endtimeController,
-                              _notesController,
-                              _ocurehowController,
-                              dt,
-                              userName);
-                        }
-                        _nameController.clear();
-                        _iconController.clear();
-                        _dateController.clear();
-                        _colorController.clear();
-                        _timeController.clear();
-                        _endtimeController.clear();
-
-                        _notesController.clear();
-                        _ocurehowController.clear();
-                      }
-                    }
-                  }),
+                child: Text(
+                  AppLocalizations.of(context).save,
+                  style: TextStyle(fontSize: 25),
+                ),
+                onPressed: () {
+                  if (_nameController.text.isNotEmpty) {
+                    var auth = FirebaseAuth.instance;
+                    var userName = auth.currentUser.displayName;
+                    addActivityUID(
+                      _nameController,
+                      _iconController,
+                      _dateController,
+                      _colorController,
+                      _timeController,
+                      _endtimeController,
+                      _notesController,
+                      dt,
+                      userName,
+                    ).then((response) {
+                      Navigator.pop(context);
+                      _nameController.clear();
+                      _iconController.clear();
+                      _dateController.clear();
+                      _timeController.clear();
+                      _endtimeController.clear();
+                      _colorController.clear();
+                      _notesController.clear();
+                    }).catchError((error) => print(error));
+                  }
+                },
+              ),
               TextButton(
                 child: Text(
-                  'Cancel',
+                  AppLocalizations.of(context).cancel,
                   style: TextStyle(fontSize: 25),
                 ),
                 onPressed: () {
@@ -382,18 +332,22 @@ class _AddActFormsState extends State<AddActForms> {
                       barrierDismissible: false,
                       builder: (context) {
                         return AlertDialog(
-                          title: Text('Do you really want exit?'),
+                          title: Text(
+                            AppLocalizations.of(context).doYouReallyWantExit,
+                          ),
                           content: SingleChildScrollView(
                             child: ListBody(
                               children: [
                                 Text(
-                                    'You make some changes do you really want to exit?')
+                                  AppLocalizations.of(context)
+                                      .youMakeSomeChangesDoYouReallyWantToExit,
+                                )
                               ],
                             ),
                           ),
                           actions: [
                             TextButton(
-                                child: Text('Yes'),
+                                child: Text(AppLocalizations.of(context).yes),
                                 onPressed: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (builder) => HomeScreen()));
@@ -402,7 +356,7 @@ class _AddActFormsState extends State<AddActForms> {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: Text('No'),
+                              child: Text(AppLocalizations.of(context).no),
                             )
                           ],
                         );

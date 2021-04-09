@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:todoList/home.dart';
 import 'package:todoList/ui/addBackdrop.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:todoList/ui/profilePage.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,9 +23,9 @@ class ListOfActivities extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        // iconTheme: IconThemeData(color: Colors.black),
         centerTitle: true,
-        title: Text('List of activities',
+        title: Text(AppLocalizations.of(context).listOfActivities,
             style: Theme.of(context).textTheme.headline6),
       ),
       body: Calbuildr(),

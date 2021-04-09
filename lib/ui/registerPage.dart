@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todoList/hexcolor.dart';
 import 'package:todoList/home.dart';
+import 'package:todoList/l10n/l10n.dart';
 import 'package:todoList/ui/loginpage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todoList/util/userSetup.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      supportedLocales: L10n.all,
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       home: Scaffold(
         backgroundColor: HexColor('#73BAF5'),
         body: Container(
@@ -53,15 +63,15 @@ class _RegisterState extends State<Register> {
           child: Padding(
             padding: const EdgeInsets.only(left: 15, bottom: 20),
             child: Text(
-              'Register',
+              AppLocalizations.of(context).signUp,
               style: TextStyle(fontSize: 40, color: Colors.white),
             ),
           ),
         ),
-        userNameForm(_usernameController),
-        emailForm(_emailController),
-        passwordForm(_passwordController),
-        passwordConfirmForm(_rePasswordController),
+        userNameForm(_usernameController, context),
+        emailForm(_emailController, context),
+        passwordForm(_passwordController, context),
+        passwordConfirmForm(_rePasswordController, context),
         Padding(
           padding: const EdgeInsets.only(top: 25, left: 1),
           child: Row(
@@ -77,7 +87,7 @@ class _RegisterState extends State<Register> {
           child: TextButton(
             onPressed: () => Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => LoginPage())),
-            child: Text('Allready have account? Click here.'),
+            child: Text(AppLocalizations.of(context).alreadyHaveAcc),
           ),
         ),
         Container(
@@ -86,7 +96,7 @@ class _RegisterState extends State<Register> {
             padding: const EdgeInsets.only(top: 0, left: 40, right: 40),
             child: ElevatedButton(
               style: ButtonStyle(),
-              child: Text('Register'),
+              child: Text(AppLocalizations.of(context).signUp),
               onPressed: () async {
                 try {
                   UserCredential user = await FirebaseAuth.instance
@@ -122,7 +132,7 @@ class _RegisterState extends State<Register> {
   }
 }
 
-Widget emailForm(TextEditingController _emailController) {
+Widget emailForm(TextEditingController _emailController, BuildContext context) {
   return Padding(
     padding: const EdgeInsets.only(left: 15, right: 100),
     child: Padding(
@@ -130,8 +140,8 @@ Widget emailForm(TextEditingController _emailController) {
       child: TextFormField(
         controller: _emailController,
         decoration: InputDecoration(
-          hintText: 'Email',
-          labelText: 'Email',
+          hintText: AppLocalizations.of(context).email,
+          labelText: AppLocalizations.of(context).email,
           hintStyle: TextStyle(color: Colors.white),
           labelStyle: TextStyle(
             color: Colors.white,
@@ -142,7 +152,8 @@ Widget emailForm(TextEditingController _emailController) {
   );
 }
 
-Widget passwordForm(TextEditingController _passwordController) {
+Widget passwordForm(
+    TextEditingController _passwordController, BuildContext context) {
   return Padding(
     padding: const EdgeInsets.only(left: 15, right: 100),
     child: Column(
@@ -153,8 +164,8 @@ Widget passwordForm(TextEditingController _passwordController) {
             obscureText: true,
             controller: _passwordController,
             decoration: InputDecoration(
-              hintText: 'Password',
-              labelText: 'Password',
+              hintText: AppLocalizations.of(context).password,
+              labelText: AppLocalizations.of(context).password,
               hintStyle: TextStyle(color: Colors.white),
               labelStyle: TextStyle(
                 color: Colors.white,
@@ -167,7 +178,8 @@ Widget passwordForm(TextEditingController _passwordController) {
   );
 }
 
-Widget passwordConfirmForm(TextEditingController _rePasswordController) {
+Widget passwordConfirmForm(
+    TextEditingController _rePasswordController, BuildContext context) {
   return Padding(
     padding: const EdgeInsets.only(left: 15, right: 100),
     child: Column(
@@ -178,8 +190,8 @@ Widget passwordConfirmForm(TextEditingController _rePasswordController) {
             obscureText: true,
             controller: _rePasswordController,
             decoration: InputDecoration(
-              hintText: 'Re-enter Password',
-              labelText: 'Re-enter Password',
+              hintText: AppLocalizations.of(context).rePassword,
+              labelText: AppLocalizations.of(context).rePassword,
               hintStyle: TextStyle(color: Colors.white),
               labelStyle: TextStyle(
                 color: Colors.white,
@@ -192,7 +204,8 @@ Widget passwordConfirmForm(TextEditingController _rePasswordController) {
   );
 }
 
-Widget userNameForm(TextEditingController _usernameController) {
+Widget userNameForm(
+    TextEditingController _usernameController, BuildContext context) {
   return Padding(
     padding: const EdgeInsets.only(left: 15, right: 100),
     child: Padding(
@@ -201,8 +214,8 @@ Widget userNameForm(TextEditingController _usernameController) {
         controller: _usernameController,
         decoration: InputDecoration(
           focusColor: Colors.white,
-          hintText: 'Username',
-          labelText: 'Username',
+          hintText: AppLocalizations.of(context).username,
+          labelText: AppLocalizations.of(context).username,
           hintStyle: TextStyle(color: Colors.white),
           labelStyle: TextStyle(
             color: Colors.white,
