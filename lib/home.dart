@@ -163,5 +163,5 @@ Widget displayActivity(BuildContext context) {
     ),
     Divider(),
     ActivityMonthBuilder(),
-  ]);
+  ], scrollDirection: Axis.vertical);
 }
