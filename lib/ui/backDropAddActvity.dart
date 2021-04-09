@@ -22,9 +22,8 @@ class _AddActFormsState extends State<AddActForms> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
   TimeOfDay eselectedTime = TimeOfDay(hour: 00, minute: 00);
-  TextEditingController _dateController = TextEditingController();
-  TextEditingController _timeController = TextEditingController();
-
+  TextEditingController _dateController;
+  TextEditingController _timeController;
   TextEditingController _endtimeController;
   Future<Null> _selectedDate(BuildContext context) async {
     var selectedDate = DateTime.now();
@@ -85,11 +84,14 @@ class _AddActFormsState extends State<AddActForms> {
   TextEditingController _notesController;
   TextEditingController _iconController;
   TextEditingController _colorController;
+  TextEditingController _ocurehowController;
 
   void initState() {
     super.initState();
     _iconController = new TextEditingController();
     _nameController = new TextEditingController();
+    _ocurehowController = new TextEditingController();
+
     _notesController = new TextEditingController();
     _iconController = new TextEditingController();
     _colorController = new TextEditingController();
@@ -118,7 +120,7 @@ class _AddActFormsState extends State<AddActForms> {
     'repair': FontAwesomeIcons.tools,
     'default': FontAwesomeIcons.question
   };
-  String dropDownValue = 'NONE';
+  String dropDownValue = "weekly";
 
   @override
   Widget build(BuildContext context) {
@@ -255,19 +257,69 @@ class _AddActFormsState extends State<AddActForms> {
               )
             ],
           ),
+          Column(children: [
+            Padding(
+                padding: const EdgeInsets.only(top: 70, left: 30, right: 30),
+                child: DropdownButton<String>(
+                  value: dropDownValue,
+                  icon: Icon(Icons.arrow_drop_down_outlined),
+                  iconSize: 25,
+                  elevation: 15,
+                  style: TextStyle(color: Colors.black),
+                  onChanged: (String newValue) {
+                    {
+                      dropDownValue = newValue;
+                      _ocurehowController.text = dropDownValue;
+                    }
+                  },
+                  items: <String>["daily", "weekly", "monthly", "unique"]
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                )),
+          ]),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextButton(
-                child: Text(
-                  'Save',
-                  style: TextStyle(fontSize: 25),
-                ),
-                onPressed: () {
-                  if (_nameController.text.isNotEmpty) {
-                    var auth = FirebaseAuth.instance;
-                    var userName = auth.currentUser.displayName;
-                    addActivityUID(
+                  child: Text(
+                    'Save',
+                    style: TextStyle(fontSize: 25),
+                  ),
+                  onPressed: () {
+                    if (_nameController.text.isNotEmpty) {
+                      var auth = FirebaseAuth.instance;
+                      var userName = auth.currentUser.displayName;
+
+                      if (_ocurehowController.text == "unique") {
+                        addActivityUID(
+                                _nameController,
+                                _iconController,
+                                _dateController,
+                                _colorController,
+                                _timeController,
+                                _endtimeController,
+                                _notesController,
+                                _ocurehowController,
+                                dt,
+                                userName)
+                            .then((response) {
+                          Navigator.pop(context);
+                          _nameController.clear();
+                          _iconController.clear();
+                          _timeController.clear();
+                          _dateController.clear();
+
+                          _endtimeController.clear();
+                          _colorController.clear();
+                          _notesController.clear();
+                          _ocurehowController.clear();
+                        }).catchError((error) => print(error));
+                      } else if (_ocurehowController.text == "weekly") {
+                        addActivityUID(
                             _nameController,
                             _iconController,
                             _dateController,
@@ -275,21 +327,42 @@ class _AddActFormsState extends State<AddActForms> {
                             _timeController,
                             _endtimeController,
                             _notesController,
+                            _ocurehowController,
                             dt,
-                            userName)
-                        .then((response) {
-                      Navigator.pop(context);
-                      _nameController.clear();
-                      _iconController.clear();
-                      _dateController.clear();
-                      _timeController.clear();
-                      _endtimeController.clear();
-                      _colorController.clear();
-                      _notesController.clear();
-                    }).catchError((error) => print(error));
-                  }
-                },
-              ),
+                            userName);
+                        for (var i = 0; i < 4; i++) {
+                          var datum = _dateController.text;
+                          var dateFormat = DateFormat("dd/MM/yyyy");
+                          DateTime tydenplus = dateFormat.parse(datum);
+                          DateTime dateTime = new DateTime(tydenplus.year,
+                              tydenplus.month, tydenplus.day + 7);
+
+                          _dateController.text = dateFormat.format(dateTime);
+
+                          addActivityUID(
+                              _nameController,
+                              _iconController,
+                              _dateController,
+                              _colorController,
+                              _timeController,
+                              _endtimeController,
+                              _notesController,
+                              _ocurehowController,
+                              dt,
+                              userName);
+                        }
+                        _nameController.clear();
+                        _iconController.clear();
+                        _dateController.clear();
+                        _colorController.clear();
+                        _timeController.clear();
+                        _endtimeController.clear();
+
+                        _notesController.clear();
+                        _ocurehowController.clear();
+                      }
+                    }
+                  }),
               TextButton(
                 child: Text(
                   'Cancel',
@@ -301,6 +374,7 @@ class _AddActFormsState extends State<AddActForms> {
                       _dateController.text.isNotEmpty ||
                       _timeController.text.isNotEmpty ||
                       _endtimeController.text.isNotEmpty ||
+                      _ocurehowController.text.isNotEmpty ||
                       _colorController.text.isNotEmpty ||
                       _notesController.text.isNotEmpty) {
                     return showDialog(
@@ -342,6 +416,7 @@ class _AddActFormsState extends State<AddActForms> {
                   _endtimeController.clear();
                   _colorController.clear();
                   _notesController.clear();
+                  _ocurehowController.clear();
                   Navigator.pop(context);
                 },
               ),
