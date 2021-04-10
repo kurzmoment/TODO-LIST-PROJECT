@@ -233,9 +233,7 @@ Widget emailForm(TextEditingController _emailController, BuildContext context) {
     child: TextFormField(
       controller: _emailController,
       decoration: InputDecoration(
-        hintText: AppLocalizations.of(context).email,
         labelText: AppLocalizations.of(context).email,
-        hintStyle: TextStyle(color: Colors.black),
         labelStyle: TextStyle(
           color: Colors.black,
         ),
@@ -254,9 +252,7 @@ Widget passwordForm(
           obscureText: true,
           controller: _passwordController,
           decoration: InputDecoration(
-            hintText: AppLocalizations.of(context).password,
             labelText: AppLocalizations.of(context).password,
-            hintStyle: TextStyle(color: Colors.black),
             labelStyle: TextStyle(
               color: Colors.black,
             ),
