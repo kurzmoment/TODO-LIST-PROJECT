@@ -162,9 +162,7 @@ Widget emailForm(TextEditingController _emailController, BuildContext context) {
       child: TextFormField(
         controller: _emailController,
         decoration: InputDecoration(
-          hintText: AppLocalizations.of(context).translate('email'),
           labelText: AppLocalizations.of(context).translate('email'),
-          hintStyle: TextStyle(color: Colors.white),
           labelStyle: TextStyle(
             color: Colors.white,
           ),
@@ -186,9 +184,7 @@ Widget passwordForm(
             obscureText: true,
             controller: _passwordController,
             decoration: InputDecoration(
-              hintText: AppLocalizations.of(context).translate('password'),
               labelText: AppLocalizations.of(context).translate('password'),
-              hintStyle: TextStyle(color: Colors.white),
               labelStyle: TextStyle(
                 color: Colors.white,
               ),
@@ -212,9 +208,7 @@ Widget passwordConfirmForm(
             obscureText: true,
             controller: _rePasswordController,
             decoration: InputDecoration(
-              hintText: AppLocalizations.of(context).translate('rePassword'),
               labelText: AppLocalizations.of(context).translate('rePassword'),
-              hintStyle: TextStyle(color: Colors.white),
               labelStyle: TextStyle(
                 color: Colors.white,
               ),
@@ -236,9 +230,7 @@ Widget userNameForm(
         controller: _usernameController,
         decoration: InputDecoration(
           focusColor: Colors.white,
-          hintText: AppLocalizations.of(context).translate('username'),
           labelText: AppLocalizations.of(context).translate('username'),
-          hintStyle: TextStyle(color: Colors.white),
           labelStyle: TextStyle(
             color: Colors.white,
           ),
