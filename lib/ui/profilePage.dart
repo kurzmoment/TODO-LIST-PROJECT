@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todoList/home.dart';
 import 'package:todoList/ui/editProfile.dart';
+import 'package:todoList/util/app_localizations.dart';
 import 'calendaryWithAct.dart';
 
 class AccPage extends StatefulWidget {
@@ -35,7 +35,7 @@ class _AccPageState extends State<AccPage> {
         ],
         centerTitle: true,
         title: Text(
-          AppLocalizations.of(context).myProfile,
+          AppLocalizations.of(context).translate('myProfile'),
           style: Theme.of(context).textTheme.headline6,
         ),
       ),
@@ -61,7 +61,8 @@ class _AccPageState extends State<AccPage> {
                 children: [
                   Text(FirebaseAuth.instance.currentUser.displayName),
                   Text(FirebaseAuth.instance.currentUser.email),
-                  Text(AppLocalizations.of(context).placeForYourJob)
+                  Text(
+                      AppLocalizations.of(context).translate('placeForYourJob'))
                 ],
               )
             ],
@@ -72,7 +73,7 @@ class _AccPageState extends State<AccPage> {
             endIndent: 20,
           ),
           Text(
-            AppLocalizations.of(context).statistics,
+            AppLocalizations.of(context).translate('statistics'),
             style: TextStyle(fontSize: 22),
           ),
           StatisticBuilder(),

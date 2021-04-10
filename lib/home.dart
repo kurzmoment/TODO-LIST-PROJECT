@@ -1,21 +1,17 @@
-import 'dart:math';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:todoList/l10n/l10n.dart';
 import 'package:todoList/model/Activity_Week_Builder.dart';
 import 'package:todoList/model/Activity_Month_Builder.dart';
 import 'package:todoList/model/Activity_Done_Builder.dart';
 import 'package:todoList/model/Activity_Today_Builder.dart';
-
 import 'package:todoList/ui/addBackdrop.dart';
+import 'package:todoList/util/app_localizations.dart';
 import 'package:todoList/util/theme_provider.dart';
 import 'ui/calendaryWithAct.dart';
 import 'package:todoList/ui/profilePage.dart';
-
 import 'package:todoList/ui/settings.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -24,18 +20,44 @@ class HomeScreen extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => ThemeNotifier(),
       child: Consumer<ThemeNotifier>(
-        builder: (context, ThemeNotifier notifier, child) {
+        builder: (
+          context,
+          ThemeNotifier notifier,
+          child,
+        ) {
           return MaterialApp(
             home: Home(),
             theme: notifier.darkTheme ? dark : light,
-            navigatorKey: null,
-            supportedLocales: L10n.all,
+            // navigatorKey: null,
+            supportedLocales: [
+              Locale('en', 'US'),
+              Locale('de', 'DE'),
+              Locale('es', 'ES'),
+              Locale('fr', 'FR'),
+              Locale('it', 'IT'),
+              Locale('pt', 'PT'),
+              Locale('cs', 'CZ'),
+              Locale('ru', 'RU'),
+              Locale('ar', 'AE'),
+              Locale('hi', 'IN'),
+              Locale('ko', 'KR'),
+              Locale('zh', 'CH')
+            ],
             localizationsDelegates: [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
             ],
+            localeResolutionCallback: (locale, supportedLocales) {
+              for (var supportedLocale in supportedLocales) {
+                if (supportedLocale.languageCode == locale.languageCode &&
+                    supportedLocale.countryCode == locale.countryCode) {
+                  return supportedLocale;
+                }
+              }
+              return supportedLocales.first;
+            },
           );
         },
       ),
@@ -87,7 +109,7 @@ class Home extends StatelessWidget {
                   curve: Curves.easeInOut,
                   type: PageTransitionType.rightToLeft,
                   child: Settings(),
-                  childCurrent: this,
+                  // childCurrent: this,
                 ),
               );
             },
@@ -140,25 +162,25 @@ class Home extends StatelessWidget {
 Widget displayActivity(BuildContext context) {
   return ListView(children: [
     Text(
-      AppLocalizations.of(context).done,
+      AppLocalizations.of(context).translate('done'),
       style: TextStyle(fontSize: 20),
     ),
     Divider(),
     ActivityDoneBuilder(),
     Text(
-      AppLocalizations.of(context).today,
+      AppLocalizations.of(context).translate('today'),
       style: TextStyle(fontSize: 20),
     ),
     Divider(),
     ActivityTodayBuilder(),
     Text(
-      AppLocalizations.of(context).thisWeek,
+      AppLocalizations.of(context).translate('thisWeek'),
       style: TextStyle(fontSize: 20),
     ),
     Divider(),
     ActivityWeekBuilder(),
     Text(
-      AppLocalizations.of(context).thisMonth,
+      AppLocalizations.of(context).translate('thisMonth'),
       style: TextStyle(fontSize: 20),
     ),
     Divider(),

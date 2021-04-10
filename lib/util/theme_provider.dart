@@ -2,16 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:todoList/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// class ThemeProvider extends ChangeNotifier {
-//   ThemeMode themeMode = ThemeMode.light;
-//   bool get isDarkMode => themeMode == ThemeMode.dark;
-
-//   void toggleTheme(bool isOn) {
-//     themeMode = isOn ? ThemeMode.dark : ThemeMode.light;
-//     notifyListeners();
-//   }
-// }
-
 ThemeData light = ThemeData(
     fontFamily: 'OpenSans',
     dividerColor: Colors.black54,
@@ -49,7 +39,6 @@ class ThemeNotifier extends ChangeNotifier {
     _darkTheme = true;
     _loadFromPrefs();
   }
-
   toggleTheme() {
     _darkTheme = !_darkTheme;
     _saveToPrefs();

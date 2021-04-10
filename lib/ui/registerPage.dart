@@ -4,23 +4,44 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todoList/hexcolor.dart';
 import 'package:todoList/home.dart';
-import 'package:todoList/l10n/l10n.dart';
 import 'package:todoList/ui/loginpage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:todoList/util/app_localizations.dart';
 import 'package:todoList/util/userSetup.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      supportedLocales: L10n.all,
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('de', 'DE'),
+        Locale('es', 'ES'),
+        Locale('fr', 'FR'),
+        Locale('it', 'IT'),
+        Locale('pt', 'PT'),
+        Locale('cs', 'CZ'),
+        Locale('ru', 'RU'),
+        Locale('ar', 'AE'),
+        Locale('hi', 'IN'),
+        Locale('ko', 'KR'),
+        Locale('zh', 'CH')
+      ],
       localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
+      localeResolutionCallback: (locale, supportedLocales) {
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale.languageCode &&
+              supportedLocale.countryCode == locale.countryCode) {
+            return supportedLocale;
+          }
+        }
+        return supportedLocales.first;
+      },
       home: Scaffold(
         backgroundColor: HexColor('#73BAF5'),
         body: Container(
@@ -63,7 +84,7 @@ class _RegisterState extends State<Register> {
           child: Padding(
             padding: const EdgeInsets.only(left: 15, bottom: 20),
             child: Text(
-              AppLocalizations.of(context).signUp,
+              AppLocalizations.of(context).translate('signUp'),
               style: TextStyle(fontSize: 40, color: Colors.white),
             ),
           ),
@@ -87,7 +108,8 @@ class _RegisterState extends State<Register> {
           child: TextButton(
             onPressed: () => Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => LoginPage())),
-            child: Text(AppLocalizations.of(context).alreadyHaveAcc),
+            child:
+                Text(AppLocalizations.of(context).translate('alreadyHaveAcc')),
           ),
         ),
         Container(
@@ -96,7 +118,7 @@ class _RegisterState extends State<Register> {
             padding: const EdgeInsets.only(top: 0, left: 40, right: 40),
             child: ElevatedButton(
               style: ButtonStyle(),
-              child: Text(AppLocalizations.of(context).signUp),
+              child: Text(AppLocalizations.of(context).translate('signUp')),
               onPressed: () async {
                 try {
                   UserCredential user = await FirebaseAuth.instance
@@ -140,8 +162,8 @@ Widget emailForm(TextEditingController _emailController, BuildContext context) {
       child: TextFormField(
         controller: _emailController,
         decoration: InputDecoration(
-          hintText: AppLocalizations.of(context).email,
-          labelText: AppLocalizations.of(context).email,
+          hintText: AppLocalizations.of(context).translate('email'),
+          labelText: AppLocalizations.of(context).translate('email'),
           hintStyle: TextStyle(color: Colors.white),
           labelStyle: TextStyle(
             color: Colors.white,
@@ -164,8 +186,8 @@ Widget passwordForm(
             obscureText: true,
             controller: _passwordController,
             decoration: InputDecoration(
-              hintText: AppLocalizations.of(context).password,
-              labelText: AppLocalizations.of(context).password,
+              hintText: AppLocalizations.of(context).translate('password'),
+              labelText: AppLocalizations.of(context).translate('password'),
               hintStyle: TextStyle(color: Colors.white),
               labelStyle: TextStyle(
                 color: Colors.white,
@@ -190,8 +212,8 @@ Widget passwordConfirmForm(
             obscureText: true,
             controller: _rePasswordController,
             decoration: InputDecoration(
-              hintText: AppLocalizations.of(context).rePassword,
-              labelText: AppLocalizations.of(context).rePassword,
+              hintText: AppLocalizations.of(context).translate('rePassword'),
+              labelText: AppLocalizations.of(context).translate('rePassword'),
               hintStyle: TextStyle(color: Colors.white),
               labelStyle: TextStyle(
                 color: Colors.white,
@@ -214,8 +236,8 @@ Widget userNameForm(
         controller: _usernameController,
         decoration: InputDecoration(
           focusColor: Colors.white,
-          hintText: AppLocalizations.of(context).username,
-          labelText: AppLocalizations.of(context).username,
+          hintText: AppLocalizations.of(context).translate('username'),
+          labelText: AppLocalizations.of(context).translate('username'),
           hintStyle: TextStyle(color: Colors.white),
           labelStyle: TextStyle(
             color: Colors.white,
