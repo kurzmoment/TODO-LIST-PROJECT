@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "626108444587-rnuisdujipd4gsmd0bjrmsu67p6g40je.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.todoList",
+            "certificate_hash": "aa70bea02379276d95db3bc90525cab5fea23e0a"
+          }
+        },
+        {
           "client_id": "626108444587-plnffqq5hlnq28461jedvifvjjq8aulu.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "626108444587-plnffqq5hlnq28461jedvifvjjq8aulu.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "626108444587-50stbb09ekbpg8mmgbiqtvtubb5lol4n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.todoList"
+              }
             }
           ]
         }

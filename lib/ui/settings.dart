@@ -5,6 +5,7 @@ import 'package:todoList/home.dart';
 import 'package:todoList/ui/loginpage.dart';
 import 'package:todoList/util/app_localizations.dart';
 import 'package:todoList/util/theme_provider.dart';
+import 'package:todoList/util/userSetup.dart';
 import 'calendaryWithAct.dart';
 import 'package:todoList/ui/profilePage.dart';
 import 'package:provider/provider.dart';
@@ -103,6 +104,7 @@ class _SettingsState extends State<Settings> {
                       style: TextStyle(fontSize: 22),
                     ),
                     onPressed: () async {
+                      Authentication.signOut(context);
                       FirebaseAuth.instance.signOut();
                       SharedPreferences prefs =
                           await SharedPreferences.getInstance();
