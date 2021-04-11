@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -6,23 +5,44 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoList/hexcolor.dart';
 import 'package:todoList/home.dart';
-import 'package:todoList/l10n/l10n.dart';
 import 'package:todoList/ui/registerPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:todoList/util/app_localizations.dart';
 import 'package:todoList/util/userSetup.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Forgotpass extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      supportedLocales: L10n.all,
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('de', 'DE'),
+        Locale('es', 'ES'),
+        Locale('fr', 'FR'),
+        Locale('it', 'IT'),
+        Locale('pt', 'PT'),
+        Locale('cs', 'CZ'),
+        Locale('ru', 'RU'),
+        Locale('ar', 'AE'),
+        Locale('hi', 'IN'),
+        Locale('ko', 'KR'),
+        Locale('zh', 'CH')
+      ],
       localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
+      localeResolutionCallback: (locale, supportedLocales) {
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale.languageCode &&
+              supportedLocale.countryCode == locale.countryCode) {
+            return supportedLocale;
+          }
+        }
+        return supportedLocales.first;
+      },
       home: Scaffold(
         backgroundColor: HexColor('#73BAF5'),
         body: Container(
@@ -63,7 +83,7 @@ class _ForgotState extends State<Forgot> {
           child: Padding(
             padding: const EdgeInsets.only(left: 15, bottom: 20),
             child: Text(
-              AppLocalizations.of(context).resetPassword,
+              AppLocalizations.of(context).translate('resetPassword'),
               style: TextStyle(fontSize: 40, color: Colors.white),
             ),
           ),
@@ -74,7 +94,8 @@ class _ForgotState extends State<Forgot> {
           child: TextButton(
               onPressed: () => Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => LoginPage())),
-              child: Text(AppLocalizations.of(context).returnToSignIn)),
+              child: Text(
+                  AppLocalizations.of(context).translate('returnToSignIn'))),
         ),
         Container(
           width: 20,
@@ -82,7 +103,7 @@ class _ForgotState extends State<Forgot> {
             padding: const EdgeInsets.only(top: 0, left: 40, right: 40),
             child: ElevatedButton(
                 style: ButtonStyle(),
-                child: Text(AppLocalizations.of(context).submit),
+                child: Text(AppLocalizations.of(context).translate('submit')),
                 onPressed: () {
                   //musíme přidat podmínku aby to čeklo jestli tam ten mail je
                   // ta podmínka ti pak vypíše bud špatně zadaná
@@ -103,13 +124,35 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      supportedLocales: L10n.all,
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('de', 'DE'),
+        Locale('es', 'ES'),
+        Locale('fr', 'FR'),
+        Locale('it', 'IT'),
+        Locale('pt', 'PT'),
+        Locale('cs', 'CZ'),
+        Locale('ru', 'RU'),
+        Locale('ar', 'AE'),
+        Locale('hi', 'IN'),
+        Locale('ko', 'KR'),
+        Locale('zh', 'CH')
+      ],
       localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
+      localeResolutionCallback: (locale, supportedLocales) {
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale.languageCode &&
+              supportedLocale.countryCode == locale.countryCode) {
+            return supportedLocale;
+          }
+        }
+        return supportedLocales.first;
+      },
       home: Scaffold(
         backgroundColor: HexColor('#D5F3EF'),
         body: Container(
@@ -150,7 +193,7 @@ class _LoginState extends State<Login> {
           child: Padding(
             padding: const EdgeInsets.only(left: 15, bottom: 20),
             child: Text(
-              AppLocalizations.of(context).login,
+              AppLocalizations.of(context).translate('login'),
               style: TextStyle(fontSize: 40, color: Colors.blueAccent.shade200),
             ),
           ),
@@ -163,7 +206,7 @@ class _LoginState extends State<Login> {
             padding: const EdgeInsets.only(left: 190, top: 0),
             child: TextButton(
                 child: Text(
-                  AppLocalizations.of(context).forgotPassword,
+                  AppLocalizations.of(context).translate('forgotPassword'),
                   style: TextStyle(color: Colors.blueAccent.shade200),
                 ),
                 onPressed: () => Navigator.of(context).push(
@@ -182,7 +225,7 @@ class _LoginState extends State<Login> {
           child: TextButton(
             onPressed: () => Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => RegisterPage())),
-            child: Text(AppLocalizations.of(context).newHere),
+            child: Text(AppLocalizations.of(context).translate('newHere')),
           ),
         ),
         Container(
@@ -191,7 +234,7 @@ class _LoginState extends State<Login> {
             padding: const EdgeInsets.all(40),
             child: ElevatedButton(
               style: ButtonStyle(),
-              child: Text(AppLocalizations.of(context).login),
+              child: Text(AppLocalizations.of(context).translate('login')),
               onPressed: () async {
                 try {
                   User user =
@@ -209,7 +252,8 @@ class _LoginState extends State<Login> {
                   }
                 } on FirebaseAuthException catch (e) {
                   Fluttertoast.showToast(
-                      msg: AppLocalizations.of(context).emailOrPasswordWrong,
+                      msg: AppLocalizations.of(context)
+                          .translate('emailOrPasswordWrong'),
                       toastLength: Toast.LENGTH_SHORT,
                       gravity: ToastGravity.TOP,
                       backgroundColor: Colors.blue,
@@ -233,7 +277,7 @@ Widget emailForm(TextEditingController _emailController, BuildContext context) {
     child: TextFormField(
       controller: _emailController,
       decoration: InputDecoration(
-        labelText: AppLocalizations.of(context).email,
+        labelText: AppLocalizations.of(context).translate('email'),
         labelStyle: TextStyle(
           color: Colors.black,
         ),
@@ -252,7 +296,7 @@ Widget passwordForm(
           obscureText: true,
           controller: _passwordController,
           decoration: InputDecoration(
-            labelText: AppLocalizations.of(context).password,
+            labelText: AppLocalizations.of(context).translate('password'),
             labelStyle: TextStyle(
               color: Colors.black,
             ),

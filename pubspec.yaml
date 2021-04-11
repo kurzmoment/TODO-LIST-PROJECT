@@ -63,9 +63,21 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-  generate: true
+  #generate: true
   assets:
     - assets/
+    - lib/lang/en.json
+    - lib/lang/cs.json
+    - lib/lang/ar.json
+    - lib/lang/de.json
+    - lib/lang/es.json
+    - lib/lang/fr.json
+    - lib/lang/hi.json
+    - lib/lang/it.json
+    - lib/lang/ko.json
+    - lib/lang/pt.json
+    - lib/lang/ru.json
+    - lib/lang/zh.json
   fonts:
     - family: OpenSans
       fonts: 

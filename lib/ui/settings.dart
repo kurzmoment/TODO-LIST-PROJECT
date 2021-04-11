@@ -1,23 +1,35 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoList/home.dart';
 import 'package:todoList/ui/loginpage.dart';
+import 'package:todoList/util/app_localizations.dart';
 import 'package:todoList/util/theme_provider.dart';
 import 'calendaryWithAct.dart';
 import 'package:todoList/ui/profilePage.dart';
 import 'package:provider/provider.dart';
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
+  @override
+  _SettingsState createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
+  // void initState() {
+  //   super.initState();
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     final provider = Provider.of<LangPreference>(context, listen: false);
+  //     provider.clearLocale();
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          AppLocalizations.of(context).settings,
+          AppLocalizations.of(context).translate('settings'),
           style: Theme.of(context).textTheme.headline6,
         ),
       ),
@@ -28,7 +40,7 @@ class Settings extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 20, top: 20),
                 child: Text(
-                  AppLocalizations.of(context).language,
+                  AppLocalizations.of(context).translate('lang'),
                   style: TextStyle(fontSize: 17),
                 ),
               )
@@ -39,13 +51,13 @@ class Settings extends StatelessWidget {
             indent: 20,
             endIndent: 20,
           ),
-          DropDownSettings(),
+          // LanguagePickerWidget(),
           Row(
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 20, top: 10),
                 child: Text(
-                  AppLocalizations.of(context).notification,
+                  AppLocalizations.of(context).translate('notification'),
                   style: TextStyle(fontSize: 17),
                 ),
               )
@@ -56,23 +68,23 @@ class Settings extends StatelessWidget {
             indent: 20,
             endIndent: 20,
           ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 10),
+          //   child: Consumer<ThemeNotifier>(
+          //     builder: (context, notifier, child) => SwitchListTile(
+          //       title: Text(AppLocalizations.of(context).notification),
+          //       onChanged: (val) {
+          //         debugPrint(val.toString());
+          //       },
+          //       value: notifier.darkTheme,
+          //     ),
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: Consumer<ThemeNotifier>(
               builder: (context, notifier, child) => SwitchListTile(
-                title: Text(AppLocalizations.of(context).notification),
-                onChanged: (val) {
-                  debugPrint(val.toString());
-                },
-                value: notifier.darkTheme,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Consumer<ThemeNotifier>(
-              builder: (context, notifier, child) => SwitchListTile(
-                title: Text(AppLocalizations.of(context).darkMode),
+                title: Text(AppLocalizations.of(context).translate('darkMode')),
                 onChanged: (val) {
                   notifier.toggleTheme();
                 },
@@ -87,7 +99,7 @@ class Settings extends StatelessWidget {
               children: [
                 TextButton(
                     child: Text(
-                      AppLocalizations.of(context).signOut,
+                      AppLocalizations.of(context).translate('signOut'),
                       style: TextStyle(fontSize: 22),
                     ),
                     onPressed: () async {
@@ -135,35 +147,51 @@ class Settings extends StatelessWidget {
   }
 }
 
-class DropDownSettings extends StatefulWidget {
-  @override
-  _DropDownSettingsState createState() => _DropDownSettingsState();
-}
-
-class _DropDownSettingsState extends State<DropDownSettings> {
-  String dropDownValue = 'English';
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 25, top: 5, right: 20),
-      child: DropdownButton<String>(
-        value: dropDownValue,
-        icon: Icon(Icons.arrow_drop_down_outlined),
-        iconSize: 25,
-        elevation: 15,
-        onChanged: (String newValue) {
-          setState(() {
-            dropDownValue = newValue;
-          });
-        },
-        items: <String>['English', 'Cestina']
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-      ),
-    );
-  }
-}
+// class LanguagePickerWidget extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     final provider = Provider.of<LangPreference>(context);
+//     return Padding(
+//       padding: const EdgeInsets.only(left: 20),
+//       child: DropdownButtonHideUnderline(
+//         child: DropdownButton(
+//           value: provider.locale ?? Locale('en', 'US'),
+//           icon: Container(
+//             width: 12,
+//           ),
+//           items: [
+//               Locale('en', 'US'),
+//               Locale('de', 'DE'),
+//               Locale('es', 'ES'),
+//               Locale('fr', 'FR'),
+//               Locale('it', 'IT'),
+//               Locale('pt', 'PT'),
+//               Locale('cs', 'CZ'),
+//               Locale('ru', 'RU'),
+//               Locale('ar', 'AE'),
+//               Locale('hi', 'IN'),
+//               Locale('ko', 'KR'),
+//               Locale('zh', 'CH')
+//           ].map((locale) {
+//             //final flag = L10n.getFlag(locale.languageCode);
+//             return DropdownMenuItem(
+//               child: Center(
+//                 child: Text(
+//                   flag.toString(),
+//                   style: TextStyle(fontSize: 17),
+//                 ),
+//               ),
+//               value: locale,
+//               onTap: () {
+//                 final provider =
+//                     Provider.of<LangPreference>(context, listen: false);
+//                 provider.setLocale(locale);
+//               },
+//             );
+//           }).toList(),
+//           onChanged: (_) {},
+//         ),
+//       ),
+//     );
+//   }
+// }
