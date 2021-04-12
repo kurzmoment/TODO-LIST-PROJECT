@@ -81,7 +81,6 @@ workflows:
             vars:
                 XCODE_WORKSPACE: "Runner.xcworkspace"
                 XCODE_SCHEME: "Runner"
-            flutter: latest
         scripts:
             - npm install
             - echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/android/local.properties"
