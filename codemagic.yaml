@@ -1,50 +1,30 @@
-# workflows:
-#   ios-app:
-#     name: iOS App
-#     environment:
-#       vars: 
-#         XCODE_PROJECT: "todoList"
-#         XCODE_SCHEME: "todoList"
-#       xcode: latest
-#       cocoapods: default
-#     triggering:
-#       events:
-#         - push
-#         - tag
-#       branch_patterns:
-#         - pattern: master
-#           include: true
-#           source: true
-#     scripts:
-#       - xcodebuild build -project "$XCODE_PROJECT.xcodeproj" -scheme "$XCODE_SCHEME" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
-#     artifacts:
-#       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
-#       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
 workflows:
-  my-workflow:
-    name: TimeToPlan
-    instance_type: mac_mini
-    max_build_duration: 60
+  ios-app:
+    name: iOS App
     environment:
-      vars:
-        PUBLIC_ENV_VAR: "value here"
+      vars: 
+        XCODE_PROJECT: "todoList"
+        XCODE_SCHEME: "todoList"
       flutter: stable
       xcode: latest
+      cocoapods: default
     cache:
       cache_paths:
         - ~/.pub-cache
     triggering:
       events:
         - push
+        - tag
       branch_patterns:
-        - pattern: '*'
+        - pattern: master
           include: true
           source: true
-      cancel_previous_builds: false
     scripts:
-      - ...
+      - xcodebuild build -project "$XCODE_PROJECT.xcodeproj" -scheme "$XCODE_SCHEME" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
     artifacts:
       - build/**/outputs/**/*.aab
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
     publishing:
       email:
         recipients:
