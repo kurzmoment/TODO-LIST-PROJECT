@@ -3,8 +3,8 @@ workflows:
     name: iOS App
     environment:
       vars: 
-        XCODE_PROJECT: "todoList"
-        XCODE_SCHEME: "todoList"
+        XCODE_PROJECT: "Runner"
+        XCODE_SCHEME: "Runner"
       flutter: stable
       xcode: latest
       cocoapods: default
