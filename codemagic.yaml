@@ -2,8 +2,9 @@ workflows:
   ios-app:
     name: iOS App
     enviroment:
-      vars: XCODE_PROJECT: "todoList"
-            XCODE_SCHEME: "todoList"
+      vars: 
+        XCODE_PROJECT: "todoList"
+        XCODE_SCHEME: "todoList"
       xcode: latest
       cocoapods: default
     scripts:
