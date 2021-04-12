@@ -32,89 +32,109 @@
 #           - matej.kratochvil33@seznam.cz
 #       scripts:
 #         - echo 'Post-publish script'
+#workflows:
+  # ANDROID INSTALACE FUNGUJE 
+  # default-workflow: &baseline
+  #   name: Default Workflow
+  #   environment:
+  #     flutter: stable
+  #   cache:
+  #     cache_paths:
+  #       - $FCI_BUILD_DIR/build
+  #   scripts:
+  #     - |
+  #       # set up debug keystore
+  #       rm -f ~/.android/debug.keystore
+  #       keytool -genkeypair \
+  #         -alias androiddebugkey \
+  #         -keypass android \
+  #         -keystore ~/.android/debug.keystore \
+  #         -storepass android \
+  #         -dname 'CN=Android Debug,O=Android,C=US' \
+  #         -keyalg 'RSA' \
+  #         -keysize 2048 \
+  #         -validity 10000        
+  #     - |
+  #       # set up local properties
+  #       echo "flutter.sdk=$HOME/programs/flutter" \
+  #         > "$FCI_BUILD_DIR/android/local.properties"        
+  #     - flutter packages pub get
+  #     - flutter build apk --release
+  #   artifacts:
+  #     - build/**/outputs/**/*.apk
+  #     - build/**/outputs/**/*.aab
+  #     - build/**/outputs/**/.ipa
+  #     - build/**/outputs/**/mapping.txt
+  #     - flutter_drive.log
+  #   publishing:
+  #     email:
+  #       recipients:
+  #         - matej.kratochvil33@seznam.cz
+  # stable-workflow:
+  #     environment:
+  #       flutter: beta
 workflows:
-  default-workflow: &baseline
-    name: Default Workflow
-    environment:
-      flutter: stable
-    cache:
-      cache_paths:
-        - $FCI_BUILD_DIR/build
-    scripts:
-      - |
-        # set up debug keystore
-        rm -f ~/.android/debug.keystore
-        keytool -genkeypair \
-          -alias androiddebugkey \
-          -keypass android \
-          -keystore ~/.android/debug.keystore \
-          -storepass android \
-          -dname 'CN=Android Debug,O=Android,C=US' \
-          -keyalg 'RSA' \
-          -keysize 2048 \
-          -validity 10000        
-      - |
-        # set up local properties
-        echo "flutter.sdk=$HOME/programs/flutter" \
-          > "$FCI_BUILD_DIR/android/local.properties"        
-      - flutter packages pub get
-      - flutter build apk --release
-    artifacts:
-      - build/**/outputs/**/*.apk
-      - build/**/outputs/**/*.aab
-      - build/**/outputs/**/.ipa
-      - build/**/outputs/**/mapping.txt
-      - flutter_drive.log
-    publishing:
-      email:
-        recipients:
-          - matej.kratochvil33@seznam.cz
-  stable-workflow:
+    ios-swiftly:
+      name: TimeToPlan
       environment:
-        flutter: beta
-  ios-workflow:
-    name: ios_workflow
-    environment:
-      vars:
-        XCODE_WORKSPACE: "Runner.xcworkspace"  # PUT YOUR WORKSPACE NAME HERE
-        XCODE_SCHEME: "Runner" # PUT THE NAME OF YOUR SCHEME HERE
-        # FCI_CERTIFICATE: Encrypted(...) # PUT THE ENCRYPTED DISTRIBUTION CERTIFICATE HERE
-        # FCI_CERTIFICATE_PASSWORD: Encrypted(...) # PUT THE ENCRYPTED CERTIFICATE PASSWORD HERE
-        # FCI_PROVISIONING_PROFILE: Encrypted(...) # PUT THE ENCRYPTED PROVISIONING PROFILE HERE
-      xcode: latest
-      cocoapods: default
-    triggering:
-      events:
-        - push
-      branch_patterns:
-        - pattern: master
-          include: true
-          source: true
-    scripts:
-      - name: Set up keychain to be used for codesigning using Codemagic CLI 'keychain' command
-        script: keychain initialize
-      - name: Set up Provisioning profiles from environment variables
-        script: |
-          PROFILES_HOME="$HOME/Library/MobileDevice/Provisioning Profiles"
-          mkdir -p "$PROFILES_HOME"
-          PROFILE_PATH="$(mktemp "$PROFILES_HOME"/$(uuidgen).mobileprovision)"
-          echo ${FCI_PROVISIONING_PROFILE} | base64 --decode > "$PROFILE_PATH"
-          echo "Saved provisioning profile $PROFILE_PATH"          
-      - name: Set up signing certificate
-        script: |
-          echo $FCI_CERTIFICATE | base64 --decode > /tmp/certificate.p12
-          keychain add-certificates --certificate /tmp/certificate.p12 --certificate-password $FCI_CERTIFICATE_PASSWORD          
-      - name: Increment build number
-        script: agvtool new-version -all $(($BUILD_NUMBER +1))
-      - name: Set up code signing settings on Xcode project
-        script: xcode-project use-profiles
-      - name: Build ipa for distribution
-        script: xcode-project build-ipa --workspace "$XCODE_WORKSPACE" --scheme "$XCODE_SCHEME"
-    artifacts:
-      - build/ios/ipa/*.ipa
-      - /tmp/xcodebuild_logs/*.log
-      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
-    publishing:
-      app_store_connect:
-        apple_id: matej.kratochvil33@seznam.cz # PUT YOUR APPLE ID HERE
-        password: Encrypted(...) # P
+        vars:
+          XCODE_WORKSPACE: "Runner.xcworkspace" # <-- Put the name of your workspace here. 
+          XCODE_SCHEME: "Runner" # <-- Put the name of your scheme here.
+          # Set up env vars for manual codesigning (See - https://docs.codemagic.io/code-signing-yaml/signing-ios/)
+          CM_CERTIFICATE: Encrypted(...) # <-- Put your encrypted distribution certificate here. 
+          CM_CERTIFICATE_PASSWORD: Encrypted(...) # <-- Put your encrypted distribution certificate password here.
+          CM_PROVISIONING_PROFILE: Encrypted(...) # <-- Put your encrypted provisioning profile here.
+        xcode: latest
+        cocoapods: default
+      triggering:
+        events:
+          - push
+          - tag
+          - pull_request
+        branch_patterns:
+          - pattern: 'master'
+            include: true
+            source: true
+      scripts:
+        - name: Initialize keychain to be used for codesigning using Codemagic CLI 'keychain' command
+          script: |
+            keychain initialize
+        - name: set up provisioning profiles
+          script: |
+            PROFILES_HOME="$HOME/Library/MobileDevice/Provisioning Profiles"
+            mkdir -p "$PROFILES_HOME"
+            PROFILE_PATH="$(mktemp "$PROFILES_HOME"/$(uuidgen).mobileprovision)"
+            echo ${CM_PROVISIONING_PROFILE} | base64 --decode > $PROFILE_PATH
+            echo "Saved provisioning profile $PROFILE_PATH"
+        - name: Add signing certificate to keychain
+          script: |
+            echo $CM_CERTIFICATE | base64 --decode > /tmp/certificate.p12
+            keychain add-certificates --certificate /tmp/certificate.p12 --certificate-password $CM_CERTIFICATE_PASSWORD
+        - name: Increment build number
+          script: |
+            # increment build number
+            #!/bin/sh
+            set -e
+            set -x
+            cd $FCI_BUILD_DIR
+            agvtool new-version -all $(($BUILD_NUMBER +1))
+        - name: Set up code signing settings on Xcode project
+          script: |
+            xcode-project use-profiles
+        - name: Build .ipa
+          script: |
+            xcode-project build-ipa --workspace "$XCODE_WORKSPACE" --scheme "$XCODE_SCHEME"
+      artifacts:
+        - build/ios/ipa/*.ipa
+        - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+      publishing:
+        email:
+            recipients:
+              - matej.kratochvil33@seznam.cz
+            notify:
+              success: true
+              failure: true
+    
+      
+
+  
