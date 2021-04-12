@@ -92,9 +92,6 @@ workflows:
             include: true
             source: true
       scripts:
-        - name: Initialize keychain to be used for codesigning using Codemagic CLI 'keychain' command
-          script: |
-            keychain initialize
         - name: set up provisioning profiles
           script: |
             PROFILES_HOME="$HOME/Library/MobileDevice/Provisioning Profiles"
