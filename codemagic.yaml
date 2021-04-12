@@ -73,18 +73,35 @@
   # stable-workflow:
   #     environment:
   #       flutter: beta
-workflow:
-  scripts:
-    - echo 'previous step'
-    - name: Build Flutter module from the source
-      script: |
-        cd my_flutter_module
-        flutter pub get
-        flutter build ios --release --no-codesign
-        cd .ios
-        pod install      
-    - name: Build host application
-      script: |
-        cd my_host_app
-        pod install
-        xcodebuild build -workspace "MyXcodeProject.xcworkspace" -scheme "MyXcodeScheme" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO      
+workflows:
+  my-workflow:
+    name: My workflow name
+    instance_type: mac_mini
+    max_build_duration: 60
+    environment:
+      vars:
+        PUBLIC_ENV_VAR: "value here"
+      flutter: stable
+      xcode: latest
+    cache:
+      cache_paths:
+        - ~/.pub-cache
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: '*'
+          include: true
+          source: true
+      cancel_previous_builds: false
+    scripts:
+      - ...
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - build/**/outputs/**/*.aab
+    publishing:
+      email:
+        recipients:
+          - matej.kratochvil33@seznam.cz
+      scripts:
+        - echo 'Post-publish script'
