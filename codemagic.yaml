@@ -62,6 +62,7 @@ workflows:
     artifacts:
       - build/**/outputs/**/*.apk
       - build/**/outputs/**/*.aab
+      - build/**/outputs/**/.ipa
       - build/**/outputs/**/mapping.txt
       - flutter_drive.log
     publishing:
