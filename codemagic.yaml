@@ -80,10 +80,6 @@ workflows:
         vars:
           XCODE_WORKSPACE: "Runner.xcworkspace" # <-- Put the name of your workspace here. 
           XCODE_SCHEME: "Runner" # <-- Put the name of your scheme here.
-          # Set up env vars for manual codesigning (See - https://docs.codemagic.io/code-signing-yaml/signing-ios/)
-          CM_CERTIFICATE: Encrypted(...) # <-- Put your encrypted distribution certificate here. 
-          CM_CERTIFICATE_PASSWORD: Encrypted(...) # <-- Put your encrypted distribution certificate password here.
-          CM_PROVISIONING_PROFILE: Encrypted(...) # <-- Put your encrypted provisioning profile here.
         xcode: latest
         cocoapods: default
       triggering:
