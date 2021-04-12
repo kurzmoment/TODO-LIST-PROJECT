@@ -73,61 +73,27 @@
   # stable-workflow:
   #     environment:
   #       flutter: beta
-workflows:
-    ios-swiftly:
-      name: TimeToPlan
-      environment:
-        vars:
-          XCODE_WORKSPACE: "Runner.xcworkspace" # <-- Put the name of your workspace here. 
-          XCODE_SCHEME: "Runner" # <-- Put the name of your scheme here.
-        xcode: latest
-        cocoapods: default
-      triggering:
-        events:
-          - push
-          - tag
-          - pull_request
-        branch_patterns:
-          - pattern: 'master'
-            include: true
-            source: true
-      scripts:
-        # - name: set up provisioning profiles
-        #   script: |
-        #     PROFILES_HOME="$HOME/Library/MobileDevice/Provisioning Profiles"
-        #     mkdir -p "$PROFILES_HOME"
-        #     PROFILE_PATH="$(mktemp "$PROFILES_HOME"/$(uuidgen).mobileprovision)"
-        #     echo ${CM_PROVISIONING_PROFILE} | base64 --decode > $PROFILE_PATH
-        #     echo "Saved provisioning profile $PROFILE_PATH"
-        # - name: Add signing certificate to keychain
-        #   script: |
-        #     echo $CM_CERTIFICATE | base64 --decode > /tmp/certificate.p12
-        #     keychain add-certificates --certificate /tmp/certificate.p12 --certificate-password $CM_CERTIFICATE_PASSWORD
-        - name: Increment build number
-          script: |
-            # increment build number
-            #!/bin/sh
-            set -e
-            set -x
-            cd $FCI_BUILD_DIR
-            agvtool new-version -all $(($BUILD_NUMBER +1))
-        - name: Set up code signing settings on Xcode project
-          script: |
-            xcode-project use-profiles
-        - name: Build .ipa
-          script: |
-            xcode-project build-ipa --workspace "$XCODE_WORKSPACE" --scheme "$XCODE_SCHEME"
-      artifacts:
-        - build/ios/ipa/*.ipa
-        - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
-      publishing:
-        email:
-            recipients:
-              - matej.kratochvil33@seznam.cz
-            notify:
-              success: true
-              failure: true
-    
-      
 
-  
+workflows:
+    react-native:
+        name: TimeToPlan
+        environment:
+            vars:
+                XCODE_WORKSPACE: "Runner.xcworkspace"
+                XCODE_SCHEME: "Runner"
+            flutter: latest
+        scripts:
+            - npm install
+            - echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/android/local.properties"
+            - |
+                # build Android
+                cd android
+                ./gradlew assembleDebug
+            - |
+                # build iOS
+                cd ios
+                pod install
+                xcodebuild build -workspace "$XCODE_WORKSPACE.xcworkspace" -scheme "$XCODE_SCHEME" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+        artifacts:
+            - android/app/build/outputs/**/**/*.apk
+            - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app  
