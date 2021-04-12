@@ -1,7 +1,7 @@
 workflows:
   ios-app:
     name: iOS App
-    enviroment:
+    environment:
       vars: 
         XCODE_PROJECT: "todoList"
         XCODE_SCHEME: "todoList"
