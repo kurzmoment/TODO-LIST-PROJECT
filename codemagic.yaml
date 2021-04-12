@@ -72,7 +72,6 @@ workflows:
   stable-workflow:
       environment:
         flutter: beta
-        workflows:
   ios-workflow:
     name: ios_workflow
     environment:
