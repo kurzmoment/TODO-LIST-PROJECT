@@ -20,7 +20,8 @@ workflows:
           include: true
           source: true
     scripts:
-      - xcodebuild build -project "$XCODE_PROJECT.xcodeproj" -scheme "$XCODE_SCHEME" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+      - xcodebuild build -workspace "$XCODE_WORKSPACE.xworkspace" -scheme "$XCODE_SCHEME" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+      # - xcodebuild build -project "$XCODE_PROJECT.xcodeproj" -scheme "$XCODE_SCHEME" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
     artifacts:
       - build/**/outputs/**/*.aab
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
