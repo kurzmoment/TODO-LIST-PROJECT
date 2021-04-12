@@ -73,18 +73,18 @@
   # stable-workflow:
   #     environment:
   #       flutter: beta
-
-scripts:
-  - echo 'previous step'
-  - name: Build Flutter module from the source
-    script: |
-      cd my_flutter_module
-      flutter pub get
-      flutter build ios --release --no-codesign
-      cd .ios
-      pod install      
-  - name: Build host application
-    script: |
-      cd my_host_app
-      pod install
-      xcodebuild build -workspace "MyXcodeProject.xcworkspace" -scheme "MyXcodeScheme" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO      
+workflow:
+  scripts:
+    - echo 'previous step'
+    - name: Build Flutter module from the source
+      script: |
+        cd my_flutter_module
+        flutter pub get
+        flutter build ios --release --no-codesign
+        cd .ios
+        pod install      
+    - name: Build host application
+      script: |
+        cd my_host_app
+        pod install
+        xcodebuild build -workspace "MyXcodeProject.xcworkspace" -scheme "MyXcodeScheme" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO      
