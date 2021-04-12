@@ -74,25 +74,17 @@
   #     environment:
   #       flutter: beta
 
-workflows:
-    react-native:
-        name: TimeToPlan
-        environment:
-            vars:
-                XCODE_WORKSPACE: "Runner.xcworkspace"
-                XCODE_SCHEME: "Runner"
-        scripts:
-            - npm install
-            - echo "sdk.dir=$HOME/programs/android-sdk-macosx" > "$FCI_BUILD_DIR/android/local.properties"
-            - |
-                # build Android
-                cd android
-                ./gradlew assembleDebug
-            - |
-                # build iOS
-                cd ios
-                pod install
-                xcodebuild build -workspace "$XCODE_WORKSPACE.xcworkspace" -scheme "$XCODE_SCHEME" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
-        artifacts:
-            - android/app/build/outputs/**/**/*.apk
-            - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app  
+scripts:
+  - echo 'previous step'
+  - name: Build Flutter module from the source
+    script: |
+      cd my_flutter_module
+      flutter pub get
+      flutter build ios --release --no-codesign
+      cd .ios
+      pod install      
+  - name: Build host application
+    script: |
+      cd my_host_app
+      pod install
+      xcodebuild build -workspace "MyXcodeProject.xcworkspace" -scheme "MyXcodeScheme" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO      
