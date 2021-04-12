@@ -69,6 +69,5 @@ workflows:
         recipients:
           - matej.kratochvil33@seznam.cz
   stable-workflow:
-    <<: *baseline
       environment:
         flutter: beta
