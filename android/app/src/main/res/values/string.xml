@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TimeToPlan</string>
+    <string name="facebook_app_id">269921848088990</string>
+    <string name="fb_login_protocol_scheme">fb269921848088990</string>
+</resources>

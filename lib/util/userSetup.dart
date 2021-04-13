@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:todoList/ui/loginpage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 Future<void> userSetup(String displayName) async {
   //DateTime dt = DateTime.now();
@@ -69,22 +71,22 @@ Future<String> getUID() async {
   return uid;
 }
 
-Future<UserCredential> signInWithGoogle() async {
-  // Trigger the authentication flow
-  final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+// Future<UserCredential> signInWithGoogle() async {
+//   // Trigger the authentication flow
+//   final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
 
-  // Obtain the auth details from the request
-  final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+//   // Obtain the auth details from the request
+//   final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
-  // Create a new credential
-  final GoogleAuthCredential credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth.accessToken,
-    idToken: googleAuth.idToken,
-  );
+//   // Create a new credential
+//   final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+//     accessToken: googleAuth.accessToken,
+//     idToken: googleAuth.idToken,
+//   );
 
-  // Once signed in, return the UserCredential
-  return await FirebaseAuth.instance.signInWithCredential(credential);
-}
+//   // Once signed in, return the UserCredential
+//   return await FirebaseAuth.instance.signInWithCredential(credential);
+// }
 
 class Authentication {
   static Future<FirebaseApp> initializeFirebase() async {
@@ -158,5 +160,49 @@ class Authentication {
         style: TextStyle(color: Colors.redAccent, letterSpacing: 0.5),
       ),
     );
+  }
+}
+
+class AuthenticationFacebook {
+  static Future<FirebaseApp> initializeFirebase() async {
+    FirebaseApp firebaseApp = await Firebase.initializeApp();
+    return firebaseApp;
+  }
+
+  static Future<User> signInWithFacebook({BuildContext context}) async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    User user;
+    final FacebookLogin facebookLogin = FacebookLogin();
+    final FacebookLoginResult loginResult =
+        await facebookLogin.logIn(['email']);
+    switch (loginResult.status) {
+      case FacebookLoginStatus.cancelledByUser:
+        break;
+      case FacebookLoginStatus.error:
+        break;
+      case FacebookLoginStatus.loggedIn:
+        try {
+          final FacebookAccessToken facebookAccessToken =
+              loginResult.accessToken;
+          AuthCredential credential =
+              FacebookAuthProvider.credential(facebookAccessToken.token);
+          var a = await _auth.signInWithCredential(credential);
+          user = a.user;
+        } catch (e) {
+          print(e);
+        }
+    }
+    return user;
+  }
+
+  static Future logOutWithFacebook(BuildContext context) async {
+    FacebookLogin fbl = FacebookLogin();
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    try {
+      await _auth.signOut();
+      fbl.logOut();
+    } catch (e) {
+      print(e);
+    }
   }
 }

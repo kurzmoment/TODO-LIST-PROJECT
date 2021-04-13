@@ -104,6 +104,7 @@ class _SettingsState extends State<Settings> {
                       style: TextStyle(fontSize: 22),
                     ),
                     onPressed: () async {
+                      AuthenticationFacebook.logOutWithFacebook(context);
                       Authentication.signOut(context);
                       FirebaseAuth.instance.signOut();
                       SharedPreferences prefs =
