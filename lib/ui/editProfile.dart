@@ -23,74 +23,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
       ),
       body: ListView(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Container(
-              child: Text('Your first name'),
+          Card(
+            child: ListTile(
+              title: Text('Zmena uzivatelskeho jmena'),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: TextField(
-              maxLength: 20,
-              decoration: InputDecoration(icon: Icon(Icons.person)),
+          Card(
+            child: ListTile(
+              title: Text('Zmena emailu'),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Container(
-              child: Text('Your second name'),
+          Card(
+            child: ListTile(
+              title: Text('Zmena hesla'),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: TextField(
-              maxLength: 20,
-              decoration: InputDecoration(icon: Icon(Icons.person)),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Container(
-              child: Text('Your job'),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: TextField(
-              maxLength: 20,
-              decoration: InputDecoration(icon: Icon(Icons.work)),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Container(
-              child: Text('Your email'),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: TextField(
-              maxLength: 20,
-              decoration:
-                  InputDecoration(icon: Icon(Icons.alternate_email_rounded)),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Container(
-              child: Text('Your password'),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: TextField(
-              maxLength: 20,
-              decoration: InputDecoration(
-                icon: Icon(Icons.vpn_key),
-              ),
-            ),
-          ),
+          )
         ],
       ),
     );

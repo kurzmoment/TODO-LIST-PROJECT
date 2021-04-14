@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoList/home.dart';
 import 'package:todoList/ui/loginpage.dart';
+import 'package:todoList/ui/settingLegalThings.dart';
 import 'package:todoList/util/app_localizations.dart';
 import 'package:todoList/util/theme_provider.dart';
 import 'package:todoList/util/userSetup.dart';
@@ -16,14 +17,6 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  // void initState() {
-  //   super.initState();
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     final provider = Provider.of<LangPreference>(context, listen: false);
-  //     provider.clearLocale();
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,53 +29,53 @@ class _SettingsState extends State<Settings> {
       ),
       body: ListView(
         children: [
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20, top: 20),
-                child: Text(
-                  AppLocalizations.of(context).translate('lang'),
-                  style: TextStyle(fontSize: 17),
-                ),
-              )
-            ],
-          ),
-          Divider(
-            thickness: 1,
-            indent: 20,
-            endIndent: 20,
-          ),
-          // LanguagePickerWidget(),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20, top: 10),
-                child: Text(
-                  AppLocalizations.of(context).translate('notification'),
-                  style: TextStyle(fontSize: 17),
-                ),
-              )
-            ],
-          ),
-          Divider(
-            thickness: 1,
-            indent: 20,
-            endIndent: 20,
-          ),
-          // Padding(
-          //   padding: const EdgeInsets.only(left: 10),
-          //   child: Consumer<ThemeNotifier>(
-          //     builder: (context, notifier, child) => SwitchListTile(
-          //       title: Text(AppLocalizations.of(context).notification),
-          //       onChanged: (val) {
-          //         debugPrint(val.toString());
-          //       },
-          //       value: notifier.darkTheme,
-          //     ),
-          //   ),
-          // ),
           Padding(
-            padding: const EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.only(top: 8, left: 10, bottom: 8),
+            child: Text(
+              AppLocalizations.of(context).translate('userSetting'),
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Card(
+            margin: EdgeInsets.fromLTRB(0, 1, 0, 1),
+            child: ListTile(
+              title: Text(AppLocalizations.of(context)
+                  .translate('communityGuidelines')),
+              trailing: IconButton(
+                icon: Icon(Icons.arrow_forward_ios),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => CommunityGuidelines()));
+                },
+              ),
+            ),
+          ),
+          Card(
+            margin: EdgeInsets.fromLTRB(0, 1, 0, 1),
+            child: ListTile(
+              title: Text(AppLocalizations.of(context).translate('lang')),
+              trailing: IconButton(
+                icon: Icon(Icons.arrow_forward_ios),
+                onPressed: () {},
+              ),
+            ),
+          ),
+          Card(
+            margin: EdgeInsets.fromLTRB(0, 1, 0, 1),
+            child: ListTile(
+              title:
+                  Text(AppLocalizations.of(context).translate('notification')),
+              trailing: IconButton(
+                icon: Icon(Icons.arrow_forward_ios),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => NotificationShow()));
+                },
+              ),
+            ),
+          ),
+          Card(
+            margin: EdgeInsets.fromLTRB(0, 1, 0, 1),
             child: Consumer<ThemeNotifier>(
               builder: (context, notifier, child) => SwitchListTile(
                 title: Text(AppLocalizations.of(context).translate('darkMode')),
@@ -94,28 +87,99 @@ class _SettingsState extends State<Settings> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 300),
+            padding: const EdgeInsets.only(top: 8, left: 10, bottom: 8),
+            child: Text(
+              AppLocalizations.of(context).translate('legal'),
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Card(
+            margin: EdgeInsets.fromLTRB(0, 1, 0, 1),
+            child: ListTile(
+              title:
+                  Text(AppLocalizations.of(context).translate('privacyPolicy')),
+              trailing: IconButton(
+                icon: Icon(Icons.arrow_forward_ios),
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => PrivacyPolicy()));
+                },
+              ),
+            ),
+          ),
+          Card(
+            margin: EdgeInsets.fromLTRB(0, 1, 0, 1),
+            child: ListTile(
+              title: Text(
+                  AppLocalizations.of(context).translate('termsOfService')),
+              trailing: IconButton(
+                icon: Icon(Icons.arrow_forward_ios),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => TermsOfService()));
+                },
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 15),
+            child: Card(
+              margin: EdgeInsets.fromLTRB(0, 1, 0, 1),
+              child: ListTile(
+                title: Text(
+                  AppLocalizations.of(context).translate('signOut'),
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                onTap: () async {
+                  AuthenticationFacebook.logOutWithFacebook(context);
+                  Authentication.signOut(context);
+                  FirebaseAuth.instance.signOut();
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  prefs.remove('email');
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => LoginPage()));
+                },
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextButton(
-                    child: Text(
-                      AppLocalizations.of(context).translate('signOut'),
-                      style: TextStyle(fontSize: 22),
-                    ),
-                    onPressed: () async {
-                      AuthenticationFacebook.logOutWithFacebook(context);
-                      Authentication.signOut(context);
-                      FirebaseAuth.instance.signOut();
-                      SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      prefs.remove('email');
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => LoginPage()));
-                    })
+                Image(
+                  image: AssetImage('assets/logo.png'),
+                  height: 60,
+                ),
               ],
             ),
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Version Alpha 0.5.0'),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 1),
+            child: Card(
+              margin: EdgeInsets.fromLTRB(0, 1, 0, 1),
+              child: ListTile(
+                title: Text(
+                  AppLocalizations.of(context).translate('deleteAcc'),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: new BottomAppBar(

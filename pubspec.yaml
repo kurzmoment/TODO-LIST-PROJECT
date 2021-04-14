@@ -67,6 +67,7 @@ flutter:
   #generate: true
   assets:
     - assets/
+    - assets/avatar/
     - lib/lang/en.json
     - lib/lang/cs.json
     - lib/lang/ar.json

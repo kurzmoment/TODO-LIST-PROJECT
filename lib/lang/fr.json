@@ -46,5 +46,12 @@
   "returnToSignIn": "Revenir pour vous connecter",
   "submit" : "Soumettre",
   "alreadyHaveAcc" : "Vous avez déjà un compte? Cliquez ici.",
-  "username" : "Nom d'utilisateur"
+  "username" : "Nom d'utilisateur",
+  "userSetting" : "Paramètres utilisateur",
+  "communityGuidelines" : "Règles de la communauté",
+  "privacyPolicy" : "Politique de confidentialité",
+  "termsOfService" : "Conditions d'utilisation",
+  "deleteAcc" : "Supprimer le compte",
+  "clearStat" : "Statistiques claires",
+  "legal" : "Légal"
 }

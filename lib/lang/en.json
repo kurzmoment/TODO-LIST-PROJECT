@@ -49,6 +49,12 @@
   "returnToSignIn": "Return to sign in",
   "submit" : "Submit",
   "alreadyHaveAcc" : "Already have a account? Click here.",
-  "username" : "Username"
-
+  "username" : "Username",
+  "userSetting" : "User settings",
+  "communityGuidelines" : "Community guidelines",
+  "privacyPolicy" : "Privacy policy",
+  "termsOfService" : "Terms of service",
+  "deleteAcc" : "Delete account",
+  "clearStat" : "Clear statistics",
+  "legal": "Legal"
 }

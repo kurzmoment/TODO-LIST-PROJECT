@@ -46,5 +46,12 @@
   "returnToSignIn": "Voltar para fazer login",
   "submit" : "Enviar",
   "alreadyHaveAcc" : "Já tem uma conta? Clique aqui.",
-  "username" : "Feita"
+  "username" : "Feita",
+  "userSetting" : "Configurações do Usuário",
+  "communityGuidelines" : "Diretrizes da comunidade",
+  "privacyPolicy" : "Política de Privacidade",
+  "termsOfService" : "Termos de serviço",
+  "deleteAcc" : "Deletar conta",
+  "clearStat" : "Estatísticas claras",
+  "legal" : "Jurídico"
 }

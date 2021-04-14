@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 ThemeData light = ThemeData(
     fontFamily: 'OpenSans',
     dividerColor: Colors.black54,
-    cardColor: HexColor('F4E6CD'),
+    cardColor: HexColor('EAEAEA'),
     buttonColor: Colors.black,
     appBarTheme: AppBarTheme(
         iconTheme: IconThemeData(color: Colors.black),

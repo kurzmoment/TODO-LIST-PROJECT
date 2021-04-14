@@ -46,5 +46,12 @@
   "returnToSignIn": "返回登錄",
   "submit" : "提交",
   "alreadyHaveAcc" : "已經有帳號了？點擊這裡。",
-  "username" : "用戶名"
+  "username" : "用戶名",
+  "userSetting" : "用戶設置",
+  "communityGuidelines" : "社區準則",
+  "privacyPolicy" : "隱私政策",
+  "termsOfService" : "服務條款",
+  "deleteAcc" : "刪除帳戶",
+  "clearStat" : "清除統計數據",
+  "legal" : "合法的"
 }

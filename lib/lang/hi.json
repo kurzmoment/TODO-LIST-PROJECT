@@ -46,6 +46,13 @@
   "returnToSignIn": "साइन इन करने के लिए वापस लौटें",
   "submit" : "प्रस्तुत",
   "alreadyHaveAcc" : "पहले से ही एक खाता है? यहाँ क्लिक करें।",
-  "username" : "उपयोगकर्ता नाम"
+  "username" : "उपयोगकर्ता नाम",
+  "userSetting" : "उपयोगकर्ता सेटिंग",
+  "communityGuidelines" : "समुदाय दिशानिर्देश",
+  "privacyPolicy" : "गोपनीयता नीति",
+  "termsOfService" : "सेवा की शर्तें",
+  "deleteAcc" : "खाता हटा दो",
+  "clearStat" : "स्पष्ट आंकड़े",
+  "legal" : "कानूनी"
 
 }

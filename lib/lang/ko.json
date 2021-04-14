@@ -46,5 +46,12 @@
   "returnToSignIn": "로그인으로 돌아 가기",
   "submit" : "제출",
   "alreadyHaveAcc" : "이미 계정이 있습니까? 여기를 클릭하세요.",
-  "username" : "사용자 이름"
+  "username" : "사용자 이름",
+  "userSetting" : "사용자 설정",
+  "communityGuidelines" : "커뮤니티 지침",
+  "privacyPolicy" : "개인 정보 정책",
+  "termsOfService" : "서비스 약관",
+  "deleteAcc" : "계정 삭제",
+  "clearStat" : "명확한 통계",
+  "legal" : "적법한"
 }
