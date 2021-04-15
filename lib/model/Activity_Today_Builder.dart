@@ -13,7 +13,7 @@ class ActivityTodayBuilder extends StatelessWidget {
           .collection('userData')
           .doc(auth.currentUser.uid)
           .collection('activity')
-          .orderBy('date')
+          .orderBy('time', descending: false)
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return CircularProgressIndicator();
