@@ -30,6 +30,8 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
   TextEditingController colorInputController;
   TextEditingController _dateController;
   TextEditingController _timeController;
+  TextEditingController _ocureIDController;
+  TextEditingController _ocurehowController;
 
   TextEditingController _endtimeController;
   TextEditingController notesInputController;
@@ -40,10 +42,11 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
   TimeOfDay eselectedTime = TimeOfDay(hour: 00, minute: 00);
-
+  bool checkBoxValue = false;
   @override
   void initState() {
     super.initState();
+
     iconInputController = new TextEditingController();
     nameInputController = new TextEditingController();
     notesInputController = new TextEditingController();
@@ -51,6 +54,8 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
     colorInputController = new TextEditingController();
     _dateController = new TextEditingController();
     _timeController = new TextEditingController();
+    _ocureIDController = new TextEditingController();
+    _ocurehowController = new TextEditingController();
 
     _endtimeController = new TextEditingController();
     _dateController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
@@ -89,11 +94,14 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
       'purple': Colors.purple,
       'amberAccent': Colors.amberAccent
     };
+
     var snapshotName = widget.snapshot.docs[widget.index].get('name');
     var snapshotIkona = widget.snapshot.docs[widget.index].get('ikona');
     var snapshotBarva = widget.snapshot.docs[widget.index].get('barva');
     var snapshotDate = widget.snapshot.docs[widget.index].get('date');
     var snapshotTime = widget.snapshot.docs[widget.index].get('time');
+    var snapshotOCID = widget.snapshot.docs[widget.index].get("ocureid");
+    var snapshotocurHOW = widget.snapshot.docs[widget.index].get("ocurence");
 
     var snapshotETime = widget.snapshot.docs[widget.index].get('etime');
     var snapshotNotes = widget.snapshot.docs[widget.index].get('notes');
@@ -108,6 +116,11 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
         TextEditingController(text: snapshotDate);
     TextEditingController _timeController =
         TextEditingController(text: snapshotTime);
+    TextEditingController _ocureIDController =
+        TextEditingController(text: snapshotOCID);
+
+    TextEditingController _ocurehowController =
+        TextEditingController(text: snapshotocurHOW);
 
     TextEditingController _endtimeController =
         TextEditingController(text: snapshotETime);
@@ -115,16 +128,19 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
         TextEditingController(text: snapshotNotes);
 
     DateTime today = new DateTime.now();
-    DateTime formatedDate = today.subtract(Duration(
-        hours: today.hour,
-        minutes: today.minute,
-        seconds: today.second,
-        milliseconds: today.millisecond,
-        microseconds: today.microsecond));
-    var selectedDate = DateFormat('dd/MM/yyyy').parse(_dateController.text);
+
+    var cas = _dateController.text + " " + _endtimeController.text;
+    var dateum = DateFormat("dd/MM/yyyy hh:mm a").format(today);
+    DateTime formatedDate = DateFormat("dd/MM/yyyy hh:mm a").parse(dateum);
+    var selectedDate = DateFormat('dd/MM/yyyy hh:mm a').parse(cas);
+    var datum = DateFormat("dd/MM/yyyy").format(today);
+    DateTime day = DateFormat("dd/MM/yyyy").parse(datum);
+    var selectedDatee = DateFormat('dd/MM/yyyy').parse(_dateController.text);
     final double _panelMinSize = 60.0;
     final double _panelMaxSize = MediaQuery.of(context).size.height / 1.5;
-    if (selectedDate.isAtSameMomentAs(formatedDate)) {
+
+    if (selectedDate.isAfter(formatedDate) &&
+        day.isAtSameMomentAs(selectedDatee)) {
       return Slidable(
         actionExtentRatio: 0.2,
         actionPane: SlidableDrawerActionPane(),
@@ -453,6 +469,22 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                 ),
                               ),
                             ),
+                            Column(children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 70, left: 30, right: 30),
+                                child: new CheckboxListTile(
+                                  title: Text("Change ocuring activities"),
+                                  value: checkBoxValue,
+                                  activeColor: Colors.green,
+                                  onChanged: (bool newValue) {
+                                    setState(() {
+                                      checkBoxValue = newValue;
+                                    });
+                                  },
+                                ),
+                              )
+                            ]),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -468,7 +500,8 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                         _dateController.text.isNotEmpty &&
                                         colorInputController.text.isNotEmpty &&
                                         _timeController.text.isNotEmpty &&
-                                        _endtimeController.text.isNotEmpty) {
+                                        _endtimeController.text.isNotEmpty &&
+                                        checkBoxValue == false) {
                                       FirebaseFirestore.instance
                                           .collection('userData')
                                           .doc(FirebaseAuth
@@ -486,12 +519,49 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                         'barva': colorInputController.text,
                                         'time': _timeController.text,
                                         'etime': _endtimeController.text,
+                                        "ocureid": _ocureIDController.text,
+                                        "ocurence": _ocurehowController.text,
                                         'notes': notesInputController.text,
                                         'timestamp': today,
                                       }).then((response) {
+                                        nameInputController.clear();
+                                        iconInputController.clear();
+                                        _dateController.clear();
+                                        _timeController.clear();
+                                        _endtimeController.clear();
+                                        colorInputController.clear();
                                         Navigator.pop(context);
                                       });
-                                    }
+                                    } else if (nameInputController
+                                            .text.isNotEmpty &&
+                                        iconInputController.text.isNotEmpty &&
+                                        _dateController.text.isNotEmpty &&
+                                        colorInputController.text.isNotEmpty &&
+                                        _timeController.text.isNotEmpty &&
+                                        _endtimeController.text.isNotEmpty &&
+                                        checkBoxValue == true)
+                                      FirebaseFirestore.instance
+                                          .collection('userData')
+                                          .doc(FirebaseAuth
+                                              .instance.currentUser.uid)
+                                          .collection('activity')
+                                          .doc(docID)
+                                          .update({
+                                        'displayName': FirebaseAuth
+                                            .instance.currentUser.displayName,
+                                        'uid': FirebaseAuth
+                                            .instance.currentUser.uid,
+                                        'name': nameInputController.text,
+                                        'ikona': iconInputController.text,
+                                        'date': _dateController.text,
+                                        'barva': colorInputController.text,
+                                        'time': _timeController.text,
+                                        'etime': _endtimeController.text,
+                                        "ocureid": _ocureIDController.text,
+                                        "ocurence": _ocurehowController.text,
+                                        'notes': notesInputController.text,
+                                        'timestamp': today,
+                                      });
                                   },
                                 ),
                                 TextButton(
