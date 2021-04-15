@@ -43,6 +43,7 @@ Future<void> addActivityUID(
       .collection('userData')
       .doc(uid)
       .collection('activity');
+
   users.add({
     'displayName': displayName,
     'uid': uid,
@@ -54,7 +55,7 @@ Future<void> addActivityUID(
     'etime': _endtimeController.text,
     'notes': _notesController.text,
     "ocurence": _ocurehowController.text,
-    "ocureid": _ocureID,
+    "ocureid": _ocureID.text,
     'timestamp': dt,
   });
   return;

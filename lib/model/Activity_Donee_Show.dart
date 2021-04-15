@@ -115,13 +115,11 @@ class _ActivityDoneShowState extends State<ActivityDoneShow> {
         TextEditingController(text: snapshotNotes);
 
     DateTime today = new DateTime.now();
-    DateTime formatedDate = today.subtract(Duration(
-        hours: today.hour,
-        minutes: today.minute,
-        seconds: today.second,
-        milliseconds: today.millisecond,
-        microseconds: today.microsecond));
-    var selectedDate = DateFormat('dd/MM/yyyy').parse(_dateController.text);
+
+    var cas = _dateController.text + " " + _endtimeController.text;
+    var dateum = DateFormat("dd/MM/yyyy hh:mm a").format(today);
+    DateTime formatedDate = DateFormat("dd/MM/yyyy hh:mm a").parse(dateum);
+    var selectedDate = DateFormat('dd/MM/yyyy hh:mm a').parse(cas);
     final double _panelMinSize = 60.0;
     final double _panelMaxSize = MediaQuery.of(context).size.height / 1.5;
     if (selectedDate.isBefore(formatedDate)) {

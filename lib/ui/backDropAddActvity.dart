@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_picker/icon_picker.dart';
@@ -91,7 +92,7 @@ class _AddActFormsState extends State<AddActForms> {
     _iconController = new TextEditingController();
     _nameController = new TextEditingController();
     _ocurehowController = new TextEditingController();
-
+    _ocureID = new TextEditingController();
     _notesController = new TextEditingController();
     _iconController = new TextEditingController();
     _colorController = new TextEditingController();
@@ -286,9 +287,15 @@ class _AddActFormsState extends State<AddActForms> {
                   onPressed: () {
                     if (_nameController.text.isNotEmpty &&
                         _ocurehowController.text == "true") {
-                      var auth = FirebaseAuth.instance;
+                      FirebaseAuth auth = FirebaseAuth.instance;
                       var userName = auth.currentUser.displayName;
-
+                      String uid = auth.currentUser.uid.toString();
+                      _ocureID.text = FirebaseFirestore.instance
+                          .collection('userData')
+                          .doc(uid)
+                          .collection('activity')
+                          .doc()
+                          .id;
                       addActivityUID(
                           _nameController,
                           _iconController,
@@ -329,14 +336,15 @@ class _AddActFormsState extends State<AddActForms> {
                       _iconController.clear();
                       _timeController.clear();
                       _dateController.clear();
-
+                      _ocureID.clear();
                       _endtimeController.clear();
                       _colorController.clear();
                       _notesController.clear();
                       _ocurehowController.clear();
                     } else if (_nameController.text.isNotEmpty) {
-                      var auth = FirebaseAuth.instance;
+                      FirebaseAuth auth = FirebaseAuth.instance;
                       var userName = auth.currentUser.displayName;
+
                       addActivityUID(
                               _nameController,
                               _iconController,
@@ -355,7 +363,7 @@ class _AddActFormsState extends State<AddActForms> {
                         _iconController.clear();
                         _timeController.clear();
                         _dateController.clear();
-
+                        _ocureID.clear();
                         _endtimeController.clear();
                         _colorController.clear();
                         _notesController.clear();
