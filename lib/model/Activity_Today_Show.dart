@@ -42,7 +42,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
   TimeOfDay eselectedTime = TimeOfDay(hour: 00, minute: 00);
-  bool checkBoxValue = false;
+
   @override
   void initState() {
     super.initState();
@@ -72,6 +72,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
     super.dispose();
   }
 
+  bool checkBoxValue = false;
   @override
   Widget build(BuildContext context) {
     final Map<String, IconData> iconsCollection = {
@@ -480,6 +481,8 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                   onChanged: (bool newValue) {
                                     setState(() {
                                       checkBoxValue = newValue;
+                                      _ocurehowController.text =
+                                          checkBoxValue.toString();
                                     });
                                   },
                                 ),
