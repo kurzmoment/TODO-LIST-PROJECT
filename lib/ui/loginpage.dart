@@ -213,12 +213,23 @@ class _LoginState extends State<Login> {
                     MaterialPageRoute(builder: (context) => Forgotpass()))),
           ),
         ),
-        Row(
-          children: [
-            loginOptions('google', Colors.black),
-            loginOptions('apple', Colors.black),
-            loginOptions('facebook', Colors.blueAccent.shade700),
-          ],
+        Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              googleSignIn(context),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              facebookSignIn(context),
+            ],
+          ),
         ),
         Container(
           alignment: Alignment(-0.9, 0),
@@ -317,27 +328,155 @@ Widget showPassword() {
   );
 }
 
-Widget loginOptions(String firma, Color color) {
-  Map<String, IconData> iconPack = {
-    'apple': FontAwesomeIcons.apple,
-    'google': FontAwesomeIcons.google,
-    'facebook': FontAwesomeIcons.facebook
-  };
-  return Padding(
-    padding: const EdgeInsets.only(left: 10),
-    child: Container(
-      margin: EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.white,
-      ),
-      child: IconButton(
-        icon: FaIcon(
-          iconPack[firma],
-          color: color,
-        ),
-        onPressed: () => debugPrint(firma),
-      ),
-    ),
+googleSignIn(BuildContext context) {
+  return FutureBuilder(
+    future: Authentication.initializeFirebase(),
+    builder: (context, snapshot) {
+      if (snapshot.hasError) {
+        return Text('Error initializing Firebase');
+      } else if (snapshot.connectionState == ConnectionState.done) {
+        return GoogleSignInButton();
+      }
+      return CircularProgressIndicator();
+    },
   );
+}
+
+class GoogleSignInButton extends StatefulWidget {
+  @override
+  _GoogleSignInButtonState createState() => _GoogleSignInButtonState();
+}
+
+class _GoogleSignInButtonState extends State<GoogleSignInButton> {
+  bool _isSigningIn = false;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 0, top: 0, bottom: 0),
+      child: _isSigningIn
+          ? CircularProgressIndicator()
+          : OutlinedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.white),
+                // shape: MaterialStateProperty.all(
+                //   RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(40),
+                //   ),
+                // ),
+              ),
+              onPressed: () async {
+                setState(() {
+                  _isSigningIn = true;
+                });
+                User user =
+                    await Authentication.signInWithGoogle(context: context);
+                setState(() {
+                  _isSigningIn = false;
+                });
+                if (user != null) {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Image(
+                      image: AssetImage('assets/google_logo.png'),
+                      height: 20,
+                    ),
+                    Text(
+                      'Sign in with Google',
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+    );
+  }
+}
+
+facebookSignIn(BuildContext context) {
+  return FutureBuilder(
+    future: AuthenticationFacebook.initializeFirebase(),
+    builder: (context, snapshot) {
+      if (snapshot.hasError) {
+        return Text('Error initializing Firebase');
+      } else if (snapshot.connectionState == ConnectionState.done) {
+        return FacebookSignInButton();
+      }
+      return CircularProgressIndicator();
+    },
+  );
+}
+
+class FacebookSignInButton extends StatefulWidget {
+  @override
+  _FacebookSignInButtonState createState() => _FacebookSignInButtonState();
+}
+
+class _FacebookSignInButtonState extends State<FacebookSignInButton> {
+  bool _isSigningIn = false;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 0, top: 0, bottom: 0),
+      child: _isSigningIn
+          ? CircularProgressIndicator()
+          : OutlinedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(HexColor('#1877F2')),
+                // shape: MaterialStateProperty.all(
+                //   RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(40),
+                //   ),
+                // ),
+              ),
+              onPressed: () async {
+                setState(() {
+                  _isSigningIn = true;
+                });
+                User user = await AuthenticationFacebook.signInWithFacebook(
+                    context: context);
+                setState(() {
+                  _isSigningIn = false;
+                });
+                if (user != null) {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => HomeScreen()));
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Image(
+                      image: AssetImage('assets/fb_logo_new.webp'),
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 7),
+                      child: Text(
+                        'Login with Facebook',
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+    );
+  }
 }

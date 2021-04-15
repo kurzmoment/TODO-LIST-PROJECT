@@ -26,7 +26,7 @@
   "darkMode" : "Dunkler Modus",
   "signOut" : "Ausloggen",
   "settings" : "Einstellungen",
-  "selectAnIcon": "Select an icon",
+  "selectAnIcon": "Wählen Sie ein Symbol",
   "yes": "Ja",
   "no" : "Nein",
   "more": "Mehr",
@@ -46,5 +46,12 @@
   "returnToSignIn": "Zurück zur Anmeldung",
   "submit" : "Einreichen",
   "alreadyHaveAcc" : "Hast du schon einen Account? Klicke hier.",
-  "username" : "Nutzername"
+  "username" : "Nutzername",
+  "userSetting" : "Benutzereinstellungen",
+  "communityGuidelines" : "Community-Richtlinien",
+  "privacyPolicy" : "Datenschutz-Bestimmungen",
+  "termsOfService" : "Nutzungsbedingungen",
+  "deleteAcc" : "Konto löschen",
+  "clearStat" : "Statistiken löschen",
+  "legal" : "Legal"
 }

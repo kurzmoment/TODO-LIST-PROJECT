@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:todoList/hexcolor.dart';
 import 'package:todoList/home.dart';
 import 'package:todoList/ui/editProfile.dart';
 import 'package:todoList/util/app_localizations.dart';
@@ -18,6 +19,7 @@ class AccPage extends StatefulWidget {
 }
 
 class _AccPageState extends State<AccPage> {
+  bool isButtonDisabled;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +56,7 @@ class _AccPageState extends State<AccPage> {
                       shape: BoxShape.circle,
                       image: DecorationImage(
                           fit: BoxFit.fill,
-                          image: AssetImage('assets/marianek.webp'))),
+                          image: AssetImage('assets/avatar/avatar1.png'))),
                 ),
               ),
               Column(
@@ -72,9 +74,67 @@ class _AccPageState extends State<AccPage> {
             indent: 20,
             endIndent: 20,
           ),
-          Text(
-            AppLocalizations.of(context).translate('statistics'),
-            style: TextStyle(fontSize: 22),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                AppLocalizations.of(context).translate('statistics'),
+                style: TextStyle(fontSize: 22),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: ElevatedButton(
+                  child: Text(
+                    AppLocalizations.of(context).translate('clearStat'),
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      HexColor('A1E7F7'),
+                    ),
+                  ),
+                  onPressed: () async {
+                    return showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text(AppLocalizations.of(context)
+                              .translate('doYouReallyWantExit')),
+                          actions: [
+                            TextButton(
+                                child: Text(AppLocalizations.of(context)
+                                    .translate('yes')),
+                                onPressed: () async {
+                                  var collectionReference = FirebaseFirestore
+                                      .instance
+                                      .collection('userData');
+                                  await collectionReference
+                                      .doc(
+                                          FirebaseAuth.instance.currentUser.uid)
+                                      .collection('categoryPoints')
+                                      .get()
+                                      .then((snapshot) {
+                                    for (DocumentSnapshot ds in snapshot.docs) {
+                                      ds.reference.delete();
+                                    }
+                                  }).catchError((error) => print('$error'));
+                                  Navigator.of(context).pop();
+                                }),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text(
+                                  AppLocalizations.of(context).translate('no')),
+                            )
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+              )
+            ],
           ),
           StatisticBuilder(),
         ],

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:todoList/hexcolor.dart';
 import 'package:todoList/home.dart';
 import 'package:todoList/ui/loginpage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todoList/util/app_localizations.dart';
 import 'package:todoList/util/userSetup.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class RegisterPage extends StatelessWidget {
   @override
@@ -93,16 +95,6 @@ class _RegisterState extends State<Register> {
         emailForm(_emailController, context),
         passwordForm(_passwordController, context),
         passwordConfirmForm(_rePasswordController, context),
-        Padding(
-          padding: const EdgeInsets.only(top: 25, left: 1),
-          child: Row(
-            children: [
-              loginOptions('google', Colors.black),
-              loginOptions('apple', Colors.black),
-              loginOptions('facebook', Colors.blueAccent.shade700),
-            ],
-          ),
-        ),
         Container(
           alignment: Alignment(-0.9, 0),
           child: TextButton(

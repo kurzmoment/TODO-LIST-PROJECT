@@ -46,5 +46,12 @@
   "returnToSignIn": "العودة لتسجيل الدخول",
   "submit" : "إرسال",
   "alreadyHaveAcc" : "لديك حساب بالفعل؟ انقر هنا.",
-  "username" : "اسم المستخدم"
+  "username" : "اسم المستخدم",
+  "userSetting" : "إعدادات المستخدم",
+  "communityGuidelines" : "إرشادات المجتمع",
+  "privacyPolicy" : "سياسة خاصة",
+  "termsOfService" : "شروط الخدمة",
+  "deleteAcc" : "حذف الحساب",
+  "clearStat" : "إحصائيات واضحة",
+  "legal" : "قانوني"
 }

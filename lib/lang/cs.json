@@ -46,5 +46,12 @@
   "returnToSignIn": "Vrátit se na přihlášení",
   "submit" : "Odeslat",
   "alreadyHaveAcc" : "Již máte účet. Klikněte zde",
-  "username" : "Uživatelské jméno"
+  "username" : "Uživatelské jméno",
+  "userSetting" : "Uživatelské nastavení",
+  "communityGuidelines" : "Pokyny Společenství",
+  "privacyPolicy" : "Zásady ochrany osobních údajů",
+  "termsOfService" : "Pravní podmínky",
+  "deleteAcc" : "Smazat účet",
+  "clearStat" : "Smazat statistiky",
+  "legal" : "Právní"
 }

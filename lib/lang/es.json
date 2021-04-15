@@ -46,5 +46,12 @@
   "returnToSignIn": "Regresar para iniciar sesión",
   "submit" : "Enviar",
   "alreadyHaveAcc" : "¿Ya tienes una cuenta? Haga clic aquí.",
-  "username" : "Nombre de usuario"
+  "username" : "Nombre de usuario",
+  "userSetting" : "Ajustes de usuario",
+  "communityGuidelines" : "Principios de la Comunidad",
+  "privacyPolicy" : "Política de privacidad",
+  "termsOfService" : "Términos de servicio",
+  "deleteAcc" : "Borrar cuenta",
+  "clearStat" : "Estadísticas claras",
+  "legal" : "Legal"
 }
