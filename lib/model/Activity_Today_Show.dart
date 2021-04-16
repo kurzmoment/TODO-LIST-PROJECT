@@ -72,6 +72,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
     super.dispose();
   }
 
+  bool checkBoxValue = false;
   @override
   Widget build(BuildContext context) {
     final Map<String, IconData> iconsCollection = {
@@ -469,6 +470,27 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                 ),
                               ),
                             ),
+<<<<<<< HEAD
+=======
+                            Column(children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 70, left: 30, right: 30),
+                                child: new CheckboxListTile(
+                                  title: Text("Change ocuring activities"),
+                                  value: checkBoxValue,
+                                  activeColor: Colors.green,
+                                  onChanged: (bool newValue) {
+                                    setState(() {
+                                      checkBoxValue = newValue;
+                                      _ocurehowController.text =
+                                          checkBoxValue.toString();
+                                    });
+                                  },
+                                ),
+                              )
+                            ]),
+>>>>>>> fe33ec5469e736593520e087da71659fefa7858b
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

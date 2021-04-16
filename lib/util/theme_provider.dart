@@ -15,6 +15,7 @@ ThemeData light = ThemeData(
     bottomAppBarColor: HexColor('FCEDC5'),
     iconTheme: IconThemeData(color: Colors.black),
     scaffoldBackgroundColor: HexColor('EEFCFA'),
+    canvasColor: Colors.transparent,
     colorScheme: ColorScheme.light());
 
 ThemeData dark = ThemeData(
@@ -25,6 +26,7 @@ ThemeData dark = ThemeData(
   bottomAppBarColor: Colors.black,
   iconTheme: IconThemeData(color: Colors.white),
   scaffoldBackgroundColor: Colors.grey.shade900,
+  canvasColor: Colors.transparent,
   colorScheme: ColorScheme.dark(),
 );
 
