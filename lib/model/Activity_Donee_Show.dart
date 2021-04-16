@@ -31,9 +31,12 @@ class _ActivityDoneShowState extends State<ActivityDoneShow> {
   TextEditingController colorInputController;
   TextEditingController _dateController;
   TextEditingController _timeController;
+  TextEditingController _ocureIDController;
+  TextEditingController _ocurehowController;
 
   TextEditingController _endtimeController;
   TextEditingController notesInputController;
+  String _setTime, _setDate;
   String _hour, _minute, _time;
   String _ehour, _eminute, _etime;
   String dateTime;
@@ -44,6 +47,7 @@ class _ActivityDoneShowState extends State<ActivityDoneShow> {
   @override
   void initState() {
     super.initState();
+
     iconInputController = new TextEditingController();
     nameInputController = new TextEditingController();
     notesInputController = new TextEditingController();
@@ -51,6 +55,8 @@ class _ActivityDoneShowState extends State<ActivityDoneShow> {
     colorInputController = new TextEditingController();
     _dateController = new TextEditingController();
     _timeController = new TextEditingController();
+    _ocureIDController = new TextEditingController();
+    _ocurehowController = new TextEditingController();
 
     _endtimeController = new TextEditingController();
     _dateController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
@@ -89,11 +95,14 @@ class _ActivityDoneShowState extends State<ActivityDoneShow> {
       'purple': Colors.purple,
       'amberAccent': Colors.amberAccent
     };
+
     var snapshotName = widget.snapshot.docs[widget.index].get('name');
     var snapshotIkona = widget.snapshot.docs[widget.index].get('ikona');
     var snapshotBarva = widget.snapshot.docs[widget.index].get('barva');
     var snapshotDate = widget.snapshot.docs[widget.index].get('date');
     var snapshotTime = widget.snapshot.docs[widget.index].get('time');
+    var snapshotOCID = widget.snapshot.docs[widget.index].get("ocureid");
+    var snapshotocurHOW = widget.snapshot.docs[widget.index].get("ocurence");
 
     var snapshotETime = widget.snapshot.docs[widget.index].get('etime');
     var snapshotNotes = widget.snapshot.docs[widget.index].get('notes');
@@ -108,6 +117,11 @@ class _ActivityDoneShowState extends State<ActivityDoneShow> {
         TextEditingController(text: snapshotDate);
     TextEditingController _timeController =
         TextEditingController(text: snapshotTime);
+    TextEditingController _ocureIDController =
+        TextEditingController(text: snapshotOCID);
+
+    TextEditingController _ocurehowController =
+        TextEditingController(text: snapshotocurHOW);
 
     TextEditingController _endtimeController =
         TextEditingController(text: snapshotETime);
@@ -371,10 +385,8 @@ class _ActivityDoneShowState extends State<ActivityDoneShow> {
                                 ),
                               ),
                             ),
-                            Text(
-                              AppLocalizations.of(context)
-                                  .translate('chooseTime'),
-                            ),
+                            Text(AppLocalizations.of(context)
+                                .translate('chooseTime')),
                             InkWell(
                               onTap: () async {
                                 final TimeOfDay picked = await showTimePicker(
@@ -413,10 +425,8 @@ class _ActivityDoneShowState extends State<ActivityDoneShow> {
                                 ),
                               ),
                             ),
-                            Text(
-                              AppLocalizations.of(context)
-                                  .translate('chooseEndTime'),
-                            ),
+                            Text(AppLocalizations.of(context)
+                                .translate('chooseEndTime')),
                             InkWell(
                               onTap: () async {
                                 final TimeOfDay picked = await showTimePicker(
@@ -488,9 +498,17 @@ class _ActivityDoneShowState extends State<ActivityDoneShow> {
                                         'barva': colorInputController.text,
                                         'time': _timeController.text,
                                         'etime': _endtimeController.text,
+                                        "ocureid": _ocureIDController.text,
+                                        "ocurence": _ocurehowController.text,
                                         'notes': notesInputController.text,
                                         'timestamp': today,
                                       }).then((response) {
+                                        nameInputController.clear();
+                                        iconInputController.clear();
+                                        _dateController.clear();
+                                        _timeController.clear();
+                                        _endtimeController.clear();
+                                        colorInputController.clear();
                                         Navigator.pop(context);
                                       });
                                     }
@@ -514,10 +532,11 @@ class _ActivityDoneShowState extends State<ActivityDoneShow> {
                                           barrierDismissible: false,
                                           builder: (BuildContext context) {
                                             return AlertDialog(
-                                              title: Text(AppLocalizations.of(
-                                                      context)
-                                                  .translate(
-                                                      'doYouReallyWantExit')),
+                                              title: Text(
+                                                AppLocalizations.of(context)
+                                                    .translate(
+                                                        'doYouReallyWantExit'),
+                                              ),
                                               content: SingleChildScrollView(
                                                 child: ListBody(
                                                   children: [
@@ -531,9 +550,9 @@ class _ActivityDoneShowState extends State<ActivityDoneShow> {
                                               actions: [
                                                 TextButton(
                                                   child: Text(
-                                                      AppLocalizations.of(
-                                                              context)
-                                                          .translate('yes')),
+                                                    AppLocalizations.of(context)
+                                                        .translate('yes'),
+                                                  ),
                                                   onPressed: () {
                                                     Navigator.of(context).push(
                                                         MaterialPageRoute(
@@ -546,9 +565,9 @@ class _ActivityDoneShowState extends State<ActivityDoneShow> {
                                                     Navigator.pop(context);
                                                   },
                                                   child: Text(
-                                                      AppLocalizations.of(
-                                                              context)
-                                                          .translate('no')),
+                                                    AppLocalizations.of(context)
+                                                        .translate('no'),
+                                                  ),
                                                 )
                                               ],
                                             );
@@ -606,161 +625,6 @@ class _ActivityDoneShowState extends State<ActivityDoneShow> {
               style: TextStyle(fontSize: 20),
             ),
             subtitle: Text('${snapshotDate}, ${snapshotTime}'),
-            trailing: IconButton(
-              icon: Icon(Icons.add_circle_outline),
-              onPressed: () async {
-                String cat1 = 'business';
-                String cat2 = 'gym';
-                String cat3 = 'code';
-                String cat4 = 'repair';
-                String cat5 = 'eat';
-                String cat6 = 'shopping';
-                var firestore = FirebaseFirestore.instance;
-                var cr = FirebaseFirestore.instance.collection("userData");
-                await cr
-                    .doc(FirebaseAuth.instance.currentUser.uid)
-                    .collection('activity')
-                    .doc(docID)
-                    .delete()
-                    .catchError((error) => print("$error"));
-                FirebaseAuth auth = FirebaseAuth.instance;
-                var collectionReference =
-                    FirebaseFirestore.instance.collection('userData');
-                // CAT 1
-                if (iconInputController.text == cat1) {
-                  DocumentSnapshot cr = await collectionReference
-                      .doc(auth.currentUser.uid)
-                      .collection('categoryPoints')
-                      .doc(cat1)
-                      .get();
-                  if (cr.exists) {
-                    await collectionReference
-                        .doc(auth.currentUser.uid)
-                        .collection('categoryPoints')
-                        .doc(cat1)
-                        .update({'point': FieldValue.increment(1)});
-                  } else {
-                    await collectionReference
-                        .doc(auth.currentUser.uid)
-                        .collection('categoryPoints')
-                        .doc(cat1)
-                        .set({'name': iconInputController.text, 'point': 1});
-                  }
-                }
-                // CAT 2
-                else if (iconInputController.text == cat2) {
-                  DocumentSnapshot cr = await collectionReference
-                      .doc(auth.currentUser.uid)
-                      .collection('categoryPoints')
-                      .doc(cat2)
-                      .get();
-                  if (cr.exists) {
-                    await collectionReference
-                        .doc(auth.currentUser.uid)
-                        .collection('categoryPoints')
-                        .doc(cat2)
-                        .update({'point': FieldValue.increment(1)});
-                  } else {
-                    await collectionReference
-                        .doc(auth.currentUser.uid)
-                        .collection('categoryPoints')
-                        .doc(cat2)
-                        .set({'name': iconInputController.text, 'point': 1});
-                  }
-                }
-                // CAT 3
-                else if (iconInputController.text == cat3) {
-                  DocumentSnapshot cr = await collectionReference
-                      .doc(auth.currentUser.uid)
-                      .collection('categoryPoints')
-                      .doc(cat3)
-                      .get();
-                  if (cr.exists) {
-                    await collectionReference
-                        .doc(auth.currentUser.uid)
-                        .collection('categoryPoints')
-                        .doc(cat3)
-                        .update({'point': FieldValue.increment(1)});
-                  } else {
-                    await collectionReference
-                        .doc(auth.currentUser.uid)
-                        .collection('categoryPoints')
-                        .doc(cat3)
-                        .set({'name': iconInputController.text, 'point': 1});
-                  }
-                }
-                // CAT 4
-                else if (iconInputController.text == cat4) {
-                  DocumentSnapshot cr = await collectionReference
-                      .doc(auth.currentUser.uid)
-                      .collection('categoryPoints')
-                      .doc(cat4)
-                      .get();
-                  if (cr.exists) {
-                    await collectionReference
-                        .doc(auth.currentUser.uid)
-                        .collection('categoryPoints')
-                        .doc(cat4)
-                        .update({'point': FieldValue.increment(1)});
-                  } else {
-                    await collectionReference
-                        .doc(auth.currentUser.uid)
-                        .collection('categoryPoints')
-                        .doc(cat4)
-                        .set({'name': iconInputController.text, 'point': 1});
-                  }
-                }
-                // CAT 5
-                else if (iconInputController.text == cat5) {
-                  DocumentSnapshot cr = await collectionReference
-                      .doc(auth.currentUser.uid)
-                      .collection('categoryPoints')
-                      .doc(cat5)
-                      .get();
-                  if (cr.exists) {
-                    await collectionReference
-                        .doc(auth.currentUser.uid)
-                        .collection('categoryPoints')
-                        .doc(cat5)
-                        .update({'point': FieldValue.increment(1)});
-                  } else {
-                    await collectionReference
-                        .doc(auth.currentUser.uid)
-                        .collection('categoryPoints')
-                        .doc(cat5)
-                        .set({'name': iconInputController.text, 'point': 1});
-                  }
-                }
-                // CAT 6
-                else if (iconInputController.text == cat6) {
-                  DocumentSnapshot cr = await collectionReference
-                      .doc(auth.currentUser.uid)
-                      .collection('categoryPoints')
-                      .doc(cat6)
-                      .get();
-                  if (cr.exists) {
-                    await collectionReference
-                        .doc(auth.currentUser.uid)
-                        .collection('categoryPoints')
-                        .doc(cat6)
-                        .update({'point': FieldValue.increment(1)});
-                  } else {
-                    await collectionReference
-                        .doc(auth.currentUser.uid)
-                        .collection('categoryPoints')
-                        .doc(cat6)
-                        .set({'name': iconInputController.text, 'point': 1});
-                  }
-                }
-
-                Fluttertoast.showToast(
-                    // JESTE UPRAVIT
-                    msg: 'You\'ve done an activity. You get 1 point.',
-                    toastLength: Toast.LENGTH_SHORT,
-                    backgroundColor: Colors.blue,
-                    textColor: Colors.white);
-              },
-            ),
           ),
         ),
       );
