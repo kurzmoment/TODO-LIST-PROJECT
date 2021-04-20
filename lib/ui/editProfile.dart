@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:todoList/util/userSetup.dart';
 import 'package:todoList/hexcolor.dart';
 import 'package:todoList/util/app_localizations.dart';
 
@@ -15,81 +16,89 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  TextEditingController userName;
+  var userName = TextEditingController();
+  var _oldPassword = TextEditingController();
+  var _newPassword = TextEditingController();
+  var _reNewPassword = TextEditingController();
+
+  var _formKey = GlobalKey<FormState>();
+
+  bool checkCurrentPasswordValid = true;
+
+  void initState() {
+    super.initState();
+  }
+
+  void dispose() {
+    userName.dispose();
+    _oldPassword.dispose();
+    _newPassword.dispose();
+    _reNewPassword.dispose();
+    super.dispose();
+  }
 
   _showModalBottomSheet1(context) {
-    var docId = widget.snapshot.docs[widget.index].id;
-    userName = new TextEditingController(
-        text: FirebaseAuth.instance.currentUser.displayName);
+    var userName = FirebaseAuth.instance.currentUser.displayName;
+    var _userNameController = TextEditingController(text: userName);
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return Container(
-          height: 250,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
+        return SingleChildScrollView(
+          child: Container(
+            height: 250,
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
             ),
-          ),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 30, top: 50, right: 30),
-                child: TextField(
-                  controller: userName,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.person),
-                    labelText:
-                        AppLocalizations.of(context).translate('username'),
-                    border: OutlineInputBorder(),
-                  ),
-                  onChanged: (String newName) =>
-                      {userName = new TextEditingController(text: newName)},
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: SizedBox(
-                  height: 40,
-                  width: 350,
-                  child: ElevatedButton(
-                    child:
-                        Text(AppLocalizations.of(context).translate('submit')),
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.black)),
-                    onPressed: () async {
-                      FirebaseFirestore.instance
-                          .collection('userData')
-                          .doc(FirebaseAuth.instance.currentUser.uid)
-                          .collection('activity')
-                          .doc(docId)
-                          .set({'displayName': userName.text});
-                      Navigator.pop(context);
-                    },
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 30, top: 50, right: 30),
+                  child: TextField(
+                    controller: _userNameController,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.person),
+                      labelText:
+                          AppLocalizations.of(context).translate('username'),
+                      border: OutlineInputBorder(),
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: SizedBox(
-                  height: 40,
-                  width: 350,
-                  child: ElevatedButton(
-                    child:
-                        Text(AppLocalizations.of(context).translate('cancel')),
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.black)),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: SizedBox(
+                    height: 40,
+                    width: 350,
+                    child: ElevatedButton(
+                      child: Text(
+                          AppLocalizations.of(context).translate('submit')),
+                      onPressed: () async {
+                        FirebaseAuth.instance.currentUser.updateProfile(
+                            displayName: _userNameController.text);
+                        Navigator.pop(context);
+                      },
+                    ),
                   ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: SizedBox(
+                    height: 40,
+                    width: 350,
+                    child: ElevatedButton(
+                      child: Text(
+                          AppLocalizations.of(context).translate('cancel')),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -106,7 +115,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
         return Container(
           height: 250,
           decoration: BoxDecoration(
-            color: Colors.white,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
@@ -119,9 +127,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 child: TextField(
                   controller: userName,
                   decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.person),
-                    labelText:
-                        AppLocalizations.of(context).translate('username'),
+                    prefixIcon: Icon(Icons.alternate_email),
+                    labelText: AppLocalizations.of(context).translate('email'),
                     border: OutlineInputBorder(),
                   ),
                   onChanged: (String newName) =>
@@ -136,9 +143,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   child: ElevatedButton(
                     child:
                         Text(AppLocalizations.of(context).translate('submit')),
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.black)),
                     onPressed: () async {
                       FirebaseFirestore.instance
                           .collection('userData')
@@ -159,9 +163,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   child: ElevatedButton(
                     child:
                         Text(AppLocalizations.of(context).translate('cancel')),
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.black)),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -182,72 +183,108 @@ class _EditProfilePageState extends State<EditProfilePage> {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return Container(
-          height: 250,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
+        return SingleChildScrollView(
+          child: Container(
+            height: 500,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
             ),
-          ),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 30, top: 50, right: 30),
-                child: TextField(
-                  controller: userName,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.person),
-                    labelText:
-                        AppLocalizations.of(context).translate('username'),
-                    border: OutlineInputBorder(),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 30, top: 50, right: 30),
+                    child: TextFormField(
+                      obscureText: true,
+                      controller: _oldPassword,
+                      decoration: InputDecoration(
+                        errorText: checkCurrentPasswordValid
+                            ? ""
+                            : 'Please double check your current password',
+                        prefixIcon: Icon(Icons.vpn_key),
+                        labelText:
+                            AppLocalizations.of(context).translate('password'),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
                   ),
-                  onChanged: (String newName) =>
-                      {userName = new TextEditingController(text: newName)},
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: SizedBox(
-                  height: 40,
-                  width: 350,
-                  child: ElevatedButton(
-                    child:
-                        Text(AppLocalizations.of(context).translate('submit')),
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.black)),
-                    onPressed: () async {
-                      FirebaseFirestore.instance
-                          .collection('userData')
-                          .doc(FirebaseAuth.instance.currentUser.uid)
-                          .collection('activity')
-                          .doc()
-                          .set({'displayName': userName.text});
-                      Navigator.pop(context);
-                    },
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 30, top: 20, right: 30),
+                    child: TextFormField(
+                      obscureText: true,
+                      controller: _newPassword,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.vpn_key),
+                        labelText:
+                            AppLocalizations.of(context).translate('password'),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: SizedBox(
-                  height: 40,
-                  width: 350,
-                  child: ElevatedButton(
-                    child:
-                        Text(AppLocalizations.of(context).translate('cancel')),
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.black)),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 30, top: 20, right: 30),
+                    child: TextFormField(
+                      obscureText: true,
+                      controller: _reNewPassword,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.vpn_key),
+                        labelText:
+                            AppLocalizations.of(context).translate('password'),
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) {
+                        return _newPassword.text == value
+                            ? null
+                            : "Please validate your entered password";
+                      },
+                    ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: SizedBox(
+                      height: 40,
+                      width: 350,
+                      child: ElevatedButton(
+                        child: Text(
+                            AppLocalizations.of(context).translate('submit')),
+                        onPressed: () async {
+                          if (_formKey.currentState.validate() &&
+                              checkCurrentPasswordValid) {
+                            FirebaseAuth.instance.currentUser
+                                .updatePassword(_newPassword.text);
+                            Navigator.pop(context);
+                          }
+                          checkCurrentPasswordValid =
+                              await validateCurrentPassword(_newPassword.text);
+                          setState(() {});
+                        },
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: SizedBox(
+                      height: 40,
+                      width: 350,
+                      child: ElevatedButton(
+                        child: Text(
+                            AppLocalizations.of(context).translate('cancel')),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         );
       },
@@ -277,7 +314,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
               trailing: IconButton(
                 icon: Icon(Icons.arrow_forward_ios),
                 onPressed: () {
-                  _showModalBottomSheet1(context);
+                  return SingleChildScrollView(
+                      child: _showModalBottomSheet1(context));
                 },
               ),
             ),
@@ -289,7 +327,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
               trailing: IconButton(
                 icon: Icon(Icons.arrow_forward_ios),
                 onPressed: () {
-                  _showModalBottomSheet2(context);
+                  return SingleChildScrollView(
+                      child: _showModalBottomSheet2(context));
                 },
               ),
             ),
@@ -301,7 +340,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               trailing: IconButton(
                 icon: Icon(Icons.arrow_forward_ios),
                 onPressed: () {
-                  _showModalBottomSheet3(context);
+                  return _showModalBottomSheet3(context);
                 },
               ),
             ),

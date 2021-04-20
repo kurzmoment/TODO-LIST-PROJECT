@@ -4,6 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 ThemeData light = ThemeData(
     fontFamily: 'OpenSans',
+    elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.black))),
     dividerColor: Colors.black54,
     cardColor: HexColor('EAEAEA'),
     buttonColor: Colors.black,
@@ -15,18 +18,21 @@ ThemeData light = ThemeData(
     bottomAppBarColor: HexColor('FCEDC5'),
     iconTheme: IconThemeData(color: Colors.black),
     scaffoldBackgroundColor: HexColor('EEFCFA'),
-    canvasColor: Colors.transparent,
+    canvasColor: Colors.white,
     colorScheme: ColorScheme.light());
 
 ThemeData dark = ThemeData(
   fontFamily: 'OpenSans',
+  elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.white))),
   dividerColor: Colors.white60,
   cardColor: Colors.black,
   appBarTheme: AppBarTheme(color: Colors.black),
   bottomAppBarColor: Colors.black,
   iconTheme: IconThemeData(color: Colors.white),
   scaffoldBackgroundColor: Colors.grey.shade900,
-  canvasColor: Colors.transparent,
+  canvasColor: Colors.grey.shade900,
   colorScheme: ColorScheme.dark(),
 );
 
