@@ -34,6 +34,8 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
   TextEditingController colorInputController;
   TextEditingController _dateController;
   TextEditingController _timeController;
+  TextEditingController _ocureIDController;
+  TextEditingController _ocurehowController;
 
   TextEditingController _endtimeController;
   TextEditingController notesInputController;
@@ -48,6 +50,7 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
   @override
   void initState() {
     super.initState();
+
     iconInputController = new TextEditingController();
     nameInputController = new TextEditingController();
     notesInputController = new TextEditingController();
@@ -55,6 +58,8 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
     colorInputController = new TextEditingController();
     _dateController = new TextEditingController();
     _timeController = new TextEditingController();
+    _ocureIDController = new TextEditingController();
+    _ocurehowController = new TextEditingController();
 
     _endtimeController = new TextEditingController();
     _dateController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
@@ -93,11 +98,14 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
       'purple': Colors.purple,
       'amberAccent': Colors.amberAccent
     };
+
     var snapshotName = widget.snapshot.docs[widget.index].get('name');
     var snapshotIkona = widget.snapshot.docs[widget.index].get('ikona');
     var snapshotBarva = widget.snapshot.docs[widget.index].get('barva');
     var snapshotDate = widget.snapshot.docs[widget.index].get('date');
     var snapshotTime = widget.snapshot.docs[widget.index].get('time');
+    var snapshotOCID = widget.snapshot.docs[widget.index].get("ocureid");
+    var snapshotocurHOW = widget.snapshot.docs[widget.index].get("ocurence");
 
     var snapshotETime = widget.snapshot.docs[widget.index].get('etime');
     var snapshotNotes = widget.snapshot.docs[widget.index].get('notes');
@@ -112,6 +120,11 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
         TextEditingController(text: snapshotDate);
     TextEditingController _timeController =
         TextEditingController(text: snapshotTime);
+    TextEditingController _ocureIDController =
+        TextEditingController(text: snapshotOCID);
+
+    TextEditingController _ocurehowController =
+        TextEditingController(text: snapshotocurHOW);
 
     TextEditingController _endtimeController =
         TextEditingController(text: snapshotETime);
@@ -373,9 +386,7 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                                 child: TextFormField(
                                   style: TextStyle(fontSize: 25),
                                   textAlign: TextAlign.center,
-                                  onSaved: (String val) {
-                                    _setDate = val;
-                                  },
+                                  onSaved: (String val) {},
                                   enabled: false,
                                   controller: _dateController,
                                   decoration: InputDecoration(
@@ -384,10 +395,8 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                                 ),
                               ),
                             ),
-                            Text(
-                              AppLocalizations.of(context)
-                                  .translate('chooseTime'),
-                            ),
+                            Text(AppLocalizations.of(context)
+                                .translate('chooseTime')),
                             InkWell(
                               onTap: () async {
                                 final TimeOfDay picked = await showTimePicker(
@@ -416,9 +425,7 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                                 child: TextFormField(
                                   style: TextStyle(fontSize: 25),
                                   textAlign: TextAlign.center,
-                                  onSaved: (String val) {
-                                    _setTime = val;
-                                  },
+                                  onSaved: (String val) {},
                                   enabled: false,
                                   keyboardType: TextInputType.datetime,
                                   controller: _timeController,
@@ -428,10 +435,8 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                                 ),
                               ),
                             ),
-                            Text(
-                              AppLocalizations.of(context)
-                                  .translate('chooseEndTime'),
-                            ),
+                            Text(AppLocalizations.of(context)
+                                .translate('chooseEndTime')),
                             InkWell(
                               onTap: () async {
                                 final TimeOfDay picked = await showTimePicker(
@@ -460,9 +465,7 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                                 child: TextFormField(
                                   style: TextStyle(fontSize: 25),
                                   textAlign: TextAlign.center,
-                                  onSaved: (String val) {
-                                    _setTime = val;
-                                  },
+                                  onSaved: (String val) {},
                                   enabled: false,
                                   keyboardType: TextInputType.datetime,
                                   controller: _endtimeController,
@@ -505,9 +508,17 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                                         'barva': colorInputController.text,
                                         'time': _timeController.text,
                                         'etime': _endtimeController.text,
+                                        "ocureid": _ocureIDController.text,
+                                        "ocurence": _ocurehowController.text,
                                         'notes': notesInputController.text,
                                         'timestamp': today,
                                       }).then((response) {
+                                        nameInputController.clear();
+                                        iconInputController.clear();
+                                        _dateController.clear();
+                                        _timeController.clear();
+                                        _endtimeController.clear();
+                                        colorInputController.clear();
                                         Navigator.pop(context);
                                       });
                                     }
@@ -531,10 +542,11 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                                           barrierDismissible: false,
                                           builder: (BuildContext context) {
                                             return AlertDialog(
-                                              title: Text(AppLocalizations.of(
-                                                      context)
-                                                  .translate(
-                                                      'doYouReallyWantExit')),
+                                              title: Text(
+                                                AppLocalizations.of(context)
+                                                    .translate(
+                                                        'doYouReallyWantExit'),
+                                              ),
                                               content: SingleChildScrollView(
                                                 child: ListBody(
                                                   children: [
@@ -548,9 +560,9 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                                               actions: [
                                                 TextButton(
                                                   child: Text(
-                                                      AppLocalizations.of(
-                                                              context)
-                                                          .translate('yes')),
+                                                    AppLocalizations.of(context)
+                                                        .translate('yes'),
+                                                  ),
                                                   onPressed: () {
                                                     Navigator.of(context).push(
                                                         MaterialPageRoute(
@@ -563,9 +575,9 @@ class _ActivityWeekShowState extends State<ActivityWeekShow> {
                                                     Navigator.pop(context);
                                                   },
                                                   child: Text(
-                                                      AppLocalizations.of(
-                                                              context)
-                                                          .translate('no')),
+                                                    AppLocalizations.of(context)
+                                                        .translate('no'),
+                                                  ),
                                                 )
                                               ],
                                             );

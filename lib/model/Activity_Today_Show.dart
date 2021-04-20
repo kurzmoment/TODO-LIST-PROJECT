@@ -470,6 +470,8 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                 ),
                               ),
                             ),
+<<<<<<< HEAD
+=======
                             Column(children: [
                               Padding(
                                 padding: const EdgeInsets.only(
@@ -488,6 +490,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                 ),
                               )
                             ]),
+>>>>>>> fe33ec5469e736593520e087da71659fefa7858b
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -503,8 +506,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                         _dateController.text.isNotEmpty &&
                                         colorInputController.text.isNotEmpty &&
                                         _timeController.text.isNotEmpty &&
-                                        _endtimeController.text.isNotEmpty &&
-                                        checkBoxValue == false) {
+                                        _endtimeController.text.isNotEmpty) {
                                       FirebaseFirestore.instance
                                           .collection('userData')
                                           .doc(FirebaseAuth
@@ -535,36 +537,7 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                         colorInputController.clear();
                                         Navigator.pop(context);
                                       });
-                                    } else if (nameInputController
-                                            .text.isNotEmpty &&
-                                        iconInputController.text.isNotEmpty &&
-                                        _dateController.text.isNotEmpty &&
-                                        colorInputController.text.isNotEmpty &&
-                                        _timeController.text.isNotEmpty &&
-                                        _endtimeController.text.isNotEmpty &&
-                                        checkBoxValue == true)
-                                      FirebaseFirestore.instance
-                                          .collection('userData')
-                                          .doc(FirebaseAuth
-                                              .instance.currentUser.uid)
-                                          .collection('activity')
-                                          .doc(docID)
-                                          .update({
-                                        'displayName': FirebaseAuth
-                                            .instance.currentUser.displayName,
-                                        'uid': FirebaseAuth
-                                            .instance.currentUser.uid,
-                                        'name': nameInputController.text,
-                                        'ikona': iconInputController.text,
-                                        'date': _dateController.text,
-                                        'barva': colorInputController.text,
-                                        'time': _timeController.text,
-                                        'etime': _endtimeController.text,
-                                        "ocureid": _ocureIDController.text,
-                                        "ocurence": _ocurehowController.text,
-                                        'notes': notesInputController.text,
-                                        'timestamp': today,
-                                      });
+                                    }
                                   },
                                 ),
                                 TextButton(

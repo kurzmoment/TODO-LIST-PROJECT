@@ -13,7 +13,7 @@ class ActivityWeekBuilder extends StatelessWidget {
           .collection('userData')
           .doc(auth.currentUser.uid)
           .collection('activity')
-          .orderBy('date')
+          .orderBy('date', descending: false)
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return CircularProgressIndicator();
