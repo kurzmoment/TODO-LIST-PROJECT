@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:todoList/home.dart';
@@ -89,11 +90,12 @@ DataSource _getCalendarDataSource(
   List<Appointment> appointments = <Appointment>[];
   for (var i = 0; i < snapshot.docs.length; i++) {
     var snapshotName = snapshot.docs[index].get('name');
-
+    var snapshotNotes = snapshot.docs[index].get('notes');
     var snapshotBarva = snapshot.docs[index].get('barva');
     var snapshotDate = snapshot.docs[index].get('date');
     var snapshotTime = snapshot.docs[index].get('time');
     var snapshotETime = snapshot.docs[index].get('etime');
+    var snapshotIkona = snapshot.docs[index].get('ikona');
     var snapfordat = snapshotDate + " " + snapshotTime;
     var snapforEdat = snapshotDate + " " + snapshotETime;
     final dateFormat = DateFormat("dd/MM/yyyy hh:mm a");
@@ -115,11 +117,12 @@ DataSource _getCalendarDataSource(
     };
 
     appointments.add(Appointment(
-      startTime: dateTimme,
-      endTime: edateTimme,
-      subject: snapshotName,
-      color: colorsMapping[snapshotBarva],
-    ));
+        startTime: dateTimme,
+        endTime: edateTimme,
+        subject: snapshotName,
+        color: colorsMapping[snapshotBarva],
+        notes: snapshotNotes,
+        location: snapshotIkona));
     index++;
   }
 
@@ -130,17 +133,6 @@ class Calbuildr extends StatelessWidget {
   final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
-    void calendarTapped(CalendarTapDetails calendarTapDetails) {
-      if (calendarTapDetails.targetElement == CalendarElement.appointment) {
-        Appointment appointment = calendarTapDetails.appointments[0];
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => SecondRoute(appointment: appointment)),
-        );
-      }
-    }
-
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('userData')
@@ -149,7 +141,6 @@ class Calbuildr extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return CircularProgressIndicator();
-
         return SfCalendar(
           showDatePickerButton: true,
           allowedViews: [CalendarView.timelineMonth, CalendarView.schedule],
@@ -163,22 +154,20 @@ class Calbuildr extends StatelessWidget {
           dataSource: _getCalendarDataSource(
             snapshot.data,
           ),
-          onTap: calendarTapped,
-          // onTap: (CalendarTapDetails details) {
-          //   DateTime date = details.date;
-          //   dynamic appointments = details.appointments;
-          //   CalendarElement view = details.targetElement;
-          //   return Scaffold(
-          //     appBar: AppBar(),
-          //     body: Column(
-          //       children: [
-          //         Text(date.toString()),
-          //         Text(appointments.toString()),
-          //         Text(view.toString())
-          //       ],
-          //     ),
-          //   );
-          // },
+          onTap: (CalendarTapDetails calendarTapDetails) {
+            if (calendarTapDetails.targetElement ==
+                CalendarElement.appointment) {
+              Appointment appointment = calendarTapDetails.appointments[0];
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => SecondRoute(
+                    appointment: appointment,
+                    snapshot: snapshot.data,
+                  ),
+                ),
+              );
+            }
+          },
         );
       },
     );
@@ -186,51 +175,140 @@ class Calbuildr extends StatelessWidget {
 }
 
 class SecondRoute extends StatelessWidget {
-  Appointment appointment;
-
-  SecondRoute({this.appointment});
+  final Appointment appointment;
+  final QuerySnapshot snapshot;
+  SecondRoute({this.appointment, this.snapshot});
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, IconData> iconsCollection = {
+      'shopping': FontAwesomeIcons.shoppingCart,
+      'gym': FontAwesomeIcons.dumbbell,
+      'business': FontAwesomeIcons.briefcase,
+      'eat': FontAwesomeIcons.utensils,
+      'code': FontAwesomeIcons.code,
+      'repair': FontAwesomeIcons.tools,
+    };
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appointment.color,
         centerTitle: true,
         title: Text(
-          "Detail of Aktivity",
+          "Detail of Activity",
           style: Theme.of(context).textTheme.headline6,
         ),
       ),
       body: Column(
         children: [
-          Divider(
-            color: Colors.white,
-          ),
-          Center(
-            child: Text(
-              appointment.subject,
-              style: Theme.of(context).textTheme.headline3,
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: Icon(
+              iconsCollection[appointment.location],
+              color: appointment.color,
+              size: 50,
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Center(
+              child: Text(
+                appointment.subject.toUpperCase(),
+                style: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Od : ',
+                style: TextStyle(fontSize: 20),
+              ),
+              Text(
+                DateFormat('dd/MM/yyyy')
+                    .format(
+                      appointment.startTime,
+                    )
+                    .toString(),
+                style: TextStyle(fontSize: 20),
+              ),
+              Text(
+                '  Cas : ',
+                style: TextStyle(fontSize: 20),
+              ),
+              Text(
+                DateFormat('hh:mm a')
+                    .format(
+                      appointment.startTime,
+                    )
+                    .toString(),
+                style: TextStyle(fontSize: 20),
+              ),
+            ],
+          ),
           Divider(
-            color: Colors.white,
+            thickness: 1,
+            endIndent: 30,
+            indent: 30,
           ),
-          Center(
-            child: Text(DateFormat('MMMM yyyy,hh:mm a')
-                .format(
-                  appointment.startTime,
-                )
-                .toString()),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Do : ',
+                style: TextStyle(fontSize: 20),
+              ),
+              Text(
+                DateFormat('dd/MM/yyyy')
+                    .format(
+                      appointment.endTime,
+                    )
+                    .toString(),
+                style: TextStyle(fontSize: 20),
+              ),
+              Text(
+                '  Cas : ',
+                style: TextStyle(fontSize: 20),
+              ),
+              Text(
+                DateFormat('hh:mm a')
+                    .format(
+                      appointment.endTime,
+                    )
+                    .toString(),
+                style: TextStyle(fontSize: 20),
+              ),
+            ],
           ),
           Divider(
-            color: Colors.white,
+            thickness: 1,
+            endIndent: 30,
+            indent: 30,
           ),
-          Center(
-            child: Text(DateFormat('MMMM yyyy,hh:mm a')
-                .format(
-                  appointment.endTime,
-                )
-                .toString()),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: SingleChildScrollView(
+                    controller: ScrollController(),
+                    scrollDirection: Axis.vertical,
+                    child: Text(
+                      appointment.notes,
+                      style: TextStyle(fontSize: 19),
+                      textAlign: TextAlign.start,
+                      softWrap: true,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
