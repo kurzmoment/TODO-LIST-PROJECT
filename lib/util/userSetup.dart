@@ -30,6 +30,25 @@ Future<void> sendPassResMail(String email) async {
   return await auth.sendPasswordResetEmail(email: email);
 }
 
+Future<bool> validateCurrentPassword(String password) async {
+  return await validatePassword(password);
+}
+
+Future<bool> validatePassword(String password) async {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  var firebaseUser = _auth.currentUser;
+  var authCredentials = EmailAuthProvider.credential(
+      email: firebaseUser.email, password: password);
+  try {
+    var authResult =
+        await firebaseUser.reauthenticateWithCredential(authCredentials);
+    return authResult.user != null;
+  } catch (e) {
+    print(e);
+    return false;
+  }
+}
+
 Future<void> addActivityUID(
     TextEditingController _nameController,
     TextEditingController _iconController,
@@ -71,23 +90,6 @@ Future<String> getUID() async {
   var uid = auth.currentUser.uid.toString();
   return uid;
 }
-
-// Future<UserCredential> signInWithGoogle() async {
-//   // Trigger the authentication flow
-//   final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
-
-//   // Obtain the auth details from the request
-//   final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
-//   // Create a new credential
-//   final GoogleAuthCredential credential = GoogleAuthProvider.credential(
-//     accessToken: googleAuth.accessToken,
-//     idToken: googleAuth.idToken,
-//   );
-
-//   // Once signed in, return the UserCredential
-//   return await FirebaseAuth.instance.signInWithCredential(credential);
-// }
 
 class Authentication {
   static Future<FirebaseApp> initializeFirebase() async {
