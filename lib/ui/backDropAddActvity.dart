@@ -85,13 +85,12 @@ class _AddActFormsState extends State<AddActForms> {
   TextEditingController _notesController;
   TextEditingController _iconController;
   TextEditingController _colorController;
-  TextEditingController _ocurehowController;
 
   void initState() {
     super.initState();
     _iconController = new TextEditingController();
     _nameController = new TextEditingController();
-    _ocurehowController = new TextEditingController();
+
     _ocureID = new TextEditingController();
     _notesController = new TextEditingController();
     _iconController = new TextEditingController();
@@ -271,7 +270,6 @@ class _AddActFormsState extends State<AddActForms> {
                   onChanged: (bool newValue) {
                     setState(() {
                       checkBoxValue = newValue;
-                      _ocurehowController.text = checkBoxValue.toString();
                     });
                   }),
             )
@@ -286,7 +284,7 @@ class _AddActFormsState extends State<AddActForms> {
                   ),
                   onPressed: () {
                     if (_nameController.text.isNotEmpty &&
-                        _ocurehowController.text == "true") {
+                        checkBoxValue == true) {
                       FirebaseAuth auth = FirebaseAuth.instance;
                       var userName = auth.currentUser.displayName;
                       String uid = auth.currentUser.uid.toString();
@@ -304,12 +302,10 @@ class _AddActFormsState extends State<AddActForms> {
                           _timeController,
                           _endtimeController,
                           _notesController,
-                          _ocurehowController,
                           _ocureID,
-                          dt,
                           userName);
 
-                      for (var i = 0; i < 4; i++) {
+                      for (var i = 0; i < 2; i++) {
                         var datum = _dateController.text;
                         var dateFormat = DateFormat("dd/MM/yyyy");
                         DateTime tydenplus = dateFormat.parse(datum);
@@ -326,9 +322,7 @@ class _AddActFormsState extends State<AddActForms> {
                             _timeController,
                             _endtimeController,
                             _notesController,
-                            _ocurehowController,
                             _ocureID,
-                            dt,
                             userName);
                       }
                       Navigator.pop(context);
@@ -340,7 +334,6 @@ class _AddActFormsState extends State<AddActForms> {
                       _endtimeController.clear();
                       _colorController.clear();
                       _notesController.clear();
-                      _ocurehowController.clear();
                     } else if (_nameController.text.isNotEmpty) {
                       FirebaseAuth auth = FirebaseAuth.instance;
                       var userName = auth.currentUser.displayName;
@@ -353,9 +346,7 @@ class _AddActFormsState extends State<AddActForms> {
                               _timeController,
                               _endtimeController,
                               _notesController,
-                              _ocurehowController,
                               _ocureID,
-                              dt,
                               userName)
                           .then((response) {
                         Navigator.pop(context);
@@ -367,7 +358,6 @@ class _AddActFormsState extends State<AddActForms> {
                         _endtimeController.clear();
                         _colorController.clear();
                         _notesController.clear();
-                        _ocurehowController.clear();
                       }).catchError((error) => print(error));
                     }
                   }),
@@ -382,7 +372,6 @@ class _AddActFormsState extends State<AddActForms> {
                       _dateController.text.isNotEmpty ||
                       _timeController.text.isNotEmpty ||
                       _endtimeController.text.isNotEmpty ||
-                      _ocurehowController.text.isNotEmpty ||
                       _colorController.text.isNotEmpty ||
                       _notesController.text.isNotEmpty) {
                     return showDialog(
@@ -427,7 +416,6 @@ class _AddActFormsState extends State<AddActForms> {
                   _endtimeController.clear();
                   _colorController.clear();
                   _notesController.clear();
-                  _ocurehowController.clear();
                   Navigator.pop(context);
                 },
               ),

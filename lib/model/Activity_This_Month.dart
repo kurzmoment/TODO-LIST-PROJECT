@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:todoList/util/app_localizations.dart';
 import 'package:we_slide/we_slide.dart';
 import '../home.dart';
+import 'package:todoList/model/Databmanag.dart';
 
 class ActivityMonthShow extends StatefulWidget {
   final QuerySnapshot snapshot;
@@ -41,7 +42,6 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
   TextEditingController _dateController;
   TextEditingController _timeController;
   TextEditingController _ocureIDController;
-  TextEditingController _ocurehowController;
 
   TextEditingController _endtimeController;
   TextEditingController notesInputController;
@@ -52,10 +52,12 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
   TimeOfDay eselectedTime = TimeOfDay(hour: 00, minute: 00);
-
+  List idalist = [];
+  // Map<String, String> idalist = {};
   @override
   void initState() {
     super.initState();
+    fetchDataseList();
 
     iconInputController = new TextEditingController();
     nameInputController = new TextEditingController();
@@ -65,7 +67,6 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
     _dateController = new TextEditingController();
     _timeController = new TextEditingController();
     _ocureIDController = new TextEditingController();
-    _ocurehowController = new TextEditingController();
 
     _endtimeController = new TextEditingController();
     _dateController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
@@ -78,9 +79,22 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
         [hh, ':', nn, ' ', am]).toString();
   }
 
+  fetchDataseList() async {
+    dynamic resultant = await DatabaseManager().getUserlist();
+    if (resultant == null) {
+      print("unable to retrieve");
+    } else {
+      setState(() {
+        idalist = resultant;
+      });
+    }
+  }
+
   void dispose() {
     super.dispose();
   }
+
+  bool checkBoxValue = false;
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +125,6 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
     var snapshotDate = widget.snapshot.docs[widget.index].get('date');
     var snapshotTime = widget.snapshot.docs[widget.index].get('time');
     var snapshotOCID = widget.snapshot.docs[widget.index].get("ocureid");
-    var snapshotocurHOW = widget.snapshot.docs[widget.index].get("ocurence");
 
     var snapshotETime = widget.snapshot.docs[widget.index].get('etime');
     var snapshotNotes = widget.snapshot.docs[widget.index].get('notes');
@@ -128,9 +141,6 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
         TextEditingController(text: snapshotTime);
     TextEditingController _ocureIDController =
         TextEditingController(text: snapshotOCID);
-
-    TextEditingController _ocurehowController =
-        TextEditingController(text: snapshotocurHOW);
 
     TextEditingController _endtimeController =
         TextEditingController(text: snapshotETime);
@@ -480,55 +490,169 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
                                 ),
                               ),
                             ),
+                            Column(children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 70, left: 30, right: 30),
+                                child: new CheckboxListTile(
+                                  title: Text("Change ocuring activities"),
+                                  value: checkBoxValue,
+                                  activeColor: Colors.green,
+                                  onChanged: (bool newValue) {
+                                    setState(() {
+                                      checkBoxValue = newValue;
+                                    });
+                                  },
+                                ),
+                              )
+                            ]),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 TextButton(
-                                  child: Text(
-                                    AppLocalizations.of(context)
-                                        .translate('save'),
-                                    style: TextStyle(fontSize: 25),
-                                  ),
-                                  onPressed: () {
-                                    if (nameInputController.text.isNotEmpty &&
-                                        iconInputController.text.isNotEmpty &&
-                                        _dateController.text.isNotEmpty &&
-                                        colorInputController.text.isNotEmpty &&
-                                        _timeController.text.isNotEmpty &&
-                                        _endtimeController.text.isNotEmpty) {
-                                      FirebaseFirestore.instance
-                                          .collection('userData')
-                                          .doc(FirebaseAuth
-                                              .instance.currentUser.uid)
-                                          .collection('activity')
-                                          .doc(docID)
-                                          .update({
-                                        'displayName': FirebaseAuth
-                                            .instance.currentUser.displayName,
-                                        'uid': FirebaseAuth
-                                            .instance.currentUser.uid,
-                                        'name': nameInputController.text,
-                                        'ikona': iconInputController.text,
-                                        'date': _dateController.text,
-                                        'barva': colorInputController.text,
-                                        'time': _timeController.text,
-                                        'etime': _endtimeController.text,
-                                        "ocureid": _ocureIDController.text,
-                                        "ocurence": _ocurehowController.text,
-                                        'notes': notesInputController.text,
-                                        'timestamp': today,
-                                      }).then((response) {
-                                        nameInputController.clear();
-                                        iconInputController.clear();
-                                        _dateController.clear();
-                                        _timeController.clear();
-                                        _endtimeController.clear();
-                                        colorInputController.clear();
-                                        Navigator.pop(context);
-                                      });
-                                    }
-                                  },
-                                ),
+                                    child: Text(
+                                      AppLocalizations.of(context)
+                                          .translate('save'),
+                                      style: TextStyle(fontSize: 25),
+                                    ),
+                                    onPressed: () {
+                                      if (nameInputController.text.isNotEmpty &&
+                                          _dateController.text.isNotEmpty &&
+                                          _timeController.text.isNotEmpty &&
+                                          _endtimeController.text.isNotEmpty) {
+                                        FirebaseFirestore.instance
+                                            .collection('userData')
+                                            .doc(FirebaseAuth
+                                                .instance.currentUser.uid)
+                                            .collection('activity')
+                                            .doc(docID)
+                                            .update({
+                                          'displayName': FirebaseAuth
+                                              .instance.currentUser.displayName,
+                                          'uid': FirebaseAuth
+                                              .instance.currentUser.uid,
+                                          'name': nameInputController.text,
+                                          'ikona': iconInputController.text,
+                                          'date': _dateController.text,
+                                          'barva': colorInputController.text,
+                                          'time': _timeController.text,
+                                          'etime': _endtimeController.text,
+                                          "ocureid": _ocureIDController.text,
+                                          'notes': notesInputController.text,
+                                        });
+                                        if (_ocureIDController.text == "") {
+                                          Navigator.pop(context);
+                                        } else {
+                                          for (var i = 0;
+                                              i < idalist.length / 3;
+                                              i++) {
+                                            if (_ocureIDController.text ==
+                                                idalist[i * 3]) {
+                                              var doccid = idalist[(i * 3) + 1];
+                                              var dateocurid =
+                                                  idalist[(i * 3) + 2];
+                                              DateTime datedocid =
+                                                  DateFormat("dd/MM/yyyy")
+                                                      .parse(dateocurid);
+                                              print(datedocid);
+                                              DateTime datefcontroler =
+                                                  DateFormat("dd/MM/yyyy")
+                                                      .parse(
+                                                          _dateController.text);
+
+                                              var difer = datedocid
+                                                  .difference(datefcontroler)
+                                                  .inDays;
+                                              var difcount;
+                                              if (difer < 0) {
+                                                difcount = difer;
+                                              } else {
+                                                difcount = 7 - difer;
+                                              }
+
+                                              DateTime savedate = new DateTime(
+                                                  datedocid.year,
+                                                  datedocid.month,
+                                                  datedocid.day + difcount);
+
+                                              var savdat =
+                                                  DateFormat("dd/MM/yyyy")
+                                                      .format(savedate);
+
+                                              if (doccid != docID) {
+                                                if (difer == 7) {
+                                                  FirebaseFirestore.instance
+                                                      .collection('userData')
+                                                      .doc(FirebaseAuth.instance
+                                                          .currentUser.uid)
+                                                      .collection('activity')
+                                                      .doc(doccid)
+                                                      .update({
+                                                    'displayName': FirebaseAuth
+                                                        .instance
+                                                        .currentUser
+                                                        .displayName,
+                                                    'uid': FirebaseAuth.instance
+                                                        .currentUser.uid,
+                                                    'name': nameInputController
+                                                        .text,
+                                                    'ikona': iconInputController
+                                                        .text,
+                                                    'barva':
+                                                        colorInputController
+                                                            .text,
+                                                    'time':
+                                                        _timeController.text,
+                                                    'etime':
+                                                        _endtimeController.text,
+                                                    "ocureid":
+                                                        _ocureIDController.text,
+                                                    'notes':
+                                                        notesInputController
+                                                            .text,
+                                                  });
+                                                } else {
+                                                  _dateController.text = savdat;
+                                                  FirebaseFirestore.instance
+                                                      .collection('userData')
+                                                      .doc(FirebaseAuth.instance
+                                                          .currentUser.uid)
+                                                      .collection('activity')
+                                                      .doc(doccid)
+                                                      .update({
+                                                    'displayName': FirebaseAuth
+                                                        .instance
+                                                        .currentUser
+                                                        .displayName,
+                                                    'uid': FirebaseAuth.instance
+                                                        .currentUser.uid,
+                                                    'name': nameInputController
+                                                        .text,
+                                                    'ikona': iconInputController
+                                                        .text,
+                                                    'date':
+                                                        _dateController.text,
+                                                    'barva':
+                                                        colorInputController
+                                                            .text,
+                                                    'time':
+                                                        _timeController.text,
+                                                    'etime':
+                                                        _endtimeController.text,
+                                                    "ocureid":
+                                                        _ocureIDController.text,
+                                                    'notes':
+                                                        notesInputController
+                                                            .text,
+                                                  });
+                                                }
+                                              }
+                                            }
+                                          }
+                                          Navigator.pop(context);
+                                        }
+                                      }
+                                    }),
                                 TextButton(
                                   child: Text(
                                     AppLocalizations.of(context)
@@ -622,7 +746,35 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
                   .delete()
                   .catchError((error) => print("$error"));
             },
-          )
+          ),
+          IconSlideAction(
+            icon: Icons.delete,
+            color: Colors.amber,
+            caption: AppLocalizations.of(context).translate('delete all'),
+            onTap: () async {
+              var collectionReference =
+                  FirebaseFirestore.instance.collection("userData");
+              await collectionReference
+                  .doc(FirebaseAuth.instance.currentUser.uid)
+                  .collection('activity')
+                  .doc(docID)
+                  .delete()
+                  .catchError((error) => print("$error"));
+              if (_ocureIDController.text.isNotEmpty) {
+                for (var i = 0; i < idalist.length / 3; i++) {
+                  if (_ocureIDController.text == idalist[i * 3]) {
+                    var doccid = idalist[(i * 3) + 1];
+                    await collectionReference
+                        .doc(FirebaseAuth.instance.currentUser.uid)
+                        .collection('activity')
+                        .doc(doccid)
+                        .delete()
+                        .catchError((error) => print("$error"));
+                  }
+                }
+              }
+            },
+          ),
         ],
         child: Card(
           shape: ContinuousRectangleBorder(),
@@ -650,25 +802,25 @@ class _ActivityMonthShowState extends State<ActivityMonthShow> {
       );
     }
   }
+}
 
-  Widget colorSwitch(
-      Color color, String colorController, TextEditingController controller) {
-    return Padding(
-      padding: const EdgeInsets.all(6.0),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
-          color: color,
-        ),
-        width: 35,
-        height: 35,
-        child: TextButton(
-          onPressed: () {
-            controller.text = colorController;
-          },
-          child: Text(''),
-        ),
+Widget colorSwitch(
+    Color color, String colorController, TextEditingController controller) {
+  return Padding(
+    padding: const EdgeInsets.all(6.0),
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        color: color,
       ),
-    );
-  }
+      width: 35,
+      height: 35,
+      child: TextButton(
+        onPressed: () {
+          controller.text = colorController;
+        },
+        child: Text(''),
+      ),
+    ),
+  );
 }
