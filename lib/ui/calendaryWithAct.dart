@@ -130,6 +130,17 @@ class Calbuildr extends StatelessWidget {
   final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
+    void calendarTapped(CalendarTapDetails calendarTapDetails) {
+      if (calendarTapDetails.targetElement == CalendarElement.appointment) {
+        Appointment appointment = calendarTapDetails.appointments[0];
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SecondRoute(appointment: appointment)),
+        );
+      }
+    }
+
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('userData')
@@ -141,6 +152,7 @@ class Calbuildr extends StatelessWidget {
 
         return SfCalendar(
           showDatePickerButton: true,
+          allowedViews: [CalendarView.timelineMonth, CalendarView.schedule],
           view: CalendarView.schedule,
           timeSlotViewSettings: TimeSlotViewSettings(
             startHour: 5,
@@ -151,8 +163,77 @@ class Calbuildr extends StatelessWidget {
           dataSource: _getCalendarDataSource(
             snapshot.data,
           ),
+          onTap: calendarTapped,
+          // onTap: (CalendarTapDetails details) {
+          //   DateTime date = details.date;
+          //   dynamic appointments = details.appointments;
+          //   CalendarElement view = details.targetElement;
+          //   return Scaffold(
+          //     appBar: AppBar(),
+          //     body: Column(
+          //       children: [
+          //         Text(date.toString()),
+          //         Text(appointments.toString()),
+          //         Text(view.toString())
+          //       ],
+          //     ),
+          //   );
+          // },
         );
       },
+    );
+  }
+}
+
+class SecondRoute extends StatelessWidget {
+  Appointment appointment;
+
+  SecondRoute({this.appointment});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: appointment.color,
+        centerTitle: true,
+        title: Text(
+          "Detail of Aktivity",
+          style: Theme.of(context).textTheme.headline6,
+        ),
+      ),
+      body: Column(
+        children: [
+          Divider(
+            color: Colors.white,
+          ),
+          Center(
+            child: Text(
+              appointment.subject,
+              style: Theme.of(context).textTheme.headline3,
+            ),
+          ),
+          Divider(
+            color: Colors.white,
+          ),
+          Center(
+            child: Text(DateFormat('MMMM yyyy,hh:mm a')
+                .format(
+                  appointment.startTime,
+                )
+                .toString()),
+          ),
+          Divider(
+            color: Colors.white,
+          ),
+          Center(
+            child: Text(DateFormat('MMMM yyyy,hh:mm a')
+                .format(
+                  appointment.endTime,
+                )
+                .toString()),
+          ),
+        ],
+      ),
     );
   }
 }
