@@ -470,8 +470,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                 ),
                               ),
                             ),
-<<<<<<< HEAD
-=======
                             Column(children: [
                               Padding(
                                 padding: const EdgeInsets.only(
@@ -490,7 +488,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                 ),
                               )
                             ]),
->>>>>>> fe33ec5469e736593520e087da71659fefa7858b
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -529,12 +526,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                         'notes': notesInputController.text,
                                         'timestamp': today,
                                       }).then((response) {
-                                        nameInputController.clear();
-                                        iconInputController.clear();
-                                        _dateController.clear();
-                                        _timeController.clear();
-                                        _endtimeController.clear();
-                                        colorInputController.clear();
                                         Navigator.pop(context);
                                       });
                                     }
