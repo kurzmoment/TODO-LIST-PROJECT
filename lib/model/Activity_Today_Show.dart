@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -753,6 +755,34 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                   .doc(docID)
                   .delete()
                   .catchError((error) => print("$error"));
+            },
+          ),
+          IconSlideAction(
+            icon: Icons.delete,
+            color: Colors.amber,
+            caption: AppLocalizations.of(context).translate('delete all'),
+            onTap: () async {
+              var collectionReference =
+                  FirebaseFirestore.instance.collection("userData");
+              await collectionReference
+                  .doc(FirebaseAuth.instance.currentUser.uid)
+                  .collection('activity')
+                  .doc(docID)
+                  .delete()
+                  .catchError((error) => print("$error"));
+              if (_ocureIDController.text.isNotEmpty) {
+                for (var i = 0; i < idalist.length / 3; i++) {
+                  if (_ocureIDController.text == idalist[i * 3]) {
+                    var doccid = idalist[(i * 3) + 1];
+                    await collectionReference
+                        .doc(FirebaseAuth.instance.currentUser.uid)
+                        .collection('activity')
+                        .doc(doccid)
+                        .delete()
+                        .catchError((error) => print("$error"));
+                  }
+                }
+              }
             },
           )
         ],
