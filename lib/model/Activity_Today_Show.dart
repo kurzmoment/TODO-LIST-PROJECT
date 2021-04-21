@@ -35,7 +35,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
   TextEditingController _dateController;
   TextEditingController _timeController;
   TextEditingController _ocureIDController;
-  TextEditingController _ocurehowController;
 
   TextEditingController _endtimeController;
   TextEditingController notesInputController;
@@ -62,7 +61,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
     _dateController = new TextEditingController();
     _timeController = new TextEditingController();
     _ocureIDController = new TextEditingController();
-    _ocurehowController = new TextEditingController();
 
     _endtimeController = new TextEditingController();
     _dateController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
@@ -120,7 +118,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
     var snapshotDate = widget.snapshot.docs[widget.index].get('date');
     var snapshotTime = widget.snapshot.docs[widget.index].get('time');
     var snapshotOCID = widget.snapshot.docs[widget.index].get("ocureid");
-    var snapshotocurHOW = widget.snapshot.docs[widget.index].get("ocurence");
 
     var snapshotETime = widget.snapshot.docs[widget.index].get('etime');
     var snapshotNotes = widget.snapshot.docs[widget.index].get('notes');
@@ -137,9 +134,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
         TextEditingController(text: snapshotTime);
     TextEditingController _ocureIDController =
         TextEditingController(text: snapshotOCID);
-
-    TextEditingController _ocurehowController =
-        TextEditingController(text: snapshotocurHOW);
 
     TextEditingController _endtimeController =
         TextEditingController(text: snapshotETime);
@@ -499,8 +493,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                   onChanged: (bool newValue) {
                                     setState(() {
                                       checkBoxValue = newValue;
-                                      _ocurehowController.text =
-                                          checkBoxValue.toString();
                                     });
                                   },
                                 ),
@@ -538,7 +530,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                           'time': _timeController.text,
                                           'etime': _endtimeController.text,
                                           "ocureid": _ocureIDController.text,
-                                          "ocurence": _ocurehowController.text,
                                           'notes': notesInputController.text,
                                           'timestamp': today,
                                         });
@@ -609,9 +600,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                                         _endtimeController.text,
                                                     "ocureid":
                                                         _ocureIDController.text,
-                                                    "ocurence":
-                                                        _ocurehowController
-                                                            .text,
                                                     'notes':
                                                         notesInputController
                                                             .text,
@@ -647,9 +635,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                                         _endtimeController.text,
                                                     "ocureid":
                                                         _ocureIDController.text,
-                                                    "ocurence":
-                                                        _ocurehowController
-                                                            .text,
                                                     'notes':
                                                         notesInputController
                                                             .text,

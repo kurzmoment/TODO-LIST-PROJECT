@@ -57,7 +57,6 @@ Future<void> addActivityUID(
     TextEditingController _timeController,
     TextEditingController _endtimeController,
     TextEditingController _notesController,
-    TextEditingController _ocurehowController,
     TextEditingController _ocureID,
     DateTime dt,
     String displayName) async {
@@ -78,7 +77,6 @@ Future<void> addActivityUID(
     'time': _timeController.text,
     'etime': _endtimeController.text,
     'notes': _notesController.text,
-    "ocurence": _ocurehowController.text,
     "ocureid": _ocureID.text,
     'timestamp': dt,
   });

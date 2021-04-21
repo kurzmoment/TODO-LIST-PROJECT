@@ -22,7 +22,7 @@ class DatabaseManager {
 
     try {
       await aktivlist
-          .where("ocurence", isEqualTo: "true")
+          .where("ocureid", isNotEqualTo: "")
           .get()
           .then((querySnapshot) {
         querySnapshot.docs.forEach((element) {
