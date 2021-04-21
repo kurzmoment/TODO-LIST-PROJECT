@@ -303,7 +303,6 @@ class _AddActFormsState extends State<AddActForms> {
                           _endtimeController,
                           _notesController,
                           _ocureID,
-                          dt,
                           userName);
 
                       for (var i = 0; i < 2; i++) {
@@ -324,7 +323,6 @@ class _AddActFormsState extends State<AddActForms> {
                             _endtimeController,
                             _notesController,
                             _ocureID,
-                            dt,
                             userName);
                       }
                       Navigator.pop(context);
@@ -349,7 +347,6 @@ class _AddActFormsState extends State<AddActForms> {
                               _endtimeController,
                               _notesController,
                               _ocureID,
-                              dt,
                               userName)
                           .then((response) {
                         Navigator.pop(context);

@@ -531,7 +531,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                           'etime': _endtimeController.text,
                                           "ocureid": _ocureIDController.text,
                                           'notes': notesInputController.text,
-                                          'timestamp': today,
                                         });
                                         if (_ocureIDController.text == "") {
                                           Navigator.pop(context);
@@ -603,7 +602,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                                     'notes':
                                                         notesInputController
                                                             .text,
-                                                    'timestamp': today,
                                                   });
                                                 } else {
                                                   _dateController.text = savdat;
@@ -638,7 +636,6 @@ class _ActivityTodayShowState extends State<ActivityTodayShow> {
                                                     'notes':
                                                         notesInputController
                                                             .text,
-                                                    'timestamp': today,
                                                   });
                                                 }
                                               }
