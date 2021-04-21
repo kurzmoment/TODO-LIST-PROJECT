@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:todoList/util/app_localizations.dart';
 import 'package:we_slide/we_slide.dart';
 import '../home.dart';
+import 'package:todoList/model/Databmanag.dart';
 
 class ActivityDoneShow extends StatefulWidget {
   final QuerySnapshot snapshot;
@@ -43,10 +44,12 @@ class _ActivityDoneShowState extends State<ActivityDoneShow> {
   DateTime selectedDate = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
   TimeOfDay eselectedTime = TimeOfDay(hour: 00, minute: 00);
-
+  List idalist = [];
+  // Map<String, String> idalist = {};
   @override
   void initState() {
     super.initState();
+    fetchDataseList();
 
     iconInputController = new TextEditingController();
     nameInputController = new TextEditingController();
@@ -69,9 +72,22 @@ class _ActivityDoneShowState extends State<ActivityDoneShow> {
         [hh, ':', nn, ' ', am]).toString();
   }
 
+  fetchDataseList() async {
+    dynamic resultant = await DatabaseManager().getUserlist();
+    if (resultant == null) {
+      print("unable to retrieve");
+    } else {
+      setState(() {
+        idalist = resultant;
+      });
+    }
+  }
+
   void dispose() {
     super.dispose();
   }
+
+  bool checkBoxValue = false;
 
   @override
   Widget build(BuildContext context) {
@@ -476,9 +492,7 @@ class _ActivityDoneShowState extends State<ActivityDoneShow> {
                                   ),
                                   onPressed: () {
                                     if (nameInputController.text.isNotEmpty &&
-                                        iconInputController.text.isNotEmpty &&
                                         _dateController.text.isNotEmpty &&
-                                        colorInputController.text.isNotEmpty &&
                                         _timeController.text.isNotEmpty &&
                                         _endtimeController.text.isNotEmpty) {
                                       FirebaseFirestore.instance
@@ -502,15 +516,116 @@ class _ActivityDoneShowState extends State<ActivityDoneShow> {
                                         "ocurence": _ocurehowController.text,
                                         'notes': notesInputController.text,
                                         'timestamp': today,
-                                      }).then((response) {
-                                        nameInputController.clear();
-                                        iconInputController.clear();
-                                        _dateController.clear();
-                                        _timeController.clear();
-                                        _endtimeController.clear();
-                                        colorInputController.clear();
-                                        Navigator.pop(context);
                                       });
+                                      if (_ocureIDController.text == "") {
+                                        Navigator.pop(context);
+                                      } else {
+                                        for (var i = 0;
+                                            i < idalist.length / 3;
+                                            i++) {
+                                          if (_ocureIDController.text ==
+                                              idalist[i * 3]) {
+                                            var doccid = idalist[(i * 3) + 1];
+                                            var dateocurid =
+                                                idalist[(i * 3) + 2];
+                                            DateTime datedocid =
+                                                DateFormat("dd/MM/yyyy")
+                                                    .parse(dateocurid);
+                                            print(datedocid);
+                                            DateTime datefcontroler =
+                                                DateFormat("dd/MM/yyyy").parse(
+                                                    _dateController.text);
+
+                                            var difer = datedocid
+                                                .difference(datefcontroler)
+                                                .inDays;
+                                            var difcount;
+                                            if (difer < 0) {
+                                              difcount = difer;
+                                            } else {
+                                              difcount = 7 - difer;
+                                            }
+
+                                            DateTime savedate = new DateTime(
+                                                datedocid.year,
+                                                datedocid.month,
+                                                datedocid.day + difcount);
+
+                                            var savdat =
+                                                DateFormat("dd/MM/yyyy")
+                                                    .format(savedate);
+
+                                            if (doccid != docID) {
+                                              if (difer == 7) {
+                                                FirebaseFirestore.instance
+                                                    .collection('userData')
+                                                    .doc(FirebaseAuth.instance
+                                                        .currentUser.uid)
+                                                    .collection('activity')
+                                                    .doc(doccid)
+                                                    .update({
+                                                  'displayName': FirebaseAuth
+                                                      .instance
+                                                      .currentUser
+                                                      .displayName,
+                                                  'uid': FirebaseAuth
+                                                      .instance.currentUser.uid,
+                                                  'name':
+                                                      nameInputController.text,
+                                                  'ikona':
+                                                      iconInputController.text,
+                                                  'barva':
+                                                      colorInputController.text,
+                                                  'time': _timeController.text,
+                                                  'etime':
+                                                      _endtimeController.text,
+                                                  "ocureid":
+                                                      _ocureIDController.text,
+                                                  "ocurence":
+                                                      _ocurehowController.text,
+                                                  'notes':
+                                                      notesInputController.text,
+                                                  'timestamp': today,
+                                                });
+                                              } else {
+                                                _dateController.text = savdat;
+                                                FirebaseFirestore.instance
+                                                    .collection('userData')
+                                                    .doc(FirebaseAuth.instance
+                                                        .currentUser.uid)
+                                                    .collection('activity')
+                                                    .doc(doccid)
+                                                    .update({
+                                                  'displayName': FirebaseAuth
+                                                      .instance
+                                                      .currentUser
+                                                      .displayName,
+                                                  'uid': FirebaseAuth
+                                                      .instance.currentUser.uid,
+                                                  'name':
+                                                      nameInputController.text,
+                                                  'ikona':
+                                                      iconInputController.text,
+                                                  'date': _dateController.text,
+                                                  'barva':
+                                                      colorInputController.text,
+                                                  'time': _timeController.text,
+                                                  'etime':
+                                                      _endtimeController.text,
+                                                  "ocureid":
+                                                      _ocureIDController.text,
+                                                  "ocurence":
+                                                      _ocurehowController.text,
+                                                  'notes':
+                                                      notesInputController.text,
+                                                  'timestamp': today,
+                                                });
+                                              }
+                                            }
+                                          }
+                                        }
+                                        Navigator.pop(context);
+                                      }
                                     }
                                   },
                                 ),

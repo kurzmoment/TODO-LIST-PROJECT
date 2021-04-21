@@ -309,7 +309,7 @@ class _AddActFormsState extends State<AddActForms> {
                           dt,
                           userName);
 
-                      for (var i = 0; i < 4; i++) {
+                      for (var i = 0; i < 2; i++) {
                         var datum = _dateController.text;
                         var dateFormat = DateFormat("dd/MM/yyyy");
                         DateTime tydenplus = dateFormat.parse(datum);
