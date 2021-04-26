@@ -26,6 +26,7 @@ class _AddActFormsState extends State<AddActForms> {
   TextEditingController _timeController;
   TextEditingController _ocureID;
   TextEditingController _endtimeController;
+
   Future<Null> _selectedDate(BuildContext context) async {
     var selectedDate = DateTime.now();
     final DateTime picked = await showDatePicker(
@@ -37,6 +38,7 @@ class _AddActFormsState extends State<AddActForms> {
     if (picked != null) {
       setState(() {
         selectedDate = picked;
+
         _dateController.text = DateFormat('dd/MM/yyyy').format(selectedDate);
       });
     }
@@ -85,12 +87,15 @@ class _AddActFormsState extends State<AddActForms> {
   TextEditingController _notesController;
   TextEditingController _iconController;
   TextEditingController _colorController;
+  TextEditingController _stampController;
+  TextEditingController _stampeController;
 
   void initState() {
     super.initState();
     _iconController = new TextEditingController();
     _nameController = new TextEditingController();
-
+    _stampController = new TextEditingController();
+    _stampeController = new TextEditingController();
     _ocureID = new TextEditingController();
     _notesController = new TextEditingController();
     _iconController = new TextEditingController();
@@ -283,11 +288,22 @@ class _AddActFormsState extends State<AddActForms> {
                     style: TextStyle(fontSize: 25),
                   ),
                   onPressed: () {
+                    print(_stampController.text);
+                    print("top");
+                    print(_stampeController.text);
                     if (_nameController.text.isNotEmpty &&
                         checkBoxValue == true) {
                       FirebaseAuth auth = FirebaseAuth.instance;
                       var userName = auth.currentUser.displayName;
                       String uid = auth.currentUser.uid.toString();
+                      DateTime top =
+                          DateFormat("hh:mm a").parse(_endtimeController.text);
+                      DateTime topp =
+                          DateFormat("dd/MM/yyyy").parse(_dateController.text);
+                      _stampController.text =
+                          topp.millisecondsSinceEpoch.toString();
+                      _stampeController.text =
+                          top.millisecondsSinceEpoch.toString();
                       _ocureID.text = FirebaseFirestore.instance
                           .collection('userData')
                           .doc(uid)
@@ -303,6 +319,8 @@ class _AddActFormsState extends State<AddActForms> {
                           _endtimeController,
                           _notesController,
                           _ocureID,
+                          _stampController,
+                          _stampeController,
                           userName);
 
                       for (var i = 0; i < 2; i++) {
@@ -313,7 +331,14 @@ class _AddActFormsState extends State<AddActForms> {
                             tydenplus.year, tydenplus.month, tydenplus.day + 7);
 
                         _dateController.text = dateFormat.format(dateTime);
-
+                        DateTime top1 = DateFormat("hh:mm a")
+                            .parse(_endtimeController.text);
+                        DateTime topp1 = DateFormat("dd/MM/yyyy")
+                            .parse(_dateController.text);
+                        _stampController.text =
+                            topp1.millisecondsSinceEpoch.toString();
+                        _stampeController.text =
+                            top1.millisecondsSinceEpoch.toString();
                         addActivityUID(
                             _nameController,
                             _iconController,
@@ -323,6 +348,8 @@ class _AddActFormsState extends State<AddActForms> {
                             _endtimeController,
                             _notesController,
                             _ocureID,
+                            _stampController,
+                            _stampeController,
                             userName);
                       }
                       Navigator.pop(context);
@@ -334,10 +361,19 @@ class _AddActFormsState extends State<AddActForms> {
                       _endtimeController.clear();
                       _colorController.clear();
                       _notesController.clear();
+                      _stampController.clear();
+                      _stampeController.clear();
                     } else if (_nameController.text.isNotEmpty) {
                       FirebaseAuth auth = FirebaseAuth.instance;
                       var userName = auth.currentUser.displayName;
-
+                      DateTime top2 =
+                          DateFormat("hh:mm a").parse(_endtimeController.text);
+                      DateTime topp2 =
+                          DateFormat("dd/MM/yyyy").parse(_dateController.text);
+                      _stampController.text =
+                          topp2.millisecondsSinceEpoch.toString();
+                      _stampeController.text =
+                          top2.millisecondsSinceEpoch.toString();
                       addActivityUID(
                               _nameController,
                               _iconController,
@@ -347,6 +383,8 @@ class _AddActFormsState extends State<AddActForms> {
                               _endtimeController,
                               _notesController,
                               _ocureID,
+                              _stampController,
+                              _stampeController,
                               userName)
                           .then((response) {
                         Navigator.pop(context);
@@ -358,6 +396,8 @@ class _AddActFormsState extends State<AddActForms> {
                         _endtimeController.clear();
                         _colorController.clear();
                         _notesController.clear();
+                        _stampController.clear();
+                        _stampeController.clear();
                       }).catchError((error) => print(error));
                     }
                   }),
@@ -416,6 +456,8 @@ class _AddActFormsState extends State<AddActForms> {
                   _endtimeController.clear();
                   _colorController.clear();
                   _notesController.clear();
+                  _stampController.clear();
+                  _stampeController.clear();
                   Navigator.pop(context);
                 },
               ),

@@ -58,6 +58,8 @@ Future<void> addActivityUID(
     TextEditingController _endtimeController,
     TextEditingController _notesController,
     TextEditingController _ocureID,
+    TextEditingController _stampController,
+    TextEditingController _stampeController,
     String displayName) async {
   FirebaseAuth auth = FirebaseAuth.instance;
   String uid = auth.currentUser.uid.toString();
@@ -76,7 +78,9 @@ Future<void> addActivityUID(
     'time': _timeController.text,
     'etime': _endtimeController.text,
     'notes': _notesController.text,
-    "ocureid": _ocureID.text
+    "ocureid": _ocureID.text,
+    "stampD": _stampController.text,
+    "stampT": _stampeController.text
   });
   return;
 }
